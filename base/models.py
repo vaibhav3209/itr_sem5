@@ -7,8 +7,8 @@ from django.contrib.auth.hashers import make_password, check_password
 
 class Component(models.Model):
     CATEGORY_CHOICES = [
-        ('Microcontroller', 'Microcontroller/Board'),
-        ('Sensor', 'Sensor'),
+        ('Microcontroller', 'Microcontroller/Board'),          #right wala
+        ('Sensors', 'Sensors'),
         ('Actuator', 'Actuator'),
         ('Electronic', 'Electronic Component'),
         ('Display', 'Display'),

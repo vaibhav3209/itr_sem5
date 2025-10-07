@@ -80,11 +80,18 @@ LOGIN_URL = '/login/'
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
-import dj_database_url
-DATABASES =  {
-    'default': dj_database_url.config(
-        default='postgresql://postgres:gwPXQwWOcyHJBPGfagydhjUwPezbiwuW@shortline.proxy.rlwy.net:50130/railway' 
-    )
+# import dj_database_url
+# DATABASES =  {
+#     'default': dj_database_url.config(
+#         default='postgresql://postgres:gwPXQwWOcyHJBPGfagydhjUwPezbiwuW@shortline.proxy.rlwy.net:50130/railway'
+#     )
+# }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
 
 

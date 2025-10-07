@@ -55,7 +55,7 @@ def submit_request(request):
 
             StudentIssueLog.objects.create(
                 student=student,
-                studentid = student,
+                # studentid = student,
                 component=component,
                 quantity_issued=int(qty),
                 form_date = now().date(),
