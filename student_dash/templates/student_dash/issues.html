@@ -7,6 +7,16 @@
 
 
 {% block page_content %}
+<div class="dashboard-container">
+<aside class="sidebar">
+      <h2>IoT Lab</h2>
+      <ul>
+        <li><a href="{% url 'studentdash'  %}"> back to Dashboard</a></li>
+        <li><a href="{% url 'logout' %}">Logout</a></li>
+      </ul>
+</aside>
+
+    <main class="main-content">
 <div class="container">
     <h2>Issued Items</h2>
 
@@ -83,5 +93,7 @@
             <p class="empty">No previous issues.</p>
         {% endif %}
     </section>
+</div>
+    </main>
 </div>
 {% endblock %}

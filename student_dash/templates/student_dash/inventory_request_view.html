@@ -31,7 +31,7 @@
 <aside class="sidebar">
       <h2>IoT Lab</h2>
       <ul>
-        <li><a href="{% url 'studentdash' %}"> back to Dashboard</a></li>
+        <li><a href="{% url 'studentdash'  %}"> back to Dashboard</a></li>
         <li><a href="{% url 'logout' %}">Logout</a></li>
       </ul>
 </aside>
@@ -46,7 +46,8 @@
 
 <div class="card-container">
     <div class="card">
-        <a href="{% url 'dash:category_items' 'Microcontroller' %}" style="text-decoration: none; color: inherit;">
+        <a href="{% url 'dash:category_items' 'Microcontrollers / Boards' %}"
+           style="text-decoration: none; color: inherit;">
             <img src="{% static 'student_dash/images/microcontroller.jpg' %}"
                  alt="Microcontrollers">
             <h3>Microcontrollers</h3>
@@ -54,7 +55,7 @@
     </div>
 
     <div class="card">
-        <a href="{% url 'dash:category_items' 'Sensor' %}"
+        <a href="{% url 'dash:category_items' 'Sensors' %}"
            style="text-decoration: none; color: inherit;">
             <img src="{% static 'student_dash/images/sensors.jpg' %}" alt="Sensors">
             <h3>Sensors</h3>
@@ -62,28 +63,32 @@
     </div>
 
     <div class="card">
-        <a href="{% url 'dash:category_items' 'Actuator' %}" style="text-decoration: none; color: inherit;">
+        <a href="{% url 'dash:category_items' 'Actuators' %}"
+           style="text-decoration: none; color: inherit;">
             <img src="{% static 'student_dash/images/actuators.png' %}" alt="Actuators">
             <h3>Actuators</h3>
         </a>
     </div>
 
     <div class="card">
-        <a href="{% url 'dash:category_items' 'Electronic' %}" style="text-decoration: none; color: inherit;">
+        <a href="{% url 'dash:category_items' 'Electric Components' %}"
+           style="text-decoration: none; color: inherit;">
             <img src="{% static 'student_dash/images/el.jpg' %}" alt="Electric Components">
             <h3>Electric Components</h3>
         </a>
     </div>
 
     <div class="card">
-        <a href="{% url 'dash:category_items' 'Display' %}" style="text-decoration: none; color: inherit;">
+        <a href="{% url 'dash:category_items' 'Displays' %}"
+           style="text-decoration: none; color: inherit;">
             <img src="{% static 'student_dash/images/display.webp' %}" alt="Displays">
             <h3>Displays</h3>
         </a>
     </div>
 
     <div class="card">
-        <a href="{% url 'dash:category_items' 'Misc' %}" style="text-decoration: none; color: inherit;">
+        <a href="{% url 'dash:category_items' 'Miscellaneous' %}"
+           style="text-decoration: none; color: inherit;">
             <img src="{% static 'student_dash/images/misc.jpg' %}" alt="Miscellaneous">
             <h3>Miscellaneous</h3>
         </a>
@@ -102,6 +107,7 @@
             <p>No components selected yet.</p>
         </div>
         <button type="submit" class="btn btn-primary mt-3">Confirm Request</button>
+     <button type="button" id="clearListBtn" class="btn btn-danger mt-2">Clear All</button>
     </form>
 </div>
 </main>

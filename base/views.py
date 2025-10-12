@@ -64,7 +64,15 @@ def student_reg(request):
 
 @student_login_required
 def studentdashboard(request):
-    return render(request, 'base/studentdashboard.html')
+    student_id = request.session.get('student_id')
+    if not student_id:
+        # If session expired or not logged in, redirect to login
+        return redirect('login')
+
+    # Fetch the student object from the database
+    student = Student.objects.get(id=student_id)
+    return render(request, 'base/studentdashboard.html',
+                  {'student':student})
 
 
 def admindashboard(request):

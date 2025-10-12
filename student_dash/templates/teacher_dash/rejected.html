@@ -3,8 +3,84 @@
 <!--title  of webpage-->
 {% block page_title %}Rejected requests{% endblock %}
 
+{%comment%}
 {% block css_filename %}student_dash/approved.css{% endblock %}
-
 {% block page_content%}
 <h2>hi rejected</h2>
+{% endblock %}
+{%endcomment%}
+
+{% block css_filename %}student_dash/admin-dashboard.css{% endblock %}
+
+
+{% block page_content%}
+<div class="admin-container">
+    <aside class="admin-sidebar">
+      <h2>Admin Panel</h2>
+      <ul>
+          <li><a href="{% url 'dash:admindash' %}">BACK TO DASHBOARD</a></li>
+        <li><a href="{% url 'dash:approved_requests' %}">Approved Requests</a></li>
+        <li><a href="{% url 'dash:rejected_requests' %}">Rejected Requests</a></li>
+        <li><a href="{% url 'dash:inventory_page' %}">Inventory</a></li>
+<!--        <li><a href="project-tracker.html">Project Tracker</a></li>-->
+        <li><a href="index.html">Logout</a></li>
+      </ul>
+    </aside>
+
+
+<main class="admin-main">
+      <header>
+        <h1>Rejected Requests</h1>
+<!--        <p>YOu can mark return</p>-->
+      </header>
+
+
+        <section>
+{% for category, requests in grouped_requests.items %}
+
+    <details open style="margin-bottom: 30px;">
+        <summary style="font-weight: bold;">{{ category }}</summary>
+
+        <table border="1" cellspacing="0" cellpadding="8" style="margin-top: 10px; width: 100%;">
+            <thead>
+                <tr>
+                    <th>Student</th>
+                    <th>Roll No.</th>
+                    <th>Component</th>
+                    <th>Quantity Issued</th>
+                    <th>Issue Date</th>
+<!--                    <th></th>-->
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for req in requests %}
+                <tr>
+                    <td>{{ req.student__full_name }}</td>
+                    <td>{{ req.student__roll_number }}</td>
+                    <td>{{ req.component__name }}</td>
+                    <td>{{ req.quantity_issued }}</td>
+
+                    <td>{{ req.issue_date}}</td>
+                  <td>
+                    <form method="POST" action="{% url 'dash:return_status' %}">
+      {% csrf_token %}
+      <input type="hidden" name="roll_number" value="{{ req.student__roll_number }}">
+      <input type="hidden" name="component_name" value="{{ req.component__name }}">
+        <input type="hidden" name="issue_date" value="{{ req.issue_date|date:'Y-m-d' }}">
+
+<!--      <button name="action" value="return">Mark Returned</button>-->
+
+    </form>
+                  </td>
+
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </details>
+{% endfor %}
+        </section>
+    </main>
+  </div>
 {% endblock %}

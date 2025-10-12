@@ -10,6 +10,7 @@
     <aside class="admin-sidebar">
       <h2>Admin Panel</h2>
       <ul>
+          <li><a href="{% url 'dash:admindash' %}">BACK TO DASHBOARD</a></li>
         <li><a href="{% url 'dash:approved_requests' %}">Approved Requests</a></li>
         <li><a href="{% url 'dash:rejected_requests' %}">Rejected Requests</a></li>
         <li><a href="{% url 'dash:inventory_page' %}">Inventory</a></li>
@@ -27,12 +28,15 @@
 
 
         <section>
+            {% if grouped_requests %}
 {% for category, requests in grouped_requests.items %}
 
     <details open style="margin-bottom: 30px;">
-        <summary style="font-weight: bold;">{{ category }}</summary>
-
-        <table border="1" cellspacing="0" cellpadding="8" style="margin-top: 10px; width: 100%;">
+<!--        <summary style="font-weight: bold;">{{ category }}</summary>-->
+  <summary style="font-size: 1.4rem; margin: 30px 0 15px; border-left: 6px solid #6c63ff;
+                   padding-left: 12px; color: #2c3e50;">📌 {{ category }}</summary>
+<!--        <table border="1" cellspacing="0" cellpadding="8" style="margin-top: 10px; width: 100%;">-->
+            <table >
             <thead>
                 <tr>
                     <th>Student</th>
@@ -71,6 +75,9 @@
         </table>
     </details>
 {% endfor %}
+            {% else %}
+            <p class="empty">No current issues.</p>
+        {% endif %}
         </section>
     </main>
   </div>

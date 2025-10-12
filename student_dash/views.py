@@ -15,7 +15,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Q
 
 @student_login_required
-def inventory_request(request):
+def inventory_request(request,):
     return render(request, 'student_dash/inventory_request_view.html')
  
 @student_login_required
@@ -197,8 +197,18 @@ def return_status(request):
 
 
 def rejected_requests(request):
+    requests_rejected = (StudentIssueLog.objects.filter(status_from_student="Rejectedbyteacher",
+                                                        status_from_teacher="Rejected").values(
+        'student__full_name', 'student__roll_number', 'issue_date', 'component__name',
+        'component__category', 'component__quantity',
+        'quantity_issued').order_by('component__category', '-form_date'))
 
-    return render(request,"teacher_dash/rejected.html")
+    # Step 2: Group by category
+    grouped_requests = defaultdict(list)
+
+    for req in requests_rejected:
+        grouped_requests[req['component__category']].append(req)
+    return render(request,"teacher_dash/rejected.html",{'grouped_requests':dict(grouped_requests)})
 
 def change_inventory(request):
     return render(request,"teacher_dash/inventory.html")
@@ -320,3 +330,8 @@ def student_issues(request, roll_number):
         "grouped_previous": dict(grouped_previous),
         "roll_number": roll_number
     })
+
+
+def teacher_logout(request):
+    request.session.flush()
+    return redirect('login')

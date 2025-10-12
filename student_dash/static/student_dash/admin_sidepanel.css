@@ -1,0 +1,141 @@
+/*keeping this same for all in admin dashboard*/
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f0f2f5;
+}
+
+.admin-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Sidebar */
+.admin-sidebar {
+  width: 240px;
+  background-color: #002855;
+  color: white;
+  padding: 1.5rem;
+}
+
+.admin-sidebar h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.admin-sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.admin-sidebar ul li {
+  margin: 1rem 0;
+}
+
+.admin-sidebar ul li a {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+}
+
+.admin-sidebar ul li a:hover {
+  text-decoration: underline;
+}
+
+
+
+/*trying to take this from request_component.css*/
+
+.header-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding: 20px;
+    }
+
+    .header-container h3 {
+        margin: 0;
+        font-size: 30px;
+        font-weight: 600;
+        color: #333;
+    }
+
+    .card-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+        padding: 0 20px;
+
+    }
+
+    .card {
+        width: 220px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        text-align: center;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease;
+        background-color: #fff;
+    }
+
+    .card:hover {
+        transform: scale(1.03);
+    }
+
+    .card img {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+    }
+
+    .card h3 {
+        margin: 15px 0;
+        font-size: 20px;
+        color: #333;
+    }
+
+    @media (max-width: 768px) {
+        .card-container {
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+     .right-sidebar {
+    position: fixed;
+    top: 0;
+    right: -350px;
+    width: 350px;
+    height: 100%;
+    background: white;
+    box-shadow: -3px 0 6px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    overflow-y: auto;
+    z-index: 1000;
+    transition: right 0.3s ease-in-out;
+}
+
+.right-sidebar.open {
+    right: 0;
+}
+
+.request-btn-top-right {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1100;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

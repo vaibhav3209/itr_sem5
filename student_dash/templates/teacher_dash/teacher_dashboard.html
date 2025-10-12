@@ -11,26 +11,28 @@
     <aside class="admin-sidebar">
       <h2>Admin Panel</h2>
       <ul>
+          <li><a href="{% url 'dash:admindash' %}">BACK TO DASHBOARD</a></li>
         <li><a href="{% url 'dash:approved_requests' %}">Approved Requests</a></li>
         <li><a href="{% url 'dash:rejected_requests' %}">Rejected Requests</a></li>
         <li><a href="{% url 'dash:inventory_page' %}">Inventory</a></li>
 <!--        <li><a href="project-tracker.html">Project Tracker</a></li>-->
-        <li><a href="index.html">Logout</a></li>
+        <li><a href="{% url 'dash:logout' %}">Logout</a></li>
       </ul>
     </aside>
 
     <main class="admin-main">
       <header>
         <h1>Welcome, Admin</h1>
-        <p>Manage all student requests and lab inventory.</p>
+        <h3>CURRENT REQUESTS</h3>
       </header>
 
 {% comment "used to check this dicctionsry" %}
 <pre>{{ grouped_requests.items }}</pre>
-        {% endcomment %}
+{% endcomment %}
 
 
         <section>
+            {% if grouped_requests %}
 {% for category, requests in grouped_requests.items %}
 
     <details open style="margin-bottom: 30px;">
@@ -75,6 +77,9 @@
         </table>
     </details>
 {% endfor %}
+            {% else %}
+            <p class="empty">No current issues.</p>
+        {% endif %}
         </section>
     </main>
   </div>

@@ -7,12 +7,12 @@ from django.contrib.auth.hashers import make_password, check_password
 
 class Component(models.Model):
     CATEGORY_CHOICES = [
-        ('Microcontroller', 'Microcontroller/Board'),          #right wala
+        ('Microcontrollers / Boards', 'Microcontrollers / Boards'),          #right wala
         ('Sensors', 'Sensors'),
-        ('Actuator', 'Actuator'),
-        ('Electronic', 'Electronic Component'),
-        ('Display', 'Display'),
-        ('Misc', 'Miscellaneous'),
+        ('Actuators', 'Actuators'),
+        ('Electric Components', 'Electric Components'),
+        ('Displays', 'Displays'),
+        ('Miscellaneous', 'Miscellaneous'),
     ]
 
     COMPONENT_STATUS = [
@@ -21,7 +21,7 @@ class Component(models.Model):
         ("working",'working')
     ]
 
-    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES)
+    category = models.CharField(max_length=30, choices=CATEGORY_CHOICES)
     name = models.CharField(max_length=100)
     quantity = models.IntegerField()
     date_of_purchase = models.DateField()  # Optional: remove auto_now_add if you want to enter manually

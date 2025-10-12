@@ -70,3 +70,9 @@ window.addEventListener('DOMContentLoaded', () => {
         document.cookie = "clearLocalStorage=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     }
 });
+
+
+document.getElementById('clearListBtn').addEventListener('click', function() {
+    const selectedList = document.getElementById('selected-components-list');
+    selectedList.innerHTML = '<p>No components selected yet.</p>';
+});
