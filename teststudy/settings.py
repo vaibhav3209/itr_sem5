@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+# import dj_database_url         # to use secured the connection string
 # from decouple import config
 
 # SECRET_KEY = config('SECRET_KEY')
@@ -80,19 +81,18 @@ LOGIN_URL = '/login/'
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
-# import dj_database_url
-# DATABASES =  {
-#     'default': dj_database_url.config(
-#         default='postgresql://postgres:gwPXQwWOcyHJBPGfagydhjUwPezbiwuW@shortline.proxy.rlwy.net:50130/railway'
-#     )
-# }
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+DATABASES =  {
+    'default':'postgresql://postgres:x2z6xy8px3z5xy7p@db.abcdefghijklmnopqrst.supabase.co:5432'
+              '/postgres'
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 
 # Password validation
