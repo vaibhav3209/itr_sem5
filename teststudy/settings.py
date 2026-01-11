@@ -82,10 +82,22 @@ LOGIN_URL = '/login/'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES =  {
-    'default':'postgresql://postgres:x2z6xy8px3z5xy7p@db.abcdefghijklmnopqrst.supabase.co:5432'
-              '/postgres'
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'PASSWORD': 'x2z6xy8px3z5xy7p',
+        'HOST': 'db.abcdefghijklmnopqrst.supabase.co',
+        'PORT': '5432',
+    }
 }
+
+# DATABASE_URL = os.environ.get('DATABASE_URL')
+
+# DATABASES = {        not working as libraray issue ara
+#     'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600)
+# }
 
 # DATABASES = {
 #     'default': {
