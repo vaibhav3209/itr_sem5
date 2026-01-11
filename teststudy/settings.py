@@ -11,8 +11,13 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
-# import dj_database_url         # to use secured the connection string
+import os
+import dj_database_url         # to use secured the connection string
+from dotenv import load_dotenv
 # from decouple import config
+
+# Load environment variables from .env
+load_dotenv()
 
 # SECRET_KEY = config('SECRET_KEY')
 # DEBUG = config('DEBUG', cast=bool)
@@ -82,22 +87,12 @@ LOGIN_URL = '/login/'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+
+DATABASE_URL = os.environ.get('DATABASE_URL')
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': 'x2z6xy8px3z5xy7p',
-        'HOST': 'db.abcdefghijklmnopqrst.supabase.co',
-        'PORT': '5432',
-    }
+    'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600)
 }
-
-# DATABASE_URL = os.environ.get('DATABASE_URL')
-
-# DATABASES = {        not working as libraray issue ara
-#     'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600)
-# }
 
 # DATABASES = {
 #     'default': {
