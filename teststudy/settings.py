@@ -138,6 +138,9 @@ STATICFILES_DIRS = [
     'student_dash/static',
                     ]
 
+#for PRODUCTION as given by gpt
+STATIC_ROOT = BASE_DIR / 'staticfilesforproduction'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
