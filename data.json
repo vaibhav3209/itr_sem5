@@ -640,6 +640,42 @@
   }
 },
 {
+  "model": "auth.permission",
+  "pk": 49,
+  "fields": {
+    "name": "Can add student issue log",
+    "content_type": 13,
+    "codename": "add_studentissuelog"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 50,
+  "fields": {
+    "name": "Can change student issue log",
+    "content_type": 13,
+    "codename": "change_studentissuelog"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 51,
+  "fields": {
+    "name": "Can delete student issue log",
+    "content_type": 13,
+    "codename": "delete_studentissuelog"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 52,
+  "fields": {
+    "name": "Can view student issue log",
+    "content_type": 13,
+    "codename": "view_studentissuelog"
+  }
+},
+{
   "model": "auth.user",
   "pk": 1,
   "fields": {
@@ -826,6 +862,14 @@
   }
 },
 {
+  "model": "contenttypes.contenttype",
+  "pk": 13,
+  "fields": {
+    "app_label": "student_dash",
+    "model": "studentissuelog"
+  }
+},
+{
   "model": "sessions.session",
   "pk": "kx4h3fnt222y2urbdvnysfhpbtizlngz",
   "fields": {
@@ -834,13 +878,22 @@
   }
 },
 {
+  "model": "sessions.session",
+  "pk": "sjzxngeg974wd3vi35rio2oorq84l22e",
+  "fields": {
+    "session_data": "eyJzdHVkZW50X2lkIjo1fQ:1ver5V:rn00lLaU3HajY-VaM4fLotl59UxLIDpdaX5fiNdN0bo",
+    "expire_date": "2026-01-25T08:46:17.387Z"
+  }
+},
+{
   "model": "base.component",
   "pk": 1,
   "fields": {
     "category": "Microcontrollers / Boards",
     "name": "Break Out Board ESP‑32",
-    "quantity": 6,
-    "date_of_purchase": "2024-02-28"
+    "quantity": 5,
+    "date_of_purchase": "2024-02-28",
+    "componentstatus": "working"
   }
 },
 {
@@ -850,7 +903,8 @@
     "category": "Microcontrollers / Boards",
     "name": "ESP 32 WROOM",
     "quantity": 2,
-    "date_of_purchase": "2023-10-30"
+    "date_of_purchase": "2023-10-30",
+    "componentstatus": "working"
   }
 },
 {
@@ -860,7 +914,8 @@
     "category": "Microcontrollers / Boards",
     "name": "OceanLabz ESP32 WROOM‑32",
     "quantity": 5,
-    "date_of_purchase": "2023-12-21"
+    "date_of_purchase": "2023-12-21",
+    "componentstatus": "working"
   }
 },
 {
@@ -869,8 +924,9 @@
   "fields": {
     "category": "Microcontrollers / Boards",
     "name": "OceanLabz ESP32 WROOM‑32",
-    "quantity": 5,
-    "date_of_purchase": "2024-06-07"
+    "quantity": 3,
+    "date_of_purchase": "2024-06-07",
+    "componentstatus": "working"
   }
 },
 {
@@ -880,7 +936,8 @@
     "category": "Microcontrollers / Boards",
     "name": "Raspberry Pi Zero W Starter Kit",
     "quantity": 1,
-    "date_of_purchase": "2024-06-07"
+    "date_of_purchase": "2024-06-07",
+    "componentstatus": "working"
   }
 },
 {
@@ -890,7 +947,8 @@
     "category": "Microcontrollers / Boards",
     "name": "Raspberry Pi Zero 2 W",
     "quantity": 0,
-    "date_of_purchase": "2022-09-01"
+    "date_of_purchase": "2022-09-01",
+    "componentstatus": "working"
   }
 },
 {
@@ -900,7 +958,8 @@
     "category": "Microcontrollers / Boards",
     "name": "SIM A7672S 4G LTE + GNSS board",
     "quantity": 1,
-    "date_of_purchase": "2024-01-07"
+    "date_of_purchase": "2024-01-07",
+    "componentstatus": "working"
   }
 },
 {
@@ -910,7 +969,8 @@
     "category": "Microcontrollers / Boards",
     "name": "ESP32‑S3‑Dev Kit",
     "quantity": 5,
-    "date_of_purchase": "2024-01-07"
+    "date_of_purchase": "2024-01-07",
+    "componentstatus": "working"
   }
 },
 {
@@ -920,7 +980,8 @@
     "category": "Microcontrollers / Boards",
     "name": "NB‑IoT / Cat‑M HAT",
     "quantity": 2,
-    "date_of_purchase": "2024-07-24"
+    "date_of_purchase": "2024-07-24",
+    "componentstatus": "working"
   }
 },
 {
@@ -930,7 +991,8 @@
     "category": "Microcontrollers / Boards",
     "name": "LoRa HAT 868 MHz",
     "quantity": 2,
-    "date_of_purchase": "2024-07-24"
+    "date_of_purchase": "2024-07-24",
+    "componentstatus": "working"
   }
 },
 {
@@ -940,7 +1002,8 @@
     "category": "Sensors",
     "name": "ADS1115 ADC (2 units + another set of 5) → total",
     "quantity": 7,
-    "date_of_purchase": "2024-07-24"
+    "date_of_purchase": "2024-07-24",
+    "componentstatus": "Deleted"
   }
 },
 {
@@ -950,7 +1013,8 @@
     "category": "Sensors",
     "name": "ADS1115 16‑Bit ADC with PGA",
     "quantity": 1,
-    "date_of_purchase": "2023-09-25"
+    "date_of_purchase": "2023-09-25",
+    "componentstatus": "working"
   }
 },
 {
@@ -959,8 +1023,9 @@
   "fields": {
     "category": "Sensors",
     "name": "INA219 power/current monitor (CJMCU‑219)",
-    "quantity": 12,
-    "date_of_purchase": "2023-09-25"
+    "quantity": 10,
+    "date_of_purchase": "2023-09-25",
+    "componentstatus": "working"
   }
 },
 {
@@ -970,7 +1035,8 @@
     "category": "Sensors",
     "name": "Waterproof Ultrasonic Obstacle Sensor",
     "quantity": 2,
-    "date_of_purchase": "2023-09-25"
+    "date_of_purchase": "2023-09-25",
+    "componentstatus": "working"
   }
 },
 {
@@ -979,8 +1045,9 @@
   "fields": {
     "category": "Sensors",
     "name": "HC‑SR04 Ultrasonic Bracket",
-    "quantity": 6,
-    "date_of_purchase": "2023-09-25"
+    "quantity": 4,
+    "date_of_purchase": "2023-09-25",
+    "componentstatus": "working"
   }
 },
 {
@@ -990,7 +1057,8 @@
     "category": "Sensors",
     "name": "SONOFF DS18B20 temperature sensor",
     "quantity": 1,
-    "date_of_purchase": "2023-09-25"
+    "date_of_purchase": "2023-09-25",
+    "componentstatus": "working"
   }
 },
 {
@@ -1000,7 +1068,8 @@
     "category": "Sensors",
     "name": "MPU‑6050 gyro / accelerometer",
     "quantity": 5,
-    "date_of_purchase": "2023-09-25"
+    "date_of_purchase": "2023-09-25",
+    "componentstatus": "working"
   }
 },
 {
@@ -1010,7 +1079,8 @@
     "category": "Sensors",
     "name": "BMP 280 pressure / temperature sensor",
     "quantity": 5,
-    "date_of_purchase": "2024-03-21"
+    "date_of_purchase": "2024-03-21",
+    "componentstatus": "working"
   }
 },
 {
@@ -1020,7 +1090,8 @@
     "category": "Sensors",
     "name": "Soil Moisture (REES52) sensor",
     "quantity": 5,
-    "date_of_purchase": "2023-09-25"
+    "date_of_purchase": "2023-09-25",
+    "componentstatus": "working"
   }
 },
 {
@@ -1030,7 +1101,8 @@
     "category": "Sensors",
     "name": "DHT22 humidity / temperature sensor",
     "quantity": 5,
-    "date_of_purchase": "2023-12-21"
+    "date_of_purchase": "2023-12-21",
+    "componentstatus": "working"
   }
 },
 {
@@ -1040,7 +1112,8 @@
     "category": "Sensors",
     "name": "pH sensor",
     "quantity": 1,
-    "date_of_purchase": "2024-06-07"
+    "date_of_purchase": "2024-06-07",
+    "componentstatus": "working"
   }
 },
 {
@@ -1050,7 +1123,8 @@
     "category": "Sensors",
     "name": "TDS sensor",
     "quantity": 1,
-    "date_of_purchase": "2024-06-07"
+    "date_of_purchase": "2024-06-07",
+    "componentstatus": "working"
   }
 },
 {
@@ -1060,7 +1134,8 @@
     "category": "Sensors",
     "name": "Turbidity sensor",
     "quantity": 1,
-    "date_of_purchase": "2024-06-07"
+    "date_of_purchase": "2024-06-07",
+    "componentstatus": "working"
   }
 },
 {
@@ -1070,7 +1145,8 @@
     "category": "Actuators",
     "name": "TB 6600 stepper motor driver",
     "quantity": 3,
-    "date_of_purchase": "2024-01-17"
+    "date_of_purchase": "2024-01-17",
+    "componentstatus": "working"
   }
 },
 {
@@ -1080,7 +1156,8 @@
     "category": "Actuators",
     "name": "Stepper Motor",
     "quantity": 1,
-    "date_of_purchase": "2024-02-23"
+    "date_of_purchase": "2024-02-23",
+    "componentstatus": "working"
   }
 },
 {
@@ -1090,7 +1167,8 @@
     "category": "Actuators",
     "name": "L298 Motor Driver",
     "quantity": 6,
-    "date_of_purchase": "2024-01-17"
+    "date_of_purchase": "2024-01-17",
+    "componentstatus": "working"
   }
 },
 {
@@ -1100,7 +1178,8 @@
     "category": "Actuators",
     "name": "1000 RPM DC Motor",
     "quantity": 6,
-    "date_of_purchase": "2023-08-03"
+    "date_of_purchase": "2023-08-03",
+    "componentstatus": "working"
   }
 },
 {
@@ -1110,7 +1189,8 @@
     "category": "Actuators",
     "name": "RGB Strip",
     "quantity": 1,
-    "date_of_purchase": "2023-09-25"
+    "date_of_purchase": "2023-09-25",
+    "componentstatus": "working"
   }
 },
 {
@@ -1120,7 +1200,8 @@
     "category": "Actuators",
     "name": "LED Strip",
     "quantity": 1,
-    "date_of_purchase": "2023-09-25"
+    "date_of_purchase": "2023-09-25",
+    "componentstatus": "working"
   }
 },
 {
@@ -1130,7 +1211,8 @@
     "category": "Actuators",
     "name": "100 W Flood Light",
     "quantity": 1,
-    "date_of_purchase": "2023-09-25"
+    "date_of_purchase": "2023-09-25",
+    "componentstatus": "working"
   }
 },
 {
@@ -1140,7 +1222,8 @@
     "category": "Electric Components",
     "name": "TLP IC (optocoupler)",
     "quantity": 21,
-    "date_of_purchase": "2023-09-25"
+    "date_of_purchase": "2023-09-25",
+    "componentstatus": "working"
   }
 },
 {
@@ -1150,7 +1233,8 @@
     "category": "Electronic",
     "name": "PC817 IC (optocoupler)",
     "quantity": 22,
-    "date_of_purchase": "2023-04-18"
+    "date_of_purchase": "2023-04-18",
+    "componentstatus": "working"
   }
 },
 {
@@ -1160,7 +1244,8 @@
     "category": "Electric Components",
     "name": "MOSFET Module",
     "quantity": 21,
-    "date_of_purchase": "2023-12-21"
+    "date_of_purchase": "2023-12-21",
+    "componentstatus": "working"
   }
 },
 {
@@ -1170,7 +1255,8 @@
     "category": "Electric Components",
     "name": "Resistors (SMD resistors)",
     "quantity": 100,
-    "date_of_purchase": "2023-12-21"
+    "date_of_purchase": "2023-12-21",
+    "componentstatus": "working"
   }
 },
 {
@@ -1180,7 +1266,8 @@
     "category": "Electric Components",
     "name": "Metal Film Resistor Kit (600 pcs × 4 kits?)",
     "quantity": 4,
-    "date_of_purchase": "2023-12-21"
+    "date_of_purchase": "2023-12-21",
+    "componentstatus": "working"
   }
 },
 {
@@ -1190,7 +1277,8 @@
     "category": "Electric Components",
     "name": "PC817 4‑ch Optocoupler Module",
     "quantity": 10,
-    "date_of_purchase": "2023-12-21"
+    "date_of_purchase": "2023-12-21",
+    "componentstatus": "working"
   }
 },
 {
@@ -1200,7 +1288,8 @@
     "category": "Electric Components",
     "name": "I²C Serial Interface Adapter",
     "quantity": 20,
-    "date_of_purchase": "2023-12-21"
+    "date_of_purchase": "2023-12-21",
+    "componentstatus": "working"
   }
 },
 {
@@ -1210,7 +1299,8 @@
     "category": "Electric Components",
     "name": "PCI‑E GPU Power Cable Adapters",
     "quantity": 4,
-    "date_of_purchase": "2023-12-21"
+    "date_of_purchase": "2023-12-21",
+    "componentstatus": "working"
   }
 },
 {
@@ -1220,7 +1310,8 @@
     "category": "Electric Components",
     "name": "USB‑TTL Converters",
     "quantity": 6,
-    "date_of_purchase": "2023-12-27"
+    "date_of_purchase": "2023-12-27",
+    "componentstatus": "working"
   }
 },
 {
@@ -1230,7 +1321,8 @@
     "category": "Electric Components",
     "name": "TTL‑to‑RS485 Converter",
     "quantity": 5,
-    "date_of_purchase": "2023-12-27"
+    "date_of_purchase": "2023-12-27",
+    "componentstatus": "working"
   }
 },
 {
@@ -1240,7 +1332,8 @@
     "category": "Electric Components",
     "name": "18650 Battery Holder (single)",
     "quantity": 20,
-    "date_of_purchase": "2023-12-27"
+    "date_of_purchase": "2023-12-27",
+    "componentstatus": "working"
   }
 },
 {
@@ -1250,7 +1343,8 @@
     "category": "Electric Components",
     "name": "Dual‑18650 Power Shield",
     "quantity": 1,
-    "date_of_purchase": "2023-04-18"
+    "date_of_purchase": "2023-04-18",
+    "componentstatus": "working"
   }
 },
 {
@@ -1260,7 +1354,8 @@
     "category": "Electric Components",
     "name": "Battery Balance Board",
     "quantity": 1,
-    "date_of_purchase": "2023-04-18"
+    "date_of_purchase": "2023-04-18",
+    "componentstatus": "working"
   }
 },
 {
@@ -1270,7 +1365,8 @@
     "category": "Electric Components",
     "name": "Powered USB Hub (QZ Active 7‑Port)",
     "quantity": 1,
-    "date_of_purchase": "2023-04-18"
+    "date_of_purchase": "2023-04-18",
+    "componentstatus": "working"
   }
 },
 {
@@ -1280,7 +1376,8 @@
     "category": "Electric Components",
     "name": "Card Reader",
     "quantity": 1,
-    "date_of_purchase": "2023-04-18"
+    "date_of_purchase": "2023-04-18",
+    "componentstatus": "working"
   }
 },
 {
@@ -1290,7 +1387,8 @@
     "category": "Electric Components",
     "name": "SSD",
     "quantity": 1,
-    "date_of_purchase": "2023-03-18"
+    "date_of_purchase": "2023-03-18",
+    "componentstatus": "working"
   }
 },
 {
@@ -1300,7 +1398,8 @@
     "category": "Electric Components",
     "name": "RAM 8 GB",
     "quantity": 1,
-    "date_of_purchase": "2023-04-18"
+    "date_of_purchase": "2023-04-18",
+    "componentstatus": "working"
   }
 },
 {
@@ -1310,7 +1409,8 @@
     "category": "Electric Components",
     "name": "Copper‑clad PCB Boards (15 × 20 cm)",
     "quantity": 4,
-    "date_of_purchase": "2023-04-18"
+    "date_of_purchase": "2023-04-18",
+    "componentstatus": "working"
   }
 },
 {
@@ -1320,7 +1420,8 @@
     "category": "Electric Components",
     "name": "M.2 NVMe SSD Enclosure",
     "quantity": 1,
-    "date_of_purchase": "2023-04-18"
+    "date_of_purchase": "2023-04-18",
+    "componentstatus": "working"
   }
 },
 {
@@ -1330,7 +1431,8 @@
     "category": "Displays",
     "name": "OLED Display",
     "quantity": 3,
-    "date_of_purchase": "2024-09-27"
+    "date_of_purchase": "2024-09-27",
+    "componentstatus": "working"
   }
 },
 {
@@ -1340,7 +1442,8 @@
     "category": "Displays",
     "name": "5″ LCD",
     "quantity": 2,
-    "date_of_purchase": "2024-07-16"
+    "date_of_purchase": "2024-07-16",
+    "componentstatus": "working"
   }
 },
 {
@@ -1350,7 +1453,8 @@
     "category": "Displays",
     "name": "LED Display Board",
     "quantity": 1,
-    "date_of_purchase": "2024-07-17"
+    "date_of_purchase": "2024-07-17",
+    "componentstatus": "working"
   }
 },
 {
@@ -1360,7 +1464,8 @@
     "category": "Displays",
     "name": "RGB LED Matrix Panel (Waveshare)",
     "quantity": 1,
-    "date_of_purchase": "2024-07-13"
+    "date_of_purchase": "2024-07-13",
+    "componentstatus": "working"
   }
 },
 {
@@ -1370,7 +1475,8 @@
     "category": "Displays",
     "name": "5.0″ HMI LCD Touchscreen",
     "quantity": 1,
-    "date_of_purchase": "2024-06-08"
+    "date_of_purchase": "2024-06-08",
+    "componentstatus": "working"
   }
 },
 {
@@ -1380,7 +1486,8 @@
     "category": "Miscellaneous",
     "name": "BTS7960 (motor driver modules)",
     "quantity": 6,
-    "date_of_purchase": "2024-06-08"
+    "date_of_purchase": "2024-06-08",
+    "componentstatus": "working"
   }
 },
 {
@@ -1390,7 +1497,8 @@
     "category": "Miscellaneous",
     "name": "12 V DC Fan",
     "quantity": 2,
-    "date_of_purchase": "2024-06-07"
+    "date_of_purchase": "2024-06-07",
+    "componentstatus": "working"
   }
 },
 {
@@ -1400,7 +1508,8 @@
     "category": "Miscellaneous",
     "name": "Voltmeter",
     "quantity": 2,
-    "date_of_purchase": "2024-06-07"
+    "date_of_purchase": "2024-06-07",
+    "componentstatus": "working"
   }
 },
 {
@@ -1410,7 +1519,8 @@
     "category": "Miscellaneous",
     "name": "Ammeter",
     "quantity": 2,
-    "date_of_purchase": "2024-10-03"
+    "date_of_purchase": "2024-10-03",
+    "componentstatus": "working"
   }
 },
 {
@@ -1420,7 +1530,8 @@
     "category": "Miscellaneous",
     "name": "MCBs",
     "quantity": 4,
-    "date_of_purchase": "2024-10-03"
+    "date_of_purchase": "2024-10-03",
+    "componentstatus": "working"
   }
 },
 {
@@ -1430,7 +1541,8 @@
     "category": "Miscellaneous",
     "name": "MCB Covers",
     "quantity": 3,
-    "date_of_purchase": "2024-10-03"
+    "date_of_purchase": "2024-10-03",
+    "componentstatus": "working"
   }
 },
 {
@@ -1440,7 +1552,8 @@
     "category": "Miscellaneous",
     "name": "ON/OFF Switches",
     "quantity": 20,
-    "date_of_purchase": "2024-10-03"
+    "date_of_purchase": "2024-10-03",
+    "componentstatus": "working"
   }
 },
 {
@@ -1450,7 +1563,8 @@
     "category": "Miscellaneous",
     "name": "Five‑Pin Sockets",
     "quantity": 2,
-    "date_of_purchase": "2024-10-03"
+    "date_of_purchase": "2024-10-03",
+    "componentstatus": "working"
   }
 },
 {
@@ -1460,7 +1574,8 @@
     "category": "Miscellaneous",
     "name": "Three‑Pin Sockets",
     "quantity": 10,
-    "date_of_purchase": "2024-10-03"
+    "date_of_purchase": "2024-10-03",
+    "componentstatus": "working"
   }
 },
 {
@@ -1470,7 +1585,8 @@
     "category": "Miscellaneous",
     "name": "Mounting Holder",
     "quantity": 1,
-    "date_of_purchase": "2024-10-03"
+    "date_of_purchase": "2024-10-03",
+    "componentstatus": "working"
   }
 },
 {
@@ -1480,7 +1596,8 @@
     "category": "Miscellaneous",
     "name": "Li‑Po Charger",
     "quantity": 1,
-    "date_of_purchase": "2024-09-30"
+    "date_of_purchase": "2024-09-30",
+    "componentstatus": "working"
   }
 },
 {
@@ -1490,7 +1607,8 @@
     "category": "Miscellaneous",
     "name": "Three‑Pin Top",
     "quantity": 3,
-    "date_of_purchase": "2024-09-30"
+    "date_of_purchase": "2024-09-30",
+    "componentstatus": "working"
   }
 },
 {
@@ -1500,7 +1618,8 @@
     "category": "Miscellaneous",
     "name": "DC‑USB Modules",
     "quantity": 3,
-    "date_of_purchase": "2024-09-30"
+    "date_of_purchase": "2024-09-30",
+    "componentstatus": "working"
   }
 },
 {
@@ -1510,7 +1629,8 @@
     "category": "Miscellaneous",
     "name": "Power Supply (Cooler Master units)",
     "quantity": 3,
-    "date_of_purchase": "2024-09-30"
+    "date_of_purchase": "2024-09-30",
+    "componentstatus": "working"
   }
 },
 {
@@ -1520,7 +1640,8 @@
     "category": "Miscellaneous",
     "name": "DC‑DC Converter 24 V",
     "quantity": 1,
-    "date_of_purchase": "2024-09-30"
+    "date_of_purchase": "2024-09-30",
+    "componentstatus": "working"
   }
 },
 {
@@ -1530,7 +1651,8 @@
     "category": "Miscellaneous",
     "name": "DC‑DC Converter 5 V",
     "quantity": 1,
-    "date_of_purchase": "2024-10-01"
+    "date_of_purchase": "2024-10-01",
+    "componentstatus": "working"
   }
 },
 {
@@ -1540,7 +1662,8 @@
     "category": "Miscellaneous",
     "name": "POE Switch (10‑port)",
     "quantity": 1,
-    "date_of_purchase": "2024-11-18"
+    "date_of_purchase": "2024-11-18",
+    "componentstatus": "working"
   }
 },
 {
@@ -1550,7 +1673,8 @@
     "category": "Miscellaneous",
     "name": "SFP Modules",
     "quantity": 2,
-    "date_of_purchase": "2024-09-30"
+    "date_of_purchase": "2024-09-30",
+    "componentstatus": "working"
   }
 },
 {
@@ -1560,7 +1684,8 @@
     "category": "Miscellaneous",
     "name": "Optical Fiber Cable",
     "quantity": 2,
-    "date_of_purchase": "2024-09-30"
+    "date_of_purchase": "2024-09-30",
+    "componentstatus": "working"
   }
 },
 {
@@ -1570,7 +1695,8 @@
     "category": "Miscellaneous",
     "name": "PCB Coating & Cleaner",
     "quantity": 1,
-    "date_of_purchase": "2024-09-30"
+    "date_of_purchase": "2024-09-30",
+    "componentstatus": "working"
   }
 },
 {
@@ -1580,7 +1706,8 @@
     "category": "Miscellaneous",
     "name": "Drill Bit Set (10‑pieces)",
     "quantity": 1,
-    "date_of_purchase": "2024-09-30"
+    "date_of_purchase": "2024-09-30",
+    "componentstatus": "working"
   }
 },
 {
@@ -1590,7 +1717,8 @@
     "category": "Miscellaneous",
     "name": "Hole Saw Set (11‑pieces)",
     "quantity": 1,
-    "date_of_purchase": "2024-09-30"
+    "date_of_purchase": "2024-09-30",
+    "componentstatus": "working"
   }
 },
 {
@@ -1600,7 +1728,8 @@
     "category": "Miscellaneous",
     "name": "5 V 5 A Adapter",
     "quantity": 1,
-    "date_of_purchase": "2024-09-29"
+    "date_of_purchase": "2024-09-29",
+    "componentstatus": "working"
   }
 },
 {
@@ -1610,7 +1739,8 @@
     "category": "Miscellaneous",
     "name": "Managed 24‑Port Switch",
     "quantity": 1,
-    "date_of_purchase": "2024-09-29"
+    "date_of_purchase": "2024-09-29",
+    "componentstatus": "working"
   }
 },
 {
@@ -1620,7 +1750,8 @@
     "category": "Miscellaneous",
     "name": "Stepper Motor Coupler",
     "quantity": 2,
-    "date_of_purchase": "2024-09-29"
+    "date_of_purchase": "2024-09-29",
+    "componentstatus": "working"
   }
 },
 {
@@ -1630,7 +1761,8 @@
     "category": "Miscellaneous",
     "name": "Clamps",
     "quantity": 4,
-    "date_of_purchase": "2024-09-29"
+    "date_of_purchase": "2024-09-29",
+    "componentstatus": "working"
   }
 },
 {
@@ -1640,7 +1772,8 @@
     "category": "Miscellaneous",
     "name": "Sun Board (120 × 140 cm)",
     "quantity": 1,
-    "date_of_purchase": "2024-09-29"
+    "date_of_purchase": "2024-09-29",
+    "componentstatus": "working"
   }
 },
 {
@@ -1650,7 +1783,8 @@
     "category": "Miscellaneous",
     "name": "Wire Cable (3 coils)",
     "quantity": 3,
-    "date_of_purchase": "2024-09-29"
+    "date_of_purchase": "2024-09-29",
+    "componentstatus": "working"
   }
 },
 {
@@ -1660,7 +1794,8 @@
     "category": "Miscellaneous",
     "name": "Wire Cable (2 coils)",
     "quantity": 2,
-    "date_of_purchase": "2024-09-29"
+    "date_of_purchase": "2024-09-29",
+    "componentstatus": "working"
   }
 },
 {
@@ -1670,7 +1805,8 @@
     "category": "Miscellaneous",
     "name": "CPU Power Connector (4 → 8‑pin adapter)",
     "quantity": 1,
-    "date_of_purchase": "2024-09-29"
+    "date_of_purchase": "2024-09-29",
+    "componentstatus": "working"
   }
 },
 {
@@ -1680,7 +1816,8 @@
     "category": "Miscellaneous",
     "name": "Hammer: Taparia SFH30 soft face",
     "quantity": 1,
-    "date_of_purchase": "2024-09-29"
+    "date_of_purchase": "2024-09-29",
+    "componentstatus": "working"
   }
 },
 {
@@ -1690,7 +1827,8 @@
     "category": "Miscellaneous",
     "name": "Taparia CH‑340 Claw Hammer",
     "quantity": 1,
-    "date_of_purchase": "2024-09-29"
+    "date_of_purchase": "2024-09-29",
+    "componentstatus": "working"
   }
 },
 {
@@ -1700,7 +1838,8 @@
     "category": "Miscellaneous",
     "name": "WD‑40 Smart Straw Spray",
     "quantity": 1,
-    "date_of_purchase": "2024-09-28"
+    "date_of_purchase": "2024-09-28",
+    "componentstatus": "working"
   }
 },
 {
@@ -1710,7 +1849,8 @@
     "category": "Miscellaneous",
     "name": "Taparia Bevel Chisel WCB32",
     "quantity": 1,
-    "date_of_purchase": "2024-09-29"
+    "date_of_purchase": "2024-09-29",
+    "componentstatus": "working"
   }
 },
 {
@@ -1720,7 +1860,8 @@
     "category": "Miscellaneous",
     "name": "Measuring Tape 5 m",
     "quantity": 2,
-    "date_of_purchase": "2024-09-30"
+    "date_of_purchase": "2024-09-30",
+    "componentstatus": "working"
   }
 },
 {
@@ -1730,7 +1871,8 @@
     "category": "Miscellaneous",
     "name": "Copper Wire Lug pack",
     "quantity": 1,
-    "date_of_purchase": "2024-09-28"
+    "date_of_purchase": "2024-09-28",
+    "componentstatus": "working"
   }
 },
 {
@@ -1740,7 +1882,8 @@
     "category": "Miscellaneous",
     "name": "FRC 40‑Pin Cable",
     "quantity": 1,
-    "date_of_purchase": "2024-09-28"
+    "date_of_purchase": "2024-09-28",
+    "componentstatus": "working"
   }
 },
 {
@@ -1750,7 +1893,8 @@
     "category": "Miscellaneous",
     "name": "PCB Soldering Clamp (Helping Hand)",
     "quantity": 3,
-    "date_of_purchase": "2024-09-28"
+    "date_of_purchase": "2024-09-28",
+    "componentstatus": "working"
   }
 },
 {
@@ -1760,7 +1904,8 @@
     "category": "Miscellaneous",
     "name": "PC Cooler Fan Dust Filters (120 mm, 6‑pack)",
     "quantity": 1,
-    "date_of_purchase": "2024-11-18"
+    "date_of_purchase": "2024-11-18",
+    "componentstatus": "working"
   }
 },
 {
@@ -1770,7 +1915,8 @@
     "category": "Miscellaneous",
     "name": "Rack Gear (9″)",
     "quantity": 2,
-    "date_of_purchase": "2024-11-18"
+    "date_of_purchase": "2024-11-18",
+    "componentstatus": "working"
   }
 },
 {
@@ -1780,7 +1926,8 @@
     "category": "Miscellaneous",
     "name": "Digital Tester (Taparia MDTN82)",
     "quantity": 1,
-    "date_of_purchase": "2024-11-18"
+    "date_of_purchase": "2024-11-18",
+    "componentstatus": "working"
   }
 },
 {
@@ -1790,7 +1937,8 @@
     "category": "Miscellaneous",
     "name": "Allen / Hex Wrench Set",
     "quantity": 1,
-    "date_of_purchase": "2024-11-18"
+    "date_of_purchase": "2024-11-18",
+    "componentstatus": "working"
   }
 },
 {
@@ -1800,7 +1948,8 @@
     "category": "Miscellaneous",
     "name": "Combination Plier with Cutter",
     "quantity": 1,
-    "date_of_purchase": "2024-09-28"
+    "date_of_purchase": "2024-09-28",
+    "componentstatus": "working"
   }
 },
 {
@@ -1810,7 +1959,8 @@
     "category": "Miscellaneous",
     "name": "Crimping Pliers (WADFOW)",
     "quantity": 1,
-    "date_of_purchase": "2024-10-19"
+    "date_of_purchase": "2024-10-19",
+    "componentstatus": "working"
   }
 },
 {
@@ -1820,7 +1970,8 @@
     "category": "Miscellaneous",
     "name": "Solder Wire (60/40, 250 g)",
     "quantity": 1,
-    "date_of_purchase": "2024-10-19"
+    "date_of_purchase": "2024-10-19",
+    "componentstatus": "working"
   }
 },
 {
@@ -1830,7 +1981,8 @@
     "category": "Miscellaneous",
     "name": "Steel Wool Pack (animal blocker)",
     "quantity": 1,
-    "date_of_purchase": "2024-10-19"
+    "date_of_purchase": "2024-10-19",
+    "componentstatus": "working"
   }
 },
 {
@@ -1840,7 +1992,8 @@
     "category": "Miscellaneous",
     "name": "Wire Stripper Tool (“TRENDING”)",
     "quantity": 1,
-    "date_of_purchase": "2024-10-19"
+    "date_of_purchase": "2024-10-19",
+    "componentstatus": "working"
   }
 },
 {
@@ -1850,7 +2003,8 @@
     "category": "Miscellaneous",
     "name": "Bosch HSS Twist Drill Bits (1–10 mm set)",
     "quantity": 1,
-    "date_of_purchase": "2024-10-19"
+    "date_of_purchase": "2024-10-19",
+    "componentstatus": "working"
   }
 },
 {
@@ -1860,7 +2014,8 @@
     "category": "Miscellaneous",
     "name": "Stainless Tweezer Set (THEMISTO)",
     "quantity": 1,
-    "date_of_purchase": "2024-10-01"
+    "date_of_purchase": "2024-10-01",
+    "componentstatus": "working"
   }
 },
 {
@@ -1870,7 +2025,8 @@
     "category": "Miscellaneous",
     "name": "Solder Stripper / Cutter (Aadvay Enterprises)",
     "quantity": 1,
-    "date_of_purchase": "2024-10-01"
+    "date_of_purchase": "2024-10-01",
+    "componentstatus": "working"
   }
 },
 {
@@ -1880,7 +2036,8 @@
     "category": "Miscellaneous",
     "name": "Amazon Basics Wire Stripper Set",
     "quantity": 1,
-    "date_of_purchase": "2024-10-01"
+    "date_of_purchase": "2024-10-01",
+    "componentstatus": "working"
   }
 },
 {
@@ -1890,7 +2047,8 @@
     "category": "Miscellaneous",
     "name": "Amazon Basics Screwdriver Set (58‑piece)",
     "quantity": 1,
-    "date_of_purchase": "2024-10-01"
+    "date_of_purchase": "2024-10-01",
+    "componentstatus": "working"
   }
 },
 {
@@ -1900,7 +2058,8 @@
     "category": "Miscellaneous",
     "name": "Alkon Plastic Organizer (60‑drawer unit)",
     "quantity": 1,
-    "date_of_purchase": "2024-09-29"
+    "date_of_purchase": "2024-09-29",
+    "componentstatus": "working"
   }
 },
 {
@@ -1910,7 +2069,8 @@
     "category": "Miscellaneous",
     "name": "Acrylic Wall Sign Holders (Bigimall 2‑pack, 8 total)",
     "quantity": 8,
-    "date_of_purchase": "2024-09-29"
+    "date_of_purchase": "2024-09-29",
+    "componentstatus": "working"
   }
 },
 {
@@ -1920,7 +2080,8 @@
     "category": "Miscellaneous",
     "name": "Cleaning Brushes",
     "quantity": 6,
-    "date_of_purchase": "2024-11-21"
+    "date_of_purchase": "2024-11-21",
+    "componentstatus": "working"
   }
 },
 {
@@ -1930,7 +2091,8 @@
     "category": "Miscellaneous",
     "name": "Tap Dispenser",
     "quantity": 1,
-    "date_of_purchase": "2024-11-21"
+    "date_of_purchase": "2024-11-21",
+    "componentstatus": "working"
   }
 },
 {
@@ -1940,7 +2102,8 @@
     "category": "Miscellaneous",
     "name": "Glue Gun Sticks (10 pc)",
     "quantity": 1,
-    "date_of_purchase": "2025-11-21"
+    "date_of_purchase": "2025-11-21",
+    "componentstatus": "working"
   }
 },
 {
@@ -1950,7 +2113,8 @@
     "category": "Miscellaneous",
     "name": "Storage Boxes from D‑Mart (plastic, container, basket etc.)",
     "quantity": 8,
-    "date_of_purchase": "2026-11-21"
+    "date_of_purchase": "2026-11-21",
+    "componentstatus": "working"
   }
 },
 {
@@ -1960,7 +2124,8 @@
     "category": "Miscellaneous",
     "name": "PVC Table Mats",
     "quantity": 5,
-    "date_of_purchase": "2024-11-22"
+    "date_of_purchase": "2024-11-22",
+    "componentstatus": "working"
   }
 },
 {
@@ -1970,7 +2135,8 @@
     "category": "Miscellaneous",
     "name": "DC Pumps",
     "quantity": 2,
-    "date_of_purchase": "2024-11-20"
+    "date_of_purchase": "2024-11-20",
+    "componentstatus": "working"
   }
 },
 {
@@ -1980,7 +2146,8 @@
     "category": "Miscellaneous",
     "name": "DC Pump Pipe",
     "quantity": 1,
-    "date_of_purchase": "2024-11-20"
+    "date_of_purchase": "2024-11-20",
+    "componentstatus": "working"
   }
 },
 {
@@ -1990,7 +2157,8 @@
     "category": "Miscellaneous",
     "name": "Acetone",
     "quantity": 1,
-    "date_of_purchase": "2024-11-20"
+    "date_of_purchase": "2024-11-20",
+    "componentstatus": "working"
   }
 },
 {
@@ -2035,6 +2203,213 @@
     "college_email": "test56@gmail.com",
     "contact_number": "543",
     "password": "pbkdf2_sha256$1000000$IFPJixtaAtc5G8hUR0mVOE$KbNUVBDKsEDyIleUraD9j4f/qr1MEt9VsyX7jPK6Uv0="
+  }
+},
+{
+  "model": "base.student",
+  "pk": 5,
+  "fields": {
+    "full_name": "salman",
+    "roll_number": "120",
+    "college_email": "B231234@skit.ac.in",
+    "contact_number": "9922992299",
+    "password": "pbkdf2_sha256$1000000$1OFT7OYEL8kEHOKAWVNTNA$OZSdbStgjtts8dK0pxrovMIRwNyBuYdxoR3dW5QsW18="
+  }
+},
+{
+  "model": "student_dash.studentissuelog",
+  "pk": 1,
+  "fields": {
+    "student": 5,
+    "component": 4,
+    "quantity_issued": 2,
+    "form_date": "2025-10-07",
+    "issue_date": "2025-10-07",
+    "return_date": null,
+    "status_from_student": "Issued",
+    "status_from_teacher": "Approved"
+  }
+},
+{
+  "model": "student_dash.studentissuelog",
+  "pk": 2,
+  "fields": {
+    "student": 5,
+    "component": 13,
+    "quantity_issued": 2,
+    "form_date": "2025-10-07",
+    "issue_date": "2025-10-07",
+    "return_date": null,
+    "status_from_student": "Issued",
+    "status_from_teacher": "Approved"
+  }
+},
+{
+  "model": "student_dash.studentissuelog",
+  "pk": 3,
+  "fields": {
+    "student": 5,
+    "component": 15,
+    "quantity_issued": 2,
+    "form_date": "2025-10-07",
+    "issue_date": "2025-10-07",
+    "return_date": null,
+    "status_from_student": "Issued",
+    "status_from_teacher": "Approved"
+  }
+},
+{
+  "model": "student_dash.studentissuelog",
+  "pk": 4,
+  "fields": {
+    "student": 5,
+    "component": 51,
+    "quantity_issued": 2,
+    "form_date": "2025-10-08",
+    "issue_date": null,
+    "return_date": null,
+    "status_from_student": "Rejectedbyteacher",
+    "status_from_teacher": "Rejected"
+  }
+},
+{
+  "model": "student_dash.studentissuelog",
+  "pk": 5,
+  "fields": {
+    "student": 5,
+    "component": 50,
+    "quantity_issued": 1,
+    "form_date": "2025-10-08",
+    "issue_date": null,
+    "return_date": null,
+    "status_from_student": "Rejectedbyteacher",
+    "status_from_teacher": "Rejected"
+  }
+},
+{
+  "model": "student_dash.studentissuelog",
+  "pk": 6,
+  "fields": {
+    "student": 5,
+    "component": 1,
+    "quantity_issued": 2,
+    "form_date": "2025-10-08",
+    "issue_date": "2025-10-08",
+    "return_date": "2025-10-12",
+    "status_from_student": "Returned",
+    "status_from_teacher": "Returned"
+  }
+},
+{
+  "model": "student_dash.studentissuelog",
+  "pk": 7,
+  "fields": {
+    "student": 5,
+    "component": 12,
+    "quantity_issued": 1,
+    "form_date": "2025-10-13",
+    "issue_date": null,
+    "return_date": null,
+    "status_from_student": "Requested",
+    "status_from_teacher": "Pending"
+  }
+},
+{
+  "model": "student_dash.studentissuelog",
+  "pk": 8,
+  "fields": {
+    "student": 5,
+    "component": 13,
+    "quantity_issued": 1,
+    "form_date": "2025-10-13",
+    "issue_date": null,
+    "return_date": null,
+    "status_from_student": "Requested",
+    "status_from_teacher": "Pending"
+  }
+},
+{
+  "model": "student_dash.studentissuelog",
+  "pk": 9,
+  "fields": {
+    "student": 5,
+    "component": 24,
+    "quantity_issued": 3,
+    "form_date": "2025-10-13",
+    "issue_date": null,
+    "return_date": null,
+    "status_from_student": "Requested",
+    "status_from_teacher": "Pending"
+  }
+},
+{
+  "model": "student_dash.studentissuelog",
+  "pk": 10,
+  "fields": {
+    "student": 5,
+    "component": 36,
+    "quantity_issued": 2,
+    "form_date": "2025-10-13",
+    "issue_date": null,
+    "return_date": null,
+    "status_from_student": "Requested",
+    "status_from_teacher": "Pending"
+  }
+},
+{
+  "model": "student_dash.studentissuelog",
+  "pk": 11,
+  "fields": {
+    "student": 5,
+    "component": 37,
+    "quantity_issued": 2,
+    "form_date": "2025-10-13",
+    "issue_date": null,
+    "return_date": null,
+    "status_from_student": "Requested",
+    "status_from_teacher": "Pending"
+  }
+},
+{
+  "model": "student_dash.studentissuelog",
+  "pk": 12,
+  "fields": {
+    "student": 5,
+    "component": 39,
+    "quantity_issued": 1,
+    "form_date": "2025-10-13",
+    "issue_date": null,
+    "return_date": null,
+    "status_from_student": "Requested",
+    "status_from_teacher": "Pending"
+  }
+},
+{
+  "model": "student_dash.studentissuelog",
+  "pk": 13,
+  "fields": {
+    "student": 5,
+    "component": 1,
+    "quantity_issued": 1,
+    "form_date": "2025-10-14",
+    "issue_date": "2025-10-14",
+    "return_date": null,
+    "status_from_student": "Issued",
+    "status_from_teacher": "Approved"
+  }
+},
+{
+  "model": "student_dash.studentissuelog",
+  "pk": 14,
+  "fields": {
+    "student": 5,
+    "component": 1,
+    "quantity_issued": 2,
+    "form_date": "2026-01-09",
+    "issue_date": null,
+    "return_date": null,
+    "status_from_student": "Requested",
+    "status_from_teacher": "Pending"
   }
 }
 ]
