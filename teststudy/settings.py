@@ -10,17 +10,24 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
-from pathlib import Path
 import os
-import dj_database_url         # to use secured the connection string
+from email.policy import default
+
+# to parse the connection string and auto separate hosts,pasword,dbname etc
+import dj_database_url
+
+from pathlib import Path
+
+#for using env varaibles
 from dotenv import load_dotenv
-# from decouple import config
+
+#ye runtime pe load hoga iliye error ide mein dega
+from decouple import config
 
 # Load environment variables from .env
 load_dotenv()
 
-# SECRET_KEY = config('SECRET_KEY')
-# DEBUG = config('DEBUG', cast=bool)
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -29,14 +36,31 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-#w#h6u8($wlsczu@p5k)km8nn4ozscoyse5i@7x(=92kh!o-zn'
+
+#ye bhi use kar sakte
+# SECRET_KEY = os.environ.get('SECRET_KEY')
+
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
-ALLOWED_HOSTS = ['itr-sem5-testing.onrender.com',
-                 '127.0.0.1',
-                 'localhost']
+# Django rejects all hosts not in ALLOWED_HOSTS                       (by CHATGPT)
+# If you forget to add your Render domain → 400 Bad Request
+DEBUG = config('DEBUG', cast=bool,default=False)
+
+
+
+# ✔ avoids empty strings
+# ✔ works in all environments
+# ✔ no crash if env is missing
+
+#ye likh sakte if empty string ho  gai by chance
+# ALLOWED_HOSTS = [host.strip() for host in os.getenv("ALLOWED_HOSTS", "").split(",") if host.strip()]
+
+
+#but apan direct likho
+ALLOWED_HOSTS=os.getenv("ALLOWED_HOSTS", "").split(",")
+# note: *** DON'T ADD LOCALHOST AS ALLOWED HOSTS ON RENDER  ***
 
 
 # Application definition
@@ -48,15 +72,20 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # these we added new (Local apps)
     'base.apps.BaseConfig',  
     'student_dash.apps.StudentDashConfig',
 ]
 
+# 'whitenoise.middleware.WhiteNoiseMiddleware',
+# to serve static files from statiscroot  on render
+
+# ****  ORDER OF MIDDLEWARE MATTERS   ****
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',         #to serve static files from statiscroot
-    # on render
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -86,17 +115,12 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'teststudy.wsgi.application'
+
 LOGIN_URL = '/login/'
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-
-# DATABASE_URL = os.environ.get('DATABASE_URL')
-#
-# DATABASES = {
-#     'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600)
-# }
 
 DATABASE_URL = os.environ.get('DATABASE_URL')
 if not DATABASE_URL:
@@ -105,6 +129,9 @@ if not DATABASE_URL:
 DATABASES = {
     'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600)
 }
+
+
+#used at start
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.sqlite3',
@@ -149,14 +176,13 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-#added by vaibhav malav date:29-07-25
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
     'base/static',
     'student_dash/static',
                     ]
 
-#for PRODUCTION as given by gpt
+#for PRODUCTION (as given by CHATGPT)
 STATIC_ROOT = BASE_DIR / 'staticfilesforproduction'
 
 #after adding whitenoise to serve static files from static root on render

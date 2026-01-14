@@ -37,25 +37,27 @@ class Component(models.Model):
     def __str__(self):
         return f"{self.name} ({self.category})"
 
-class IssueRecord(models.Model):
-    student_name = models.CharField(max_length=100)  #  ForeignKey to a User model
-    component = models.ForeignKey(Component, on_delete=models.CASCADE)
-    issue_date = models.DateField(auto_now_add=True)
-    return_date = models.DateField(null=True, blank=True)  # can be updated later
+# commented by vaibhav m. on 14jan
 
-    #to be done by vaibhav g.
-    #add 2 status columns ,change student_name to bid email data from student table usse bid aajaye
-    #dynamic cloumns
-
-    @property
-    def status(self):
-        if self.return_date:
-            return f"Returned on {self.return_date.strftime('%Y-%m-%d')}"
-        return "Not Returned"
-
-    def __str__(self):
-        return f"{self.component.name} issued to {self.student_name}"
-    
+# class IssueRecord(models.Model):
+#     student_name = models.CharField(max_length=100)  #  ForeignKey to a User model
+#     component = models.ForeignKey(Component, on_delete=models.CASCADE)
+#     issue_date = models.DateField(auto_now_add=True)
+#     return_date = models.DateField(null=True, blank=True)  # can be updated later
+#
+#     #to be done by vaibhav g.
+#     #add 2 status columns ,change student_name to bid email data from student table usse bid aajaye
+#     #dynamic cloumns
+#
+#     @property
+#     def status(self):
+#         if self.return_date:
+#             return f"Returned on {self.return_date.strftime('%Y-%m-%d')}"
+#         return "Not Returned"
+#
+#     def __str__(self):
+#         return f"{self.component.name} issued to {self.student_name}"
+#
 
 class Student(models.Model):
     full_name = models.CharField(max_length=100)
