@@ -1,14 +1,96 @@
 ''' THIS IS COMPLETE GUIDE FOR THE PROJECT AND ITS DETAILS '''
 
-1.) 'teststudy' is the name of project
-    'base' is our app
+*******************************
+PROJECT GUIDELINES
+*******************************
+1.  keep all the column names of database consistent..
+    Wwe have kept small letters for everything
 
-2.) 'base_layout.html' give the base layout of any html page
+    comp_attribute              ==>>  for Component model
+    std_attribute               ==>>  for Student model
+    std_issue_                  ==>>  for StudentIssueLog model
+    del_std_                    ==>>  for DeletedStudent model
+    del_std_issue_              ==>>  for DeletedStudentIssueLog model
 
-3.) 'requirements.txt'  is available for sharing same resuorces (pip freeze, pip install -r etc
-commands can be used  )
 
-4.) NOTE: '''**** TO MAKE 5 SUPERUSERS DATA.JSON FILE IS USED ****''''
-        this has to be dumped again and again when we make any changes on admin side
+*******************************
+MISTAKES THAT I HAVE DONE
+*******************************
+
+1.  we didn't used Django--User model as it was slow(it may be due to our
+    wrong code but it was)
+    and we don't accept our product to be SLOW....
+    I TRIED AFTER MAKING PROTOTYPE OF OUR PROJECT (which was a very bad
+    decision costing me 2 days
+    and i have to SHIFT BACK TO ORIGINAL PROTOTYPE)
+
+2.  you don't need to do {% load static %} every page you extend....
+    just make global js,css,html besides base_layout and  add extra blocks
+    for every new css/js file.
+
+
+3.  keep DEBUG == TRUE in development and
+         DEBUG == False in production as u don't want users to see errors
+
+4.  ***IMP****
+    Earlier i have put the business logic in VIEWS.PY file..
+    now we have added all business logic in MODELS.PY
 
 5.)
+
+
+*********************************
+THINGS I LEARNT NEW BESIDES ""DJANGO""
+*********************************
+1.  to refer things in different apps you write like this
+    "from ..student_dash.urls import app_name"          .. means 2 previous directory
+
+2.  Basic Routing:
+    path('', include('core.urls')),                         # home, landing pages
+    path('accounts/', include('accounts.urls')),            # start of accounts
+    path('admin/', admin.site.urls),
+
+
+    /                    → Home
+    /accounts/login/     → Login
+    /admin/              → Admin
+
+3.  ADVANTAGE OF USING "RELATED NAME" in models when creating a foreign key
+    ***** foreignkey.relatedname.function   *****
+        student = Student.objects.get(id=1)
+            student.issue_logs.all()
+
+     means:::: Give me all issue log records that belong to this student.
+
+     we can save writing this ==>>  StudentIssueLog.objects.filter(student=student)
+
+    **** Practical usage (REAL examples)   ****
+Show student history
+logs = request.user.student.issue_logs.all()
+
+Count issued items
+student.issue_logs.filter(status_from_teacher="Approved").count()
+
+Check if student already requested a component
+student.issue_logs.filter(
+    component=component,
+    status_from_teacher="Pending"
+).exists()
+
+*********************************
+FUTURE TO DO'S
+*********************************
+
+1. set models k columns ki size for better databse storage
+
+2. load fresh new components
+
+3. admin.site.urls ko env mein daalna
+
+4. database tables mein jaise status hai, category names hai unko integer values dedo vo table mein
+rahna   COMPONENT_STATUS = [
+        ('Defective', 'Defective'),
+        ('Deleted', 'Deleted'),
+        ("working", 'working')
+    ]
+    isme se kisi jagah par 0 ,1, 2, kar sakte hai kya
