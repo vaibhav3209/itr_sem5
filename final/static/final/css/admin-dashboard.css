@@ -1,4 +1,4 @@
-/*body {
+body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
   background-color: #f0f2f5;
@@ -8,9 +8,9 @@
   display: flex;
   min-height: 100vh;
 }
-*/
+
 /* Sidebar */
-/*
+
 .admin-sidebar {
   width: 240px;
   background-color: #002855;
@@ -41,10 +41,10 @@
 .admin-sidebar ul li a:hover {
   text-decoration: underline;
 }
-*/
+
 
 /* Main Panel */
-/*.admin-main {
+.admin-main {
   flex: 1;
   padding: 2rem;
 }
@@ -114,18 +114,40 @@ th {
   border: none;
   border-radius: 4px;
 }
-*/
+
 /* Make sidebar links always white */
-/*.sidebar a,
+.sidebar a,
 .sidebar a:visited,
 .sidebar a:active,
 .sidebar a:focus {
   color: white;
   text-decoration: none;
 }
-*/
+
 /* Optional: add hover effect */
-/*.sidebar a:hover {
+.sidebar a:hover {
   color: #ffcc00; /* or any color you want on hover */
 }
-*/
+
+
+
+/* last mein add kiya as table load nhi ho rhi thi*/
+.section-title {
+    font-size: 1.4rem;
+    margin: 30px 0 15px;
+    border-left: 6px solid #6c63ff;
+    padding-left: 12px;
+    color: #2c3e50;
+}
+
+
+/* ====== Category Blocks ====== */
+.category-block {
+    margin-bottom: 40px;
+}
+
+.category-block h4 {
+    font-size: 1.2rem;
+    color: #6c63ff;
+    margin-bottom: 12px;
+}

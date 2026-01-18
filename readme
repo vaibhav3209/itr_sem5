@@ -65,18 +65,55 @@ THINGS I LEARNT NEW BESIDES ""DJANGO""
      we can save writing this ==>>  StudentIssueLog.objects.filter(student=student)
 
     **** Practical usage (REAL examples)   ****
-Show student history
-logs = request.user.student.issue_logs.all()
+    ** Show student history
+        logs = request.user.student.issue_logs.all()
 
-Count issued items
-student.issue_logs.filter(status_from_teacher="Approved").count()
+    ** Count issued items
+        student.issue_logs.filter(status_from_teacher="Approved").count()
 
-Check if student already requested a component
-student.issue_logs.filter(
-    component=component,
-    status_from_teacher="Pending"
-).exists()
+    ** Check if student already requested a component
+        student.issue_logs.filter(
+            component=component,
+            status_from_teacher="Pending"
+        ).exists()
 
+
+4.  DJANGO ORM FUNCTIONS
+    .filter() → which rows
+    .select_related() → join tables
+    .only() → which columns
+
+5. ✅ Django ORM (what you’re using now)
+Pros
+✔ Safe (SQL injection protected)
+✔ Readable & maintainable
+✔ Easy to refactor
+✔ DB-agnostic (Postgres / SQLite / MySQL)
+✔ Django handles joins efficiently
+✔ Easier for teammates (or future you)
+
+Cons
+❌ Very complex queries can get ugly
+❌ Rare edge-case optimizations harder
+❌ Raw SQL
+
+Pros
+✔ Absolute control
+✔ Best for very complex aggregations
+✔ Can squeeze last 5–10% performance
+
+Cons
+❌ Easy to introduce bugs
+❌ Hard to maintain
+❌ DB-specific
+❌ No automatic security unless careful
+❌ Harder to refactor models
+
+5:  NOTe: never delete or change model schema from databse online
+           otherwise your local migrations and migrations table online will conflict
+           then it will be a problem.
+
+    solution:  migrations --fake   but it is not worth it.
 *********************************
 FUTURE TO DO'S
 *********************************
@@ -94,3 +131,9 @@ rahna   COMPONENT_STATUS = [
         ("working", 'working')
     ]
     isme se kisi jagah par 0 ,1, 2, kar sakte hai kya
+
+5. <!--rejected /htlm mrin kuch karna hai kya ya ye bas view only page rakhna hai-->
+
+6. add compnent ka button hta diya from inventory.html
+
+7. cateogy k cards jo aate hai usko dynamic karna

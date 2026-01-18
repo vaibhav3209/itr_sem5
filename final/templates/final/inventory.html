@@ -1,0 +1,80 @@
+{% extends 'base_layout.html' %}
+
+{% load static %}
+
+{% block extra_css_files %}
+<link rel="stylesheet" href="{% static 'final/css/request_component.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/admin_sidepanel.css' %}">{% endblock %}
+
+{% block page_title %}Components{% endblock %}
+
+{% block extra_js_files %}<script src="{% static 'final/js/inv_items.js' %}"></script>{% endblock %}
+
+{% block page_content %}
+<div class="admin-container">
+<aside class="admin-sidebar">
+      <h2>Admin Panel</h2>
+      <ul>
+          <li><a href="{% url 'final:admin_dashboard' %}">BACK TO DASHBOARD</a></li>
+        <li><a href="{% url 'final:approved_requests' %}">Approved Requests</a></li>
+        <li><a href="{% url 'final:rejected_requests' %}">Rejected Requests</a></li>
+        <li><a href="{% url 'final:inventory' %}">Inventory</a></li>
+        <li><a href="{% url 'final:admin_logout' %}">Logout</a></li>
+      </ul>
+    </aside>
+
+    <main class="main-content">
+<div class="card-container">
+    <div class="card">
+        <a href="{% url 'final:inventory_items' 'Microcontrollers / Boards' %}"
+           style="text-decoration: none; color: inherit;">
+            <img src="{% static 'final/images/microcontroller.jpg' %}"
+                 alt="Microcontrollers">
+            <h3>Microcontrollers</h3>
+        </a>
+    </div>
+
+    <div class="card">
+        <a href="{% url 'final:inventory_items' 'Sensors' %}"
+           style="text-decoration: none; color: inherit;">
+            <img src="{% static 'final/images/sensors.jpg' %}" alt="Sensors">
+            <h3>Sensors</h3>
+        </a>
+    </div>
+
+    <div class="card">
+        <a href="{% url 'final:inventory_items' 'Actuators' %}"
+           style="text-decoration: none; color: inherit;">
+            <img src="{% static 'final/images/actuators.png' %}" alt="Actuators">
+            <h3>Actuators</h3>
+        </a>
+    </div>
+
+    <div class="card">
+        <a href="{% url 'final:inventory_items' 'Electric Components' %}"
+           style="text-decoration: none; color: inherit;">
+            <img src="{% static 'final/images/el.jpg' %}" alt="Electric Components">
+            <h3>Electric Components</h3>
+        </a>
+    </div>
+
+    <div class="card">
+        <a href="{% url 'final:inventory_items' 'Displays' %}"
+           style="text-decoration: none; color: inherit;">
+            <img src="{% static 'final/images/display.webp' %}" alt="Displays">
+            <h3>Displays</h3>
+        </a>
+    </div>
+
+    <div class="card">
+        <a href="{% url 'final:inventory_items' 'Miscellaneous' %}"
+           style="text-decoration: none; color: inherit;">
+            <img src="{% static 'final/images/misc.jpg' %}" alt="Miscellaneous">
+            <h3>Miscellaneous</h3>
+        </a>
+    </div>
+</div>
+
+</main>
+    </div>
+{% endblock %}

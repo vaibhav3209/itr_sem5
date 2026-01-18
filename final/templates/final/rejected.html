@@ -1,0 +1,76 @@
+{% extends 'base_layout.html' %}
+
+{% load static %}
+
+{% block page_title %}Rejected requests{% endblock %}
+
+{% comment 'jab tak coorect nhi kar rhe neeche wale use karo' %}
+{% block extra_css_files %}<link rel="stylesheet" href="{% static 'final/css/admin-dashboard.css' %}">{% endblock %}
+{% endcomment %}
+
+{% block extra_css_files %}
+<link rel="stylesheet" href="{% static 'final/css/request_component.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/admin_sidepanel.css' %}">{% endblock %}
+
+{% block page_content%}
+
+<!--isme kuch karna hai kya ya ye bas view only page rakhna hai-->
+
+
+<div class="admin-container">
+    <aside class="admin-sidebar">
+      <h2>Admin Panel</h2>
+      <ul>
+          <li><a href="{% url 'final:admin_dashboard' %}">BACK TO DASHBOARD</a></li>
+        <li><a href="{% url 'final:approved_requests' %}">Approved Requests</a></li>
+        <li><a href="{% url 'final:rejected_requests' %}">Rejected Requests</a></li>
+        <li><a href="{% url 'final:inventory' %}">Inventory</a></li>
+        <li><a href="{% url 'final:admin_logout' %}">Logout</a></li>
+      </ul>
+    </aside>
+
+
+<main class="admin-main">
+      <header>
+        <h1>Rejected Requests</h1>
+
+      </header>
+
+
+        <section>
+{% for category, requests in grouped_requests.items %}
+
+    <details open style="margin-bottom: 30px;">
+        <summary style="font-weight: bold;">{{ category }}</summary>
+
+        <table border="1" cellspacing="0" cellpadding="8" style="margin-top: 10px; width: 100%;">
+            <thead>
+                <tr>
+                    <th>Student</th>
+                    <th>Roll No.</th>
+                    <th>Component</th>
+                    <th>Quantity Issued</th>
+                    <th>Issue Date</th>
+<!--                    <th></th>-->
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for req in requests %}
+                <tr>
+                    <td>{{ req.student__std_full_name }}</td>
+                    <td>{{ req.student__std_roll_number }}</td>
+                    <td>{{ req.component__comp_name }}</td>
+                    <td>{{ req.std_issue_quantity_issued }}</td>
+
+                    <td>{{ req.std_issue_issue_date}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </details>
+{% endfor %}
+        </section>
+    </main>
+  </div>
+{% endblock %}

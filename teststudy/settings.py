@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 import os
 from email.policy import default
 
+
 # to parse the connection string and auto separate hosts,pasword,dbname etc
 import dj_database_url
 
@@ -46,7 +47,7 @@ SECRET_KEY = config('SECRET_KEY')
 
 # Django rejects all hosts not in ALLOWED_HOSTS                       (by CHATGPT)
 # If you forget to add your Render domain → 400 Bad Request
-DEBUG = config('DEBUG', cast=bool,default=False)
+DEBUG = config('DEBUG', cast=bool,default=True)
 
 
 
@@ -74,8 +75,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # these we added new (Local apps)
-    'base.apps.BaseConfig',  
-    'student_dash.apps.StudentDashConfig',
+     'final.apps.FinalConfig',
 ]
 
 # 'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -100,7 +100,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             BASE_DIR / 'templates',
-            'base/templates',
+            'final/templates',
 
         ],
         'APP_DIRS': True,
@@ -178,8 +178,7 @@ STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
-    'base/static',
-    'student_dash/static',
+    'final/static',
                     ]
 
 #for PRODUCTION (as given by CHATGPT)

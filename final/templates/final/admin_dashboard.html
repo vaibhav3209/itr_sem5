@@ -1,0 +1,91 @@
+{% extends 'base_layout.html' %}
+
+{% load static %}
+
+{% block page_title %}welcome admin{% endblock %}
+
+{% comment  %}
+{% block extra_css_files %}<link rel="stylesheet" href="{% static 'final/css/admin-dashboard.css' %}">{% endblock %}
+{% endcomment %}
+
+{% block extra_css_files %}
+<link rel="stylesheet" href="{% static 'final/css/request_component.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/admin_sidepanel.css' %}">
+{% endblock %}
+
+{% block page_content%}
+  <div class="admin-container">
+    <aside class="admin-sidebar">
+      <h2>Admin Panel</h2>
+      <ul>
+          <li><a href="{% url 'final:admin_dashboard' %}">BACK TO DASHBOARD</a></li>
+        <li><a href="{% url 'final:approved_requests' %}">Approved Requests</a></li>
+        <li><a href="{% url 'final:rejected_requests' %}">Rejected Requests</a></li>
+        <li><a href="{% url 'final:inventory' %}">Inventory</a></li>
+        <li><a href="{% url 'final:admin_logout' %}">Logout</a></li>
+      </ul>
+    </aside>
+
+    <main class="admin-main">
+      <header>
+        <h1>Welcome, Admin</h1>
+        <h3>CURRENT REQUESTS</h3>
+      </header>
+
+        <section>
+            <h3 class="section-title">📌 Currently Issued Components</h3>
+{% if grouped_requests %}
+<!--            {{ grouped_requests }}-->
+    {% for category, requests in grouped_requests.items %}
+
+<!--    <details open style="margin-bottom: 30px;">-->
+<!--        <summary style="font-weight: bold;">{{ category }}</summary>-->
+                <div class="category-block">
+                    <h4>{{ category }}</h4>
+        <table border="1" cellspacing="0" cellpadding="8" style="margin-top: 10px; width: 100%;">
+            <thead>
+                <tr>
+                    <th>Roll No.</th>
+                    <th>Component</th>
+                    <th>Quantity Issued</th>
+                    <th>Currently Available</th>
+                    <th>Form Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for req in requests %}
+                <tr>
+
+                    <td>{{ req.student__std_roll_number }}</td>
+                    <td>{{ req.component__comp_name }}</td>
+                    <td>{{ req.std_issue_quantity_issued }}</td>
+                    <td>{{ req.component__comp_quantity_available }}</td>
+                    <td>{{ req.std_issue_form_date}}</td>
+                  <td>
+                    <form method="POST" action="{% url 'final:update_status' %}">
+      {% csrf_token %}
+      <input type="hidden" name="roll_number" value="{{ req.student__std_roll_number }}">
+      <input type="hidden" name="form_date" value="{{ req.std_issue_form_date|date:'Y-m-d' }}">
+              <input type="hidden" name="issue_date" value="{{ req.std_issue_issue_date|date:'Y-m-d' }}">
+                        <input type="hidden" name="component_name" value="{{ req.component__comp_name }}">
+
+      <button name="status_to_update" value="approve">Approve</button>
+      <button name="status_to_update" value="reject">Reject</button>
+    </form>
+                  </td>
+
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+<!--    </details>-->
+                </div>
+{% endfor %}
+            {% else %}
+            <p class="empty">No current issues.</p>
+        {% endif %}
+        </section>
+    </main>
+  </div>
+{% endblock %}

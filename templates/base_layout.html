@@ -1,18 +1,10 @@
-<!--is file ko extend karo jha bhi use karna-->
-<!--also to use static files add here-->
 {% load static %}
 <!doctype html>
 <html lang="en">
-    
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-     
-<!--    since apan BASE LAYOUT MEIN LIKHRE  VARIABLE LELO CSS_FILENAME-->
-<!--    THEN VIEWS.PY MEIN PASS KARNA-->
 
-     <link rel="stylesheet" href="{% static '' %}{% block css_filename %}{% endblock %}">
-     
      {% block extra_css_files %}{% endblock %}
 
     <title>{%block page_title %}{%endblock%}</title>
@@ -20,11 +12,10 @@
 </head>
 <body>
 <div>
-    {% include 'navbar.html' %}
     <div>{% block page_content %}{% endblock %}</div>
 </div>
 
-<!--taking js files here-->
-<script src="{% static '' %}{% block js_filename %}{% endblock %}"></script>
+<script src="{% static 'final/js/home.js' %}"></script>
+{% block extra_js_files %}{% endblock %}
 </body>
 </html>

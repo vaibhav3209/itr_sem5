@@ -1,5 +1,9 @@
 {% extends 'base_layout.html' %}
 
+{% load static %}
+
+{% block extra_css_files %}<link rel="stylesheet" href="{% static 'final/css/home.css' %}">{% endblock %}
+
 {% block page_title %}IoT Inventory Management{% endblock %}
 
 {% block page_content%}
@@ -8,7 +12,7 @@
       <h1>IoT Inventory Management System</h1>
       <nav>
   <a href="#features">Features</a>
-  <a href="{% url 'login' %}">Login</a>
+          <a href="{% url 'final:login' %}">Login</a>
   <a href="#contact">Contact</a>
 
       </nav>

@@ -1,0 +1,27 @@
+{% extends 'base_layout.html' %}
+
+{% load static %}
+
+{% block extra_css_files %}<link rel="stylesheet" href="{% static 'final/css/student_dashboard.css' %}">{% endblock %}
+
+{% block page_title %}Student dashboard{% endblock %}
+
+{% block page_content%}
+  <div class="dashboard-container">
+
+    <aside class="sidebar">
+      <h2>IoT Lab</h2>
+      <ul>
+        <li><a href="{% url 'final:issued_items' %}"> Issued Items</a></li>
+        <li><a href="{% url 'final:request_components' %}">Request Components</a></li>
+        <li><a href="{% url 'final:student_logout' %}">Logout</a></li>
+      </ul>
+    </aside>
+    <main class="main-content">
+      <header>
+        <h1>Welcome, {{ student.std_full_name }}</h1>
+        <p>Manage your issued components and projects.</p>
+      </header>
+    </main>
+  </div>
+{% endblock %}
