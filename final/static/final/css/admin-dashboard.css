@@ -1,58 +1,4 @@
-body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background-color: #f0f2f5;
-}
-
-.admin-container {
-  display: flex;
-  min-height: 100vh;
-}
-
-/* Sidebar */
-
-.admin-sidebar {
-  width: 240px;
-  background-color: #002855;
-  color: white;
-  padding: 1.5rem;
-}
-
-.admin-sidebar h2 {
-  text-align: center;
-  margin-bottom: 2rem;
-}
-
-.admin-sidebar ul {
-  list-style: none;
-  padding: 0;
-}
-
-.admin-sidebar ul li {
-  margin: 1rem 0;
-}
-
-.admin-sidebar ul li a {
-  text-decoration: none;
-  color: white;
-  font-weight: bold;
-}
-
-.admin-sidebar ul li a:hover {
-  text-decoration: underline;
-}
-
-
-/* Main Panel */
-.admin-main {
-  flex: 1;
-  padding: 2rem;
-}
-
-header h1 {
-  color: #002855;
-}
-
+/*
 .admin-cards {
   display: flex;
   gap: 1rem;
@@ -97,6 +43,7 @@ th {
   background-color: #002855;
   color: white;
 }
+*/
 
 .approve-btn {
   background-color: #28a745;
@@ -116,6 +63,7 @@ th {
 }
 
 /* Make sidebar links always white */
+/*
 .sidebar a,
 .sidebar a:visited,
 .sidebar a:active,
@@ -123,12 +71,14 @@ th {
   color: white;
   text-decoration: none;
 }
+*/
 
 /* Optional: add hover effect */
+/*
 .sidebar a:hover {
   color: #ffcc00; /* or any color you want on hover */
 }
-
+*/
 
 
 /* last mein add kiya as table load nhi ho rhi thi*/
@@ -141,13 +91,4 @@ th {
 }
 
 
-/* ====== Category Blocks ====== */
-.category-block {
-    margin-bottom: 40px;
-}
 
-.category-block h4 {
-    font-size: 1.2rem;
-    color: #6c63ff;
-    margin-bottom: 12px;
-}

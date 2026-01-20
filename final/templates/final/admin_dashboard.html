@@ -4,18 +4,22 @@
 
 {% block page_title %}welcome admin{% endblock %}
 
-{% comment  %}
-{% block extra_css_files %}<link rel="stylesheet" href="{% static 'final/css/admin-dashboard.css' %}">{% endblock %}
-{% endcomment %}
 
+{% block extra_css_files %}
+<link rel="stylesheet" href="{% static 'final/css/student_dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/issued_items.css' %}">
+{% endblock %}
+
+{% comment  %}
 {% block extra_css_files %}
 <link rel="stylesheet" href="{% static 'final/css/request_component.css' %}">
 <link rel="stylesheet" href="{% static 'final/css/admin_sidepanel.css' %}">
 {% endblock %}
+{% endcomment %}
 
 {% block page_content%}
-  <div class="admin-container">
-    <aside class="admin-sidebar">
+  <div class="dashboard-container">
+    <aside class="sidebar">
       <h2>Admin Panel</h2>
       <ul>
           <li><a href="{% url 'final:admin_dashboard' %}">BACK TO DASHBOARD</a></li>
@@ -26,7 +30,7 @@
       </ul>
     </aside>
 
-    <main class="admin-main">
+    <main class="main-content">
       <header>
         <h1>Welcome, Admin</h1>
         <h3>CURRENT REQUESTS</h3>
@@ -35,11 +39,7 @@
         <section>
             <h3 class="section-title">📌 Currently Issued Components</h3>
 {% if grouped_requests %}
-<!--            {{ grouped_requests }}-->
     {% for category, requests in grouped_requests.items %}
-
-<!--    <details open style="margin-bottom: 30px;">-->
-<!--        <summary style="font-weight: bold;">{{ category }}</summary>-->
                 <div class="category-block">
                     <h4>{{ category }}</h4>
         <table border="1" cellspacing="0" cellpadding="8" style="margin-top: 10px; width: 100%;">

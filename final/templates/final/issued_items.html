@@ -2,19 +2,23 @@
 
 {% load static %}
 
-{% block extra_css_files %}<link rel="stylesheet" href="{% static 'final/css/issued_items.css' %}">{% endblock %}
+{% block extra_css_files %}
+<link rel="stylesheet" href="{% static 'final/css/student_dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/issued_items.css' %}">{% endblock %}
 
 {% block page_title %}Student Isssued Items{% endblock %}
 
 {% block page_content %}
 <div class="dashboard-container">
-<aside class="sidebar">
+    <aside class="sidebar">
       <h2>IoT Lab</h2>
       <ul>
-        <li><a href="{% url 'final:student_dashboard'  %}"> back to Dashboard</a></li>
+          <li><a href="{% url 'final:student_dashboard' %}">Back to dashboard</a></li>
+        <li><a href="{% url 'final:issued_items' %}">Issued Items</a></li>
+        <li><a href="{% url 'final:request_components' %}">Request Components</a></li>
         <li><a href="{% url 'final:student_logout' %}">Logout</a></li>
       </ul>
-</aside>
+    </aside>
 
     <main class="main-content">
 <div class="container">

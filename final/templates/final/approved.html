@@ -59,8 +59,7 @@
                     <td>{{ req.student__std_roll_number }}</td>
                     <td>{{ req.component__comp_name }}</td>
                     <td>{{ req.std_issue_quantity_issued }}</td>
-
-                    <td>{{ req.issue_date}}</td>
+                    <td>{{ req.std_issue_issue_date }}</td>
                   <td>
                     <form method="POST" action="{% url 'final:update_status' %}">
       {% csrf_token %}
