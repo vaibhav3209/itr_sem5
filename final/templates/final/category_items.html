@@ -2,33 +2,54 @@
 
 {% load static %}
 
-{% block page_title %}Components Items{% endblock %}
+{% block extra_css_files %}
+<link rel="stylesheet" href="{% static 'final/css/student_dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/issued_items.css' %}">
+{% endblock %}
 
-{% block extra_css_files %}<link rel="stylesheet" href="{% static 'final/css/request_component.css' %}">{% endblock %}
+{% block page_title %}Components Items{% endblock %}
 
 {% block extra_js_files %}<script src="{% static 'final/js/listcomponent_bycategory.js' %}"></script>{% endblock %}
 
 {% block page_content %}
-<a href="{% url 'final:request_components' %}" class="btn btn-secondary"
-   style="margin-bottom: 15px;">← Back to Categories</a>
+<div class="dashboard-container">
 
-<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;padding: 20px;">
-  <h3 style="margin: 10px 0;">Components in {{ category_name }}</h3>
-  <input type="text" id="searchInput" placeholder="Search component..." onkeyup="filterComponents()" style="width: 300px; padding: 8px;">
-</div>
+    <aside class="sidebar">
+      <h2>IoT Lab</h2>
+      <ul>
+          <li><a href="{% url 'final:student_dashboard' %}">Back to dashboard</a></li>
+        <li><a href="{% url 'final:issued_items' %}">Issued Items</a></li>
+        <li><a href="{% url 'final:request_components' %}">Request Components</a></li>
+        <li><a href="{% url 'final:student_logout' %}">Logout</a></li>
+      </ul>
+    </aside>
+
+  <main class="main-content">
+    <section>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+        <input type="text" id="searchInput" placeholder="Search component..."
+               onkeyup="filterComponents()"
+               style="width:300px; padding:8px;">
+      </div>
 
 
-<!-- Components List -->
-<div id="componentList" style="width: 95%; margin: auto;">
-  {% for item in components %}
-    <div class="component-item"
-         data-name="{{ item.comp_name|lower }}"
-         style="display: flex; align-items: center; justify-content: space-between; padding: 10px; border: 1px solid #ccc; margin-bottom: 10px; border-radius: 8px;">
+      {% if components %}
+      <table border="1" cellspacing="0" cellpadding="8" style="width:100%;">
+        <thead>
+          <tr>
+            <th>{{ category_name }}</th>
+            <th>Available</th>
+            <th>Action</th>
+          </tr>
+        </thead>
 
-      <div style="flex: 2;"><strong>{{ item.comp_name }}</strong></div>
-      <div style="flex: 1;">Available: {{ item.comp_quantity_available }}</div>
-
-
+        <tbody>
+          {% for item in components %}
+          <tr>
+            <td>{{ item.comp_name }}</td>
+            <td>{{ item.comp_quantity_available }}</td>
+            <td>
       <div style="flex: 0.5;" id="control-{{ item.id }}">
         {% if item.comp_quantity_available > 0 %}
            <button
@@ -37,13 +58,20 @@
           <button disabled>Out of Stock</button>
         {% endif %}
       </div>
-    </div>
-  {% endfor %}
-</div>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
 
-<!-- No Match Message -->
-<div id="noResult" style="text-align:center; display:none; color:gray; margin-top: 20px;">
-  No matching components found.
+      {% else %}
+        <p class="empty">No matching components found.</p>
+      {% endif %}
+
+    </section>
+  </main>
 </div>
 
 {% endblock %}
+
+

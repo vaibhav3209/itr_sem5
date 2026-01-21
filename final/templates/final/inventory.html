@@ -8,12 +8,7 @@
 <link rel="stylesheet" href="{% static 'final/css/request_component.css' %}">
 {% endblock %}
 
-{% comment  %}
-{% block extra_css_files %}
-<link rel="stylesheet" href="{% static 'final/css/request_component.css' %}">
-<link rel="stylesheet" href="{% static 'final/css/admin_sidepanel.css' %}">
-{% endblock %}
-{% endcomment %}
+
 
 {% block page_title %}Components{% endblock %}
 
@@ -25,11 +20,6 @@
       <h2>Admin Panel</h2>
       <ul>
           <li><a href="{% url 'final:admin_dashboard' %}">BACK TO DASHBOARD</a></li>
-
-<!--          new requirements k hisaab se hta diye-->
-<!--        <li><a href="{% comment  %}{% url 'final:approved_requests' %}{% endcomment %}">Approved Requests</a></li>-->
-<!--        <li><a href="{% comment  %}{% url 'final:rejected_requests' %}{% endcomment %}">Rejected Requests</a></li>-->
-
         <li><a href="{% url 'final:inventory' %}">Inventory</a></li>
         <li><a href="{% url 'final:admin_logout' %}">Logout</a></li>
       </ul>
