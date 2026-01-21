@@ -1,54 +1,74 @@
-{% extends 'base_layout.html' %}
+{% extends 'final/base_layout.html' %}
 
 {% load static %}
+
+{% block extra_css_files %}
+<link rel="stylesheet" href="{% static 'final/css/student_dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/issued_items.css' %}">
+{% endblock %}
 
 {% block page_title %}Components Items{% endblock %}
 
 {% block extra_js_files %}<script src="{% static 'final/js/inv_items.js' %}"></script>{% endblock %}
-
 {% block page_content %}
-<a href="{% url 'final:inventory' %}" class="btn btn-secondary" style="margin-bottom: 15px;">←
-    Back to
-    Categories</a>
+<div class="dashboard-container">
+  <aside class="sidebar">
+    <h2>Admin Panel</h2>
+    <ul>
+      <li><a href="{% url 'final:admin_dashboard' %}">BACK TO DASHBOARD</a></li>
+      <li><a href="{% url 'final:inventory' %}">Inventory</a></li>
+      <li><a href="{% url 'final:admin_logout' %}">Logout</a></li>
+      <li><a href="{% url 'final:inventory' %}">← Back to Categories</a></li>
+    </ul>
+  </aside>
+
+  <main class="main-content">
+    <section>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+        <input type="text" id="searchInput" placeholder="Search component..."
+               onkeyup="filterComponents()"
+               style="width:300px; padding:8px;">
+      </div>
 
 
-<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding: 20px;">
-  <h3 style="margin: 0;">Components in {{ category_name }}</h3>
+      {% if components %}
+      <table border="1" cellspacing="0" cellpadding="8" style="width:100%;">
+        <thead>
+          <tr>
+            <th>{{ category_name }}</th>
+            <th>Available</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
 
+        <tbody>
+          {% for item in components %}
+          <tr>
+            <td>{{ item.comp_name }}</td>
+            <td>{{ item.comp_quantity_available }}</td>
+            <td>{{ item.comp_status }}</td>
+            <td>
+              <form action="{% url 'final:delete_component' %}" method="post" style="margin:0;">
+                {% csrf_token %}
+                <input type="hidden" name="component_id" value="{{ item.id }}">
+                <button type="submit"
+                        style="background:red; color:white; border:none; padding:5px 10px; border-radius:4px;">
+                  Delete
+                </button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
 
+      {% else %}
+        <p class="empty">No matching components found.</p>
+      {% endif %}
 
-    <input type="text" id="searchInput" placeholder="Search component..."
-           onkeyup="filterComponents()" 
-           style="width: 300px; padding: 8px;">
-  </div>
-</div>
-
-<!-- Components List -->
-<div id="componentList" style="width: 95%; margin: auto;">
-  {% for item in components %}
-    <div class="component-item"
-         data-name="{{ item.comp_name|lower }}"
-         style="display: flex; align-items: center; justify-content: space-between; padding: 10px; border: 1px solid #ccc; margin-bottom: 10px; border-radius: 8px;">
-      <div style="flex: 2;"><strong>{{ item.comp_name }}</strong></div>
-      <div style="flex: 1;">Available: {{ item.comp_quantity_available }}    Status : {{item.comp_status}}</div>
-
-        <form action="{% url 'final:delete_component' %}" method="post" style="margin: 0;">
-            {% csrf_token %}
-            <input type="hidden" name="component_id" value="{{ item.id }}">
-
-        <button type="submit"
-                style="background-color: red; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">
-                Delete
-        </button>
-        </form>
-
-    </div>
-
-  {% endfor %}
-</div>
-
-<!-- No Match Message -->
-<div id="noResult" style="text-align:center; display:none; color:gray; margin-top: 20px;">
-  No matching components found.
+    </section>
+  </main>
 </div>
 {% endblock %}

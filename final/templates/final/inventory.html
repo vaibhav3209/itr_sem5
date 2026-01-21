@@ -1,23 +1,35 @@
-{% extends 'base_layout.html' %}
+{% extends 'final/base_layout.html' %}
 
 {% load static %}
 
 {% block extra_css_files %}
+<link rel="stylesheet" href="{% static 'final/css/student_dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/issued_items.css' %}">
 <link rel="stylesheet" href="{% static 'final/css/request_component.css' %}">
-<link rel="stylesheet" href="{% static 'final/css/admin_sidepanel.css' %}">{% endblock %}
+{% endblock %}
+
+{% comment  %}
+{% block extra_css_files %}
+<link rel="stylesheet" href="{% static 'final/css/request_component.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/admin_sidepanel.css' %}">
+{% endblock %}
+{% endcomment %}
 
 {% block page_title %}Components{% endblock %}
 
 {% block extra_js_files %}<script src="{% static 'final/js/inv_items.js' %}"></script>{% endblock %}
 
 {% block page_content %}
-<div class="admin-container">
-<aside class="admin-sidebar">
+<div class="dashboard-container">
+<aside class="sidebar">
       <h2>Admin Panel</h2>
       <ul>
           <li><a href="{% url 'final:admin_dashboard' %}">BACK TO DASHBOARD</a></li>
-        <li><a href="{% url 'final:approved_requests' %}">Approved Requests</a></li>
-        <li><a href="{% url 'final:rejected_requests' %}">Rejected Requests</a></li>
+
+<!--          new requirements k hisaab se hta diye-->
+<!--        <li><a href="{% comment  %}{% url 'final:approved_requests' %}{% endcomment %}">Approved Requests</a></li>-->
+<!--        <li><a href="{% comment  %}{% url 'final:rejected_requests' %}{% endcomment %}">Rejected Requests</a></li>-->
+
         <li><a href="{% url 'final:inventory' %}">Inventory</a></li>
         <li><a href="{% url 'final:admin_logout' %}">Logout</a></li>
       </ul>

@@ -7,7 +7,8 @@ db.sqlite3
 
 # Media and static (generated)
 media/
-staticfiles/
+staticfilesforproduction/
+#don't publish  staticfilesforproduction on github as same hi files hongi
 
 # Virtual environment
 env/
@@ -18,4 +19,7 @@ env/
 *.code-workspace
 
 # Environment variables
-.env
+config/.env
+
+#compoenents excel file
+withoutdate_components_2.xlsx

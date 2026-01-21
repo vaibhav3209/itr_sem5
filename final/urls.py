@@ -31,8 +31,8 @@ path('student/submit_request/', views.submit_request, name='submit_request'),
 
 
     # admin k baad wale path
-    path("teacher/approved-requests/",views.approved_requests,name="approved_requests"),
-    path("teacher/rejected-requests/",views.rejected_requests,name="rejected_requests"),
+    # path("teacher/approved-requests/",views.approved_requests,name="approved_requests"),
+    # path("teacher/rejected-requests/",views.rejected_requests,name="rejected_requests"),
     path('teacher/inventory/', views.inventory, name='inventory'),
     path('teacher/inventory/<path:category_key>/', views.inventory_items, name='inventory_items'),
     path('teacher/update-status/', views.update_status, name='update_status'),

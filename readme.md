@@ -1,4 +1,82 @@
-''' THIS IS COMPLETE GUIDE FOR THE PROJECT AND ITS DETAILS '''
+***************************
+DIRECTORY STRUCTURE
+****************************
+
+project_root/
+
+    ├── manage.py
+
+    ├── README.md
+
+    ├── .gitignore  (not on github)
+
+    ├── db.sqlite3  (not on github)
+
+    │──extra_Scripts/
+            ├── test_db.py
+            ├── export_fixture.py
+    
+
+
+    ├── staticfilesforproduction/     (not on github) # collectstatic output (production)
+
+    ├── config/                         # Non-code configuration
+        ├── .env
+        └── requirements.txt
+
+
+    ├── teststudy(package)/                  # Project settings & config
+        ├── __init__.py
+        ├── settings.py
+        ├── urls.py
+        ├── asgi.py
+        └── wsgi.py
+
+
+    ├── final(package)/                      # Main Django app
+        ├── __init__.py
+        ├── admin.py
+        ├── apps.py
+        ├── decorators.py
+        ├── models.py
+        ├── views.py
+        ├── urls.py
+        ├── migrations(package)/
+            └── __init__.py
+        
+        ├── templates/
+            └── final/
+                └── *.html
+        
+        ├── static/
+           └── final/
+               ├── css/
+               ├── js/
+               └── images/
+       
+           ├── management(package)/
+                ├── __init__.py
+                └── commands(package)/
+                    ├── __init__.py
+                    └── import_components.py
+
+
+*******************************
+SETUP
+*******************************
+1. Clone the repo
+2. Make environment inside the cloned directory and install all dependencies
+3. go to settings.py file inside teststudy and see the hidden tags 
+
+    ex::  config() , os.getenv()
+
+    Those things have to be made in .env file of your own in the "CONFIG" DIRECTORY
+4. if you want local databse then uncomment the db.sqlite3 file <br>
+   in databses section in settings.py file only :: <br>
+    
+    "python manage.py migrate" will make the database file when we do it for first time.
+5. create superuser django (this will help in teacher login panel)
+6. check whether it's runnnin. <br> python manage.py runserver
 
 *******************************
 PROJECT GUIDELINES
@@ -109,7 +187,7 @@ Cons
 ❌ No automatic security unless careful
 ❌ Harder to refactor models
 
-5:  NOTe: never delete or change model schema from databse online
+5:  NOTE:   never delete or change model schema from databse online
            otherwise your local migrations and migrations table online will conflict
            then it will be a problem.
 

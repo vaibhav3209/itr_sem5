@@ -1,10 +1,11 @@
-{% extends 'base_layout.html' %}
+{% extends 'final/base_layout.html' %}
 
 {% load static %}
 
 {% block extra_css_files %}
 <link rel="stylesheet" href="{% static 'final/css/student_dashboard.css' %}">
-<link rel="stylesheet" href="{% static 'final/css/issued_items.css' %}">{% endblock %}
+<link rel="stylesheet" href="{% static 'final/css/issued_items.css' %}">
+{% endblock %}
 
 {% block page_title %}Student Isssued Items{% endblock %}
 
@@ -22,16 +23,13 @@
 
     <main class="main-content">
 <div class="container">
-    <h2>Issued Items</h2>
-
-    <!-- Current Issued Items -->
     <section>
         <h3 class="section-title">📌 Currently Issued Components</h3>
         {% if grouped_current %}
             {% for category, items in grouped_current.items %}
                 <div class="category-block">
                     <h4>{{ category }}</h4>
-                    <table>
+                    <table  <table border="1" cellspacing="0" cellpadding="8" style="margin-top: 10px; width: 100%;">>
                         <thead>
                             <tr>
                                 <th>Component</th>
@@ -67,7 +65,7 @@
             {% for category, items in grouped_previous.items %}
                 <div class="category-block">
                     <h4>{{ category }}</h4>
-                    <table>
+                    <table  <table border="1" cellspacing="0" cellpadding="8" style="margin-top: 10px; width: 100%;">>
                         <thead>
                             <tr>
                                 <th>Component</th>
