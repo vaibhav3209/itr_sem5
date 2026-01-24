@@ -1,20 +1,5 @@
 let selectedComponents = [];
 
-function filterComponents() {
-  const search = document.getElementById("searchInput").value.toLowerCase();
-  const items = document.getElementsByClassName("component-item");
-  let visibleCount = 0;
-
-  for (let item of items) {
-    const name = item.getAttribute("data-name");
-    const show = name.includes(search);
-    item.style.display = show ? "flex" : "none";
-    if (show) visibleCount++;
-  }
-
-  document.getElementById("noResult").style.display = visibleCount === 0 ? "block" : "none";
-}
-
 function startQuantityControl(id, maxQty) {
   id = parseInt(id);
   maxQty = parseInt(maxQty);
@@ -60,25 +45,44 @@ function removeComponent(id, maxQty) {
   controlDiv.innerHTML = `<button onclick="startQuantityControl(${id}, ${maxQty})">Add</button>`;
 }
 
-function addToRequest(button) {
-  const container = button.closest(".component-item");
-  const id = parseInt(container.querySelector("[id^='control-']").id.replace("control-", ""));
-  const name = container.querySelector("strong").textContent.trim();
-  const qty = document.getElementById(`qty-${id}`).value;
-  const maxQty = document.getElementById(`qty-${id}`).getAttribute("max");
+  function addToRequest(button) {
+  // go up to table row
+  const row = button.closest("tr");
 
-  let selectedComponents = JSON.parse(localStorage.getItem("selectedComponents") || "[]");
+  // get component name from first <td>
+  const name = row.querySelector("td").textContent.trim();
+
+  // get control div id
+  const controlDiv = row.querySelector("[id^='control-']");
+  const id = parseInt(controlDiv.id.replace("control-", ""));
+
+  const qtyInput = document.getElementById(`qty-${id}`);
+  const qty = parseInt(qtyInput.value);
+  const maxQty = parseInt(qtyInput.getAttribute("max"));
+
+  let selectedComponents = JSON.parse(
+    localStorage.getItem("selectedComponents") || "[]"
+  );
 
   if (selectedComponents.some(comp => comp.id === id)) {
     alert("Component already added.");
     return;
   }
 
-  selectedComponents.push({ id: id, name: name, quantity: qty });
-  localStorage.setItem("selectedComponents", JSON.stringify(selectedComponents));
+  selectedComponents.push({
+    id: id,
+    name: name,
+    quantity: qty
+  });
 
-  document.getElementById("control-" + id).innerHTML = `
+  localStorage.setItem(
+    "selectedComponents",
+    JSON.stringify(selectedComponents)
+  );
+
+  // Update UI
+  document.getElementById(`control-${id}`).innerHTML = `
     <span style="color: green;">Added</span>
-    <button onclick="removeComponent(${id}, ${maxQty})" style="margin-left: 10px;">❌ Remove</button>
+    <button onclick="removeComponent(${id}, ${maxQty})">❌ Remove</button>
   `;
 }

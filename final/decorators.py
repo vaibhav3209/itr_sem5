@@ -10,7 +10,7 @@ def student_login_required(view_func):
             return redirect('final:login')
 
         try:
-            request.student = Student.objects.get(id=student_id)
+            request.student = Student.objects.get(std_id=student_id)
         except Student.DoesNotExist:
             return redirect('final:login')
 

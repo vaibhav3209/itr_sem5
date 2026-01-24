@@ -6,52 +6,121 @@
 
 {% block page_title %}Login user{% endblock %}
 
+{% block extra_js_files %}<script src="{% static 'final/js/login.js' %}"></script>{% endblock %}
+
 {% block page_content %}
-  <div class="logo-container" style="text-align: center; margin-bottom: 20px; margin-right: 25px;">
+<div class="logo-container" style="text-align: center; margin-bottom: 20px; margin-right: 25px;">
     <a href="{% url 'final:home' %}">
         <img src="{% static 'final/images/skitlogo.png' %}" alt="Logo"
              style="width: 80px;height: auto;">
     </a>
-  </div>
+</div>
 
-  <div class="test-header">
+<div class="test-header">
     <h1>IoT Lab Portal</h1>
-  </div>
+</div>
 
 <div class="auth-container">
     <div id="student" class="form-section">
-      <h2>Student Login</h2>
-{% if messages %}
-  <div class="message-container">
-    {% for message in messages %}
-      <p class="error-message">{{ message }}</p>
-    {% endfor %}
-  </div>
-{% endif %}
-      <form method="POST" action="{% url 'final:login' %}">
-        {% csrf_token %}
-        <input type="hidden" name="form_type" value="user_login">
-        <input type="text" name="username" placeholder="Enter RTU roll number" required />
-        <input type="password" name="password" placeholder="Password" required />
-        <button type="submit">Login</button>
-        <p class="switch-link" onclick="toggleForm('signup')">New user? Sign up here</p>
-      </form>
+        <h2>Student Login</h2>
+        <div class="message-container">
+            {% for message in messages %}
+            {% if "error" in message.tags %}
+            <p class="error-message">{{ message }}</p>
+            {% endif %}
+
+            {% if "success" in message.tags %}
+            <p class="success-message">{{ message }}</p>
+            {% endif %}
+
+            {% endfor %}
+        </div>
+
+        <form method="POST" action="{% url 'final:login' %}">
+            {% csrf_token %}
+            <input type="hidden" name="form_type" value="user_login">
+            <input type="text" name="username" placeholder="Enter RTU roll number" required/>
+            <input type="password" name="password" placeholder="Password" required/>
+            <button type="submit">Login</button>
+            <p class="switch-link" onclick="toggleForm('signup')">New user? Sign up here</p>
+        </form>
     </div>
 
 
-      <form id="signup" method="POST" class="hidden">
-          {% csrf_token %}
-           <input type="hidden" name="form_type" value="user_signup">
+    <form id="signup" method="POST" class="hidden">
+        {% csrf_token %}
+        <input type="hidden" name="form_type" value="user_signup">
         <h2>Student Sign Up</h2>
-        <input type="text" placeholder="First Name" name="first_name" required />
-          <input type="text" placeholder="Last Name" name="last_name" required />
-        <input type="text" placeholder="Roll Number" name = "roll_number" required />
-        <input type="email" placeholder="College Email"  name="college_email" required />
-        <input type="password" placeholder="Set Password" name="password" required />
+
+        <input
+                type="text"
+                name="first_name"
+                placeholder="First Name"
+                required
+                pattern="[A-Za-z]{2,30}"
+                title="First name must contain only letters (2–30 characters)"
+                autocomplete="given-name"
+        />
+
+        <input
+                type="text"
+                name="last_name"
+                placeholder="Last Name"
+                required
+                pattern="[A-Za-z]{2,30}"
+                title="Last name must contain only letters (2–30 characters)"
+                autocomplete="family-name"
+        />
+
+        <input
+                type="text"
+                name="roll_number"
+                placeholder="Roll Number"
+                required
+                pattern="[2-5][0-9][a-zA-Z]{5}[0-9]{3}"
+                minlength="10"
+                maxlength="10"
+                inputmode="numeric"
+                title="Roll number must be exactly 10 digits"
+        />
+
+        <input
+                type="email"
+                name="college_email"
+                placeholder="College Email"
+                required
+                pattern="^[bB][2-5][0-9]{5}@skit\.ac\.in$"
+                title="Use your official college email ID"
+                autocomplete="email"
+        />
+        <input
+                type="password"
+                name="password"
+                placeholder="Set Password"
+                required
+        />
+
+        <input
+                type="tel"
+                name="phone_number"
+                placeholder="Phone Number"
+                required
+                pattern="[6-9][0-9]{9}"
+                minlength="10"
+                maxlength="10"
+                inputmode="numeric"
+                title="Enter a valid 10-digit Indian mobile number"
+        />
+
+        <select name="year_of_passing" required>
+            <option value="">Select year of passing</option>
+            {% for y in passing_years %}
+            <option value="{{ y }}">{{ y }}</option>
+            {% endfor %}
+        </select>
         <button type="submit">Register</button>
         <p class="switch-link" onclick="toggleForm('student')">Already have an account? Login</p>
-      </form>
-  </div>
+    </form>
+</div>
 {% endblock %}
 
-{% block extra_js_files %}<script src="{% static 'final/js/login.js' %}"></script>{% endblock %}

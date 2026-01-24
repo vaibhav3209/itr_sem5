@@ -31,6 +31,19 @@
     Request Components
 </button>
 
+        <div class="message-container">
+{% for message in messages %}
+  {% if "error_requestcomp" in message.tags %}
+    <p class="error-message">{{ message }}</p>
+  {% endif %}
+
+      {% if "success_requestcomp" in message.tags %}
+    <p class="success-message">{{ message }}</p>
+  {% endif %}
+
+{% endfor %}
+</div>
+
 <div class="card-container">
     <div class="card">
         <a href="{% url 'final:category_items' 'Microcontrollers / Boards' %}"

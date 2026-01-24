@@ -64,34 +64,29 @@ header p {
   color: #555;
 }
 
-/* Cards */
-/*
-.cards {
-  display: flex;
-  gap: 1rem;
-  margin-top: 2rem;
-  flex-wrap: wrap;
+/*added at last from admin_Dashboard.css*/
+
+.approve-btn {
+  background-color: #28a745;
+  color: white;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  margin-right: 5px;
 }
 
-.card {
-  background: white;
-  padding: 1.5rem;
-  border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-  flex: 1;
-  min-width: 200px;
-  text-align: center;
+.decline-btn {
+  background-color: #dc3545;
+  color: white;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
 }
 
-.card h3 {
-  font-size: 1.2rem;
-  margin-bottom: 0.5rem;
-  color: #0b3d91;
+.section-title {
+    font-size: 1.4rem;
+    margin: 30px 0 15px;
+    border-left: 6px solid #6c63ff;
+    padding-left: 12px;
+    color: #2c3e50;
 }
-
-.card p {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #333;
-}
-*/

@@ -1,5 +1,6 @@
 from django.core.management.base import BaseCommand
-from ...models import Component           #ye dot lagake directory refernce karna mazedaar hai
+from ...models import Component, \
+    ComponentCategory, StatusChoices  # ye dot lagake directory refernce karna mazedaar hai
 # from datetime import datetime
 from openpyxl import load_workbook
 
@@ -25,18 +26,18 @@ class Command(BaseCommand):
             name = row_data['name']
             quantity = int(row_data['quantity'])
 
-            #date_strings = row_data['date_of_purchase'].split(',')
-            #for date_str in date_strings:
-               # purchase_date = datetime.strptime(
-               #     date_str.strip(),
-               #     "%Y-%m-%d"
-               # ).date()
+            # Get the category object
+            category_obj = ComponentCategory.objects.get(comp_cate_category_name=category)
 
+
+            # Create or update based on unique fields (category + name)
+            working_status = StatusChoices.objects.get(status_ch_status_label="Working")
             Component.objects.update_or_create(
-                comp_category=category,
+                comp_category=category_obj,
                 comp_name=name,
-               #date_of_purchase=purchase_date,
-                defaults={'comp_quantity_available': quantity}
+                defaults={
+                    'comp_quantity_available': quantity,
+                    'comp_status': working_status
+                }
             )
-
         self.stdout.write(self.style.SUCCESS("Excel import completed"))

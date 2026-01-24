@@ -7,22 +7,23 @@
 {% block page_title %}Student dashboard{% endblock %}
 
 {% block page_content%}
-  <div class="dashboard-container">
+<div class="dashboard-container">
 
     <aside class="sidebar">
-      <h2>IoT Lab</h2>
-      <ul>
-          <li><a href="{% url 'final:student_dashboard' %}">Back to dashboard</a></li>
-        <li><a href="{% url 'final:issued_items' %}">Issued Items</a></li>
-        <li><a href="{% url 'final:request_components' %}">Request Components</a></li>
-        <li><a href="{% url 'final:student_logout' %}">Logout</a></li>
-      </ul>
+        <h2>IoT Lab</h2>
+        <ul>
+            <li><a href="{% url 'final:student_dashboard' %}">Back to dashboard</a></li>
+            <li><a href="{% url 'final:issued_items' %}">Issued Items</a></li>
+            <li><a href="{% url 'final:request_components' %}">Request Components</a></li>
+            <li><a href="{% url 'final:student_logout' %}">Logout</a></li>
+        </ul>
     </aside>
+
     <main class="main-content">
-      <header>
-        <h1>Welcome, {{ student.std_full_name }}</h1>
-        <p>Manage your issued components and projects.</p>
-      </header>
+        <header>
+            <h1>Welcome, {{ student.std_full_name }}</h1>
+            <p>Manage your issued components and projects.</p>
+        </header>
     </main>
-  </div>
+</div>
 {% endblock %}

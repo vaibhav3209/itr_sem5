@@ -4,30 +4,26 @@
 
 {% block page_title %}Approved requests{% endblock %}
 
-{% comment 'jab tak coorect nhi kar rhe neeche wale use karo' %}
-{% block extra_css_files %}<link rel="stylesheet" href="{% static 'final/css/admin-dashboard.css' %}">{% endblock %}
-{% endcomment %}
-
 {% block extra_css_files %}
-<link rel="stylesheet" href="{% static 'final/css/request_component.css' %}">
-<link rel="stylesheet" href="{% static 'final/css/admin_sidepanel.css' %}">{% endblock %}
-
+<link rel="stylesheet" href="{% static 'final/css/student_dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/issued_items.css' %}">
+{% endblock %}
 
 {% block page_content%}
-<div class="admin-container">
-    <aside class="admin-sidebar">
+  <div class="dashboard-container">
+    <aside class="sidebar">
       <h2>Admin Panel</h2>
       <ul>
           <li><a href="{% url 'final:admin_dashboard' %}">BACK TO DASHBOARD</a></li>
-        <li><a href="{% url 'final:approved_requests' %}">Approved Requests</a></li>
-        <li><a href="{% url 'final:rejected_requests' %}">Rejected Requests</a></li>
+                    <li><a href="{% url 'final:all_students' %}">All students</a></li>
+        <li><a href="{% url 'final:approved' %}">Approved Requests</a></li>
         <li><a href="{% url 'final:inventory' %}">Inventory</a></li>
         <li><a href="{% url 'final:admin_logout' %}">Logout</a></li>
       </ul>
     </aside>
 
 
-<main class="admin-main">
+    <main class="main-content">
       <header>
         <h1>Approved Requests</h1>
         <p>YOu can mark return</p>
@@ -44,7 +40,6 @@
             <table >
             <thead>
                 <tr>
-                    <th>Student</th>
                     <th>Roll No.</th>
                     <th>Component</th>
                     <th>Quantity Issued</th>
@@ -55,7 +50,6 @@
             <tbody>
                 {% for req in requests %}
                 <tr>
-                    <td>{{ req.student__std_full_name }}</td>
                     <td>{{ req.student__std_roll_number }}</td>
                     <td>{{ req.component__comp_name }}</td>
                     <td>{{ req.std_issue_quantity_issued }}</td>

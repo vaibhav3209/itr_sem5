@@ -1,13 +1,14 @@
-from datetime import datetime
-from django.db import transaction
+from datetime import datetime,date
+
+from django.core.exceptions import ValidationError
+from django.db import transaction, IntegrityError
 from django.http import HttpResponseBadRequest, HttpResponse
 from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth import logout,authenticate, login
 from django.utils.timezone import now
 from django.views.decorators.http import require_POST
-
 from .decorators import student_login_required,admin_login_required
-from .models import Student, StudentIssueLog
+from .models import Student, StudentIssueLog, ComponentCategory
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password, check_password
 from collections import defaultdict
@@ -38,48 +39,65 @@ def user_login(request):
                     login(request, admin_user)
                     return redirect('final:admin_dashboard')
             try:
-                student = Student.objects.get(std_roll_number=username)
+                student = Student.objects.get(std_roll_number=username.upper()) #yha pe bhi roll
+                # number ko upercase
             except Student.DoesNotExist:
-                messages.error(request, "Invalid email or password")
+                messages.error(request, "Invalid email or password",extra_tags='error')
                 return render(request, 'final/login.html')
 
             if check_password(password, student.std_password):
-                request.session['student_id'] = student.id  # custom session
+                request.session['student_id'] = student.std_id  # custom session
                 request.session["student_name"] = student.std_full_name
                 return redirect('final:student_dashboard')
 
-            messages.error(request, "Invalid email or password.")
+            messages.error(request, "Invalid email or password.",extra_tags='error')
 
     # ====== Signup  =====
     if request.method == 'POST' and request.POST.get("form_type") == "user_signup":
-        first_name = request.POST.get("first_name")
-        last_name = request.POST.get("last_name")
-        roll_number = request.POST.get("roll_number")
-        email = request.POST.get("college_email")
+        first_name = request.POST.get("first_name").lower()           #lower names store in db
+        last_name = request.POST.get("last_name").lower()               #lower names store in db
+        roll_number = request.POST.get("roll_number").upper()
+        email = request.POST.get("college_email").lower()               #lower kiya isko bhi
         password = request.POST.get("password")
+        phone_number=request.POST.get("phone_number")
+        year_of_passing=request.POST.get("year_of_passing")
 
         # basic validation
         if Student.objects.filter(std_roll_number=roll_number).exists():
-            messages.error(request, "Roll number already exists")
+            messages.error(request, "Roll number already exists",extra_tags='error')
             return render(request, "final/login.html")
 
         if Student.objects.filter(std_college_email=email).exists():
-            messages.error(request, "Email already registered")
+            messages.error(request, "Email already registered",extra_tags='error')
             return render(request, "final/login.html")
 
-        Student.objects.create(
-            std_first_name=first_name,
-            std_last_name=last_name,
-            std_roll_number=roll_number,
-            std_college_email=email,
-            std_password=make_password(password)
-        )
+        try:
+            Student.objects.create(
+                std_first_name=first_name,
+                std_last_name=last_name,
+                std_roll_number=roll_number,
+                std_college_email=email,
+                std_password=make_password(password),
+                std_phone_number=phone_number,
+                std_year_of_passing=year_of_passing
+            )
 
-        messages.success(request, "Registration successful. Please login.")
+        except ValidationError as e:
+            return HttpResponseBadRequest(
+                f"Cannot create user. Enter a valid roll number."
+            )
+
+        except IntegrityError:
+            return HttpResponseBadRequest(
+                "data violates constraints."
+            )
+
+
+        messages.success(request, "Registration successful. Please login.",extra_tags='success')
         return redirect("final:login")
 
     #initial login page
-    return render(request, 'final/login.html')
+    return render(request, 'final/login.html',{'passing_years':range(date.today().year, date.today().year + 5)})
 
 
 # 4. home page for student dashboard
@@ -96,24 +114,26 @@ def student_dashboard(request):
 #note: default dict bhi access nhi hogi html se TABLE HI LOAD NHI HO RHI THI
 @admin_login_required
 def admin_dashboard(request):
+    # jo nayi entry aayi hai uski both issue_Date, return_date null hogi
     requests_qs = (
         StudentIssueLog.objects
-        .filter(std_issue_status_from_student="Requested")
+        .filter(std_issue_issue_date__isnull=True,
+                std_issue_return_date__isnull=True)
         .values(
              'student__std_roll_number',
             'component__comp_name',
-            'component__comp_category',
+            'component__comp_category__comp_cate_category_name',      #since do f.k. lagai hai
             'std_issue_form_date',
             'component__comp_quantity_available',
             'std_issue_quantity_issued'
         )
-        .order_by('component__comp_category', '-std_issue_form_date')
+        .order_by('component__comp_category__comp_cate_category_name', '-std_issue_form_date')
     )
 
     grouped_requests = defaultdict(list)
     for r in requests_qs:
-        grouped_requests[r['component__comp_category']].append(r)
-    print(grouped_requests)
+        grouped_requests[r['component__comp_category__comp_cate_category_name']].append(r)
+    # print(grouped_requests)
     return render(
         request,
         'final/admin_dashboard.html',
@@ -146,23 +166,18 @@ def issued_items(request):
     grouped_currently_issued = defaultdict(list)
     grouped_previously_issued = defaultdict(list)
 
-    #  ***** component = ForeignKey field name   ******
-    #  NOT the model class
-    #  Always use lowercase field name
-    #  __ means “go inside relation”
     for log in StudentIssueLog.objects.filter(student_id=student_id).select_related('component').only(
-        'std_issue_status_from_student',
-        'std_issue_status_from_teacher',
         'std_issue_quantity_issued',
         'std_issue_issue_date',
         'std_issue_return_date',
-        'component__comp_category',
+        'component__comp_category__comp_cate_category_name',
         'component__comp_name'
     ):
-        if log.std_issue_status_from_student == "Issued":
-            grouped_currently_issued[log.component.comp_category].append(log)
+        #return date nhi hai to issued hi hai abhi
+        if not log.std_issue_return_date:
+            grouped_currently_issued[log.component.comp_category.comp_cate_category_name].append(log)
         else:
-            grouped_previously_issued[log.component.comp_category].append(log)
+            grouped_previously_issued[log.component.comp_category.comp_cate_category_name].append(log)
 
     return render(request, "final/issued_items.html", {
         "grouped_current": dict(grouped_currently_issued),
@@ -179,19 +194,20 @@ def request_components(request):
 
 # see sepcofoc items in a category
 @student_login_required
-def category_items(request, category_key):
-    if category_key not in dict(Component.CATEGORY_CHOICES):
-        messages.error(request, "Enter a valid category")
-        return redirect('final:student_dashboard')
+def category_items(request, slug):
+    category = get_object_or_404(
+        ComponentCategory,
+        comp_cate_category_name=slug
+    )
 
+    components = Component.objects.select_related('comp_category').filter(
+        comp_category=category
+    )
 
-    components = Component.objects.filter(comp_category=category_key)
-    category_name = dict(Component.CATEGORY_CHOICES).get(category_key, "Unknown")
     return render(request, 'final/category_items.html', {
         'components': components,
-        'category_name': category_name,
+        'category_name': category.comp_cate_category_name,
     })
-
 
 
 # 7.c.  submit request from right sidebar
@@ -205,7 +221,7 @@ def submit_request(request):
     print(component_ids,quantities)
 
     if not component_ids or not quantities:
-        messages.error(request, "No components selected")
+        messages.error(request, "No components selected",extra_tags='error_requestcomp')
         return redirect('final:request_components')
 
     if len(component_ids) != len(quantities):
@@ -239,21 +255,19 @@ def submit_request(request):
                 student=student,
                 component=component,
                 std_issue_quantity_issued=qty,
-                std_issue_status_from_teacher='Pending',
-                std_issue_status_from_student='Requested',
                 std_issue_form_date=datetime.now().date()
             )
         )
 
     if not issue_logs:
-        messages.error(request, "Invalid component selection")
+        messages.error(request, "Invalid component selection",extra_tags='error_requestcomp')
         return redirect('final:request_components')
 
     # ---- ATOMIC SAVE (SAFE) ----
     with transaction.atomic():
         StudentIssueLog.objects.bulk_create(issue_logs)
 
-    messages.success(request, "Request submitted successfully")
+    messages.success(request, "Request submitted successfully",extra_tags='success_requestcomp')
 
     response = redirect('final:request_components')
     response.set_cookie('clearLocalStorage', 'true')  # frontend signal
@@ -262,50 +276,29 @@ def submit_request(request):
 
 # =============================================================
 # *****      EXTRA LOGIC FOR adMIN          *****
-
-#8 . APPROVED REQUESTS FROM ADMIN SIDEBAR
-# 'student.std_full_name',                #ye abhi nahi cha rha isko dekho
 @admin_login_required
-def approved_requests(request):
-    requests_approved = (StudentIssueLog.objects.filter(std_issue_status_from_student="Issued",
-                                                        std_issue_status_from_teacher="Approved").values(
+def approved(request):
+    # jo iisued entry hai uski return_date null hogi
+    requests_approved = (StudentIssueLog.objects
+                         .select_related("student", "component",
+                                        "component__comp_category")
+                         .filter(std_issue_issue_date__isnull=False,
+                                 std_issue_return_date__isnull=True)
+                         .values(
          'student__std_roll_number', 'std_issue_issue_date', 'component__comp_name',
-        'component__comp_category', 'component__comp_quantity_available',
-        'std_issue_quantity_issued').order_by('component__comp_category', '-std_issue_form_date'))
+        'component__comp_category__comp_cate_category_name', 'component__comp_quantity_available',
+        'std_issue_quantity_issued').order_by('component__comp_category__comp_cate_category_name', '-std_issue_form_date'))
 
     # Step 2: Group by category
     grouped_requests = defaultdict(list)
 
     for req in requests_approved:
-        grouped_requests[req['component__comp_category']].append(req)
+        grouped_requests[req['component__comp_category__comp_cate_category_name']].append(req)
 
     # print(grouped_requests.items())
 
     return render(request, 'final/approved.html', {
         'grouped_requests': dict(grouped_requests)})
-
-
-
-# 9. view rejected requests
-
- # 'student.std_full_name',   le  nhi sakte as column nhi hai
-@admin_login_required
-def rejected_requests(request):
-    requests_rejected = (StudentIssueLog.objects.filter(std_issue_status_from_student="Rejectedbyteacher",
-                                                        std_issue_status_from_teacher="Rejected").values(
-        'student__std_roll_number', 'std_issue_issue_date',
-        'component__comp_name',
-        'component__comp_category', 'component__comp_quantity_available',
-        'std_issue_quantity_issued').order_by('component__comp_category', '-std_issue_form_date'))
-
-    # Step 2: Group by category
-    grouped_requests = defaultdict(list)
-
-    for req in requests_rejected:
-        grouped_requests[req['component__comp_category']].append(req)
-    return render(request,"final/rejected.html",{'grouped_requests':dict(grouped_requests)})
-
-
 
 @admin_login_required
 def inventory(request):
@@ -323,96 +316,131 @@ def update_status(request):
     status_to_update = request.POST.get("status_to_update")
     # print("data is:", form_date, action, component_name, roll_number)
 
-    # Get all matching requests (avoids MultipleObjectsReturned error)
-    # Action-specific filtering
-    if status_to_update in ("approve", "reject"):
+
+    if status_to_update in ("approve","reject"):
         logs = StudentIssueLog.objects.select_related("component", "student").filter(
             student__std_roll_number=roll_number,
             component__comp_name=component_name,
             std_issue_form_date=form_date
         )
+
+
     elif status_to_update == "return":
         logs = StudentIssueLog.objects.select_related("component", "student").filter(
             student__std_roll_number=roll_number,
             component__comp_name=component_name,
             std_issue_issue_date = issue_date,
-            std_issue_return_date__is_null=True
+            std_issue_return_date__isnull=True
         )
+
     else: return HttpResponse("Invalid action", status=400)
+
     if not logs.exists():
         return HttpResponse("Log not found", status=404)
 
     with transaction.atomic():
-        for log in logs:
-            component = Component.objects.select_for_update().get(
-                id=log.component_id
-            )
+        if status_to_update == "reject":
+            # Delete all matching logs
+            deleted_count, _ = logs.delete()
 
-            if status_to_update == "approve":
-                if component.comp_quantity_available < log.std_issue_quantity_issued:
-                    return HttpResponse(
-                        f"Not enough quantity available for {component.name}",
-                        status=400
-                    )
+            if deleted_count > 0:
+                messages.success(request, "Log deleted successfully.")
+            else:
+                messages.error(request, "No matching log found.")
 
-                # Update log
-                log.std_issue_status_from_teacher = "Approved"
-                log.std_issue_status_from_student = "Issued"
-                log.std_issue_issue_date = now().date()
+        else:
+            for log in logs:
+                component = Component.objects.select_for_update().get(
+                    id=log.component_id
+                )
 
-                # Deduct stock
-                component.comp_quantity_available -= log.std_issue_quantity_issued
-                component.save()
+                if status_to_update == "approve":
+                    if component.comp_quantity_available < log.std_issue_quantity_issued:
+                        return HttpResponse(
+                            f"Not enough quantity available for {component.name}",
+                            status=400
+                        )
 
-            elif status_to_update == "reject":
-                log.std_issue_status_from_teacher = "Rejected"
-                log.std_issue_status_from_student = "Rejectedbyteacher"
-                # No quantity deduction for rejection
+                    # Update log
+                    log.std_issue_issue_date = now().date()
 
+                    # Deduct stock
+                    component.comp_quantity_available -= log.std_issue_quantity_issued
+                    component.save()
+                    log.save()
 
-            elif status_to_update == "return":
-                log.std_issue_status_from_teacher = "Returned"
-                log.std_issue_status_from_student = "Returned"
-                log.std_issue_return_date = now().date()
+                elif status_to_update == "return":
+                    log.std_issue_return_date = now().date()
 
-                component.comp_quantity_available += log.std_issue_quantity_issued
-                component.save()
+                    component.comp_quantity_available += log.std_issue_quantity_issued
+                    component.save()
 
-            log.save()
-
-    # Redirect based on action
-    if status_to_update == "return":
-        return redirect("final:approved_requests")
+                    log.save()
+                    return redirect('final:approved')
 
     return redirect('final:admin_dashboard')
 
 @admin_login_required
-def inventory_items(request, category_key):
-    components = Component.objects.filter(comp_category=category_key)
-    category_name = dict(Component.CATEGORY_CHOICES).get(category_key, "Unknown")
-    return render(request, 'final/inventory_items.html'
-                  , {
+def inventory_items(request, slug):
+    category = get_object_or_404(
+        ComponentCategory,
+        comp_cate_category_name=slug
+    )
+
+    components = Component.objects.select_related('comp_category').filter(
+        comp_category=category
+    )
+
+    return render(request, 'final/inventory_items.html', {
         'components': components,
-        'category_name': category_name,
+        'category_name': category.comp_cate_category_name,
     })
 
+@admin_login_required
+def all_students(request):
+    students = Student.objects.all().order_by("std_roll_number")
+
+    return render(request, "final/all_students.html", {
+        "students": students
+    })
+
+@admin_login_required
+def student_details(request,id):
+    student = get_object_or_404(
+        Student,
+        std_id=id
+    )
+
+    issued_components = (
+        StudentIssueLog.objects
+        .select_related("component",'student')
+        .filter(student_id=student.std_id)
+        .order_by("-std_issue_issue_date")
+    )
+
+    return render(request, "final/student_details.html", {
+        "student": student,
+        "issued_components": issued_components
+    })
 
 
 @require_POST
 @admin_login_required
 def delete_component(request):
     component_id = request.POST.get('component_id')
-    print(component_id)
-    component = get_object_or_404(Component, id=component_id)
-                                                #model mein ''id'' hi hai not  comp_id
+    # print(component_id)
+    component = get_object_or_404(Component, comp_id=component_id)
+
+    # Get the Deleted status object
+    deleted_status = get_object_or_404(StatusChoices, status_ch_status_label='Deleted')
 
     # Soft delete
-    component.comp_status = 'Deleted'
+    component.comp_status = deleted_status
     component.save(update_fields=['comp_status'])
 
 
 #ye sab messages login form par dikh rhe hai inhe sahi karo
-    messages.success(request, "Component marked as deleted.")
+    messages.success(request, f"{component.comp_name} marked as deleted.")
 
     return render(request,'final/inventory.html')
     # =================same page pe rakhna isko sahi karo
@@ -420,7 +448,7 @@ def delete_component(request):
 
 
 
-
+#
 # def add_component(request):
 #     if request.method == "POST":
 #             new_component = request.POST.get("component_name").strip()
@@ -456,5 +484,4 @@ def delete_component(request):
 #
 #
 #     return redirect('teacher_dash/inv_items.html')
-#
-#
+

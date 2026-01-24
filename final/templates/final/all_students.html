@@ -1,0 +1,68 @@
+{% extends 'final/base_layout.html' %}
+
+{% load static %}
+
+{% block page_title %}welcome admin{% endblock %}
+
+
+{% block extra_css_files %}
+<link rel="stylesheet" href="{% static 'final/css/student_dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/issued_items.css' %}">
+{% endblock %}
+
+{% block page_content%}
+  <div class="dashboard-container">
+    <aside class="sidebar">
+      <h2>Admin Panel</h2>
+      <ul>
+          <li><a href="{% url 'final:admin_dashboard' %}">BACK TO DASHBOARD</a></li>
+          <li><a href="{% url 'final:all_students' %}">All students</a></li>
+          <li><a href="{% url 'final:approved' %}">Approved Requests</a></li>
+          <li><a href="{% url 'final:inventory' %}">Inventory</a></li>
+        <li><a href="{% url 'final:admin_logout' %}">Logout</a></li>
+      </ul>
+    </aside>
+
+    <main class="main-content">
+      <header>
+        <h1>Select ACTIVE OR OLD STUDENTS </h1>
+<!--
+ISKO EK FILTER WALA BANANA FOR ACTIVE AND NON ACTIVE STUDETNS
+-->
+      </header>
+
+        <section>
+
+                <div class="category-block">
+                    <h4>{{ category }}</h4>
+        <table border="1" cellspacing="0" cellpadding="8" style="margin-top: 10px; width: 100%;">
+            <thead>
+                <tr>
+      <th>Roll Number</th>
+      <th>Name</th>
+                </tr>
+            </thead>
+
+ {% if students %}
+            <tbody>
+                {% for student in students %}
+                <tr>
+      <td>
+        <a href="{% url 'final:student_details' student.std_id %}">
+          {{ student.std_roll_number }}
+        </a>
+      </td>
+      <td>{{ student.std_full_name}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+<!--    </details>-->
+                </div>
+            {% else %}
+            <p class="empty">No Students enrolled.</p>
+        {% endif %}
+        </section>
+    </main>
+  </div>
+{% endblock %}

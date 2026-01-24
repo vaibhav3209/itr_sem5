@@ -9,7 +9,10 @@
 
 {% block page_title %}Components Items{% endblock %}
 
-{% block extra_js_files %}<script src="{% static 'final/js/listcomponent_bycategory.js' %}"></script>{% endblock %}
+{% block extra_js_files %}
+<script src="{% static 'final/js/listcomponent_bycategory.js' %}"></script>
+<script src="{% static 'final/js/filter_components.js' %}"></script>
+{% endblock %}
 
 {% block page_content %}
 <div class="dashboard-container">
@@ -46,7 +49,7 @@
 
         <tbody>
           {% for item in components %}
-          <tr>
+          <tr class="component-item" data-name="{{ item.comp_name }}">
             <td>{{ item.comp_name }}</td>
             <td>{{ item.comp_quantity_available }}</td>
             <td>
@@ -65,7 +68,7 @@
       </table>
 
       {% else %}
-        <p class="empty">No matching components found.</p>
+        <p class="empty">No components available.</p>
       {% endif %}
 
     </section>

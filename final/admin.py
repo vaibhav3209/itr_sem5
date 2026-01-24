@@ -1,8 +1,7 @@
 from django.contrib import admin
-from .models import Student, Component, StudentIssueLog,DeletedStudent,DeletedStudentIssueLog
+# from .models import Student, Component, StudentIssueLog,DeletedStudent,DeletedStudentIssueLog
 
-admin.site.register(Student)
-admin.site.register(Component)
+
 
 #abhi isko nhi kiya
 # @admin.register(Component)
@@ -15,6 +14,4 @@ admin.site.register(Component)
 #         return obj.status
 #
 #
-admin.site.register(StudentIssueLog)
-admin.site.register(DeletedStudent)
-admin.site.register(DeletedStudentIssueLog)
+

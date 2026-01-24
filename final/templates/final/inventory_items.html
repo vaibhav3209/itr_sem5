@@ -9,7 +9,10 @@
 
 {% block page_title %}Components Items{% endblock %}
 
-{% block extra_js_files %}<script src="{% static 'final/js/inv_items.js' %}"></script>{% endblock %}
+{% block extra_js_files %}
+<script src="{% static 'final/js/inv_items.js' %}"></script>
+<script src="{% static 'final/js/filter_components.js' %}"></script>
+{% endblock %}
 
 {% block page_content %}
 <div class="dashboard-container">
@@ -17,6 +20,8 @@
     <h2>Admin Panel</h2>
     <ul>
       <li><a href="{% url 'final:admin_dashboard' %}">BACK TO DASHBOARD</a></li>
+        <li><a href="{% url 'final:all_students' %}">All students</a></li>
+        <li><a href="{% url 'final:approved' %}">Approved Requests</a></li>
       <li><a href="{% url 'final:inventory' %}">Inventory</a></li>
       <li><a href="{% url 'final:admin_logout' %}">Logout</a></li>
       <li><a href="{% url 'final:inventory' %}">← Back to Categories</a></li>
@@ -36,7 +41,7 @@
       {% if components %}
       <table border="1" cellspacing="0" cellpadding="8" style="width:100%;">
         <thead>
-          <tr>
+          <tr >
             <th>{{ category_name }}</th>
             <th>Available</th>
             <th>Status</th>
@@ -46,14 +51,14 @@
 
         <tbody>
           {% for item in components %}
-          <tr>
+          <tr class="component-item" data-name="{{ item.comp_name }}">
             <td>{{ item.comp_name }}</td>
             <td>{{ item.comp_quantity_available }}</td>
             <td>{{ item.comp_status }}</td>
             <td>
               <form action="{% url 'final:delete_component' %}" method="post" style="margin:0;">
                 {% csrf_token %}
-                <input type="hidden" name="component_id" value="{{ item.id }}">
+                <input type="hidden" name="component_id" value="{{ item.comp_id }}">
                 <button type="submit"
                         style="background:red; color:white; border:none; padding:5px 10px; border-radius:4px;">
                   Delete
