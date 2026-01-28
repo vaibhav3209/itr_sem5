@@ -1,78 +1,47 @@
-/* ====== Category Blocks ====== */
-.category-block {
-    margin-bottom: 40px;
-}
-
-.category-block h4 {
-    font-size: 1.2rem;
-    color: #6c63ff;
-    margin-bottom: 12px;
-}
-
 /* ====== Tables ====== */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-    background: #fafafa;
-    border-radius: 8px;
-    overflow: hidden;
+/*used in files
+1. issued_items.html
+2. category_items.html
+3. invetory_items.html
+4. admin_Dashboard.html
+*/
+.category-block table{
+border:1;
+cells-pacing:0;
+cell-padding:8;
+margin-top: 10px;
+width: 100%;
+border-collapse: collapse;
+margin-bottom: 20px;
+background: #fafafa;
+border-radius: 8px;
+overflow: hidden;
 }
 
-thead {
+.category-block thead {
     background: #6c63ff;
     color: white;
 }
 
-thead th {
+.category-block thead th {
     padding: 12px 15px;
     text-align: left;
     font-size: 0.95rem;
     font-weight: 600;
 }
 
-tbody td {
+.category-block tbody td {
     padding: 12px 15px;
     border-bottom: 1px solid #eee;
     font-size: 0.9rem;
 }
 
 /* Row Hover */
-tbody tr:hover {
+.category-block tbody tr:hover {
     background: #f1f3ff;
     transition: 0.2s;
 }
-
-/* ====== Status Badges ====== */
-.status {
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    font-weight: bold;
-    text-align: center;
-    display: inline-block;
-}
-
-.status.approved {
-    background: #d4edda;
-    color: #155724;
-}
-
-.status.pending {
-    background: #fff3cd;
-    color: #856404;
-}
-
-.status.rejected {
-    background: #f8d7da;
-    color: #721c24;
-}
-
-.status.returned {
-    background: #d1ecf1;
-    color: #0c5460;
-}
-
+/*css when empty table printing*/
 /* ====== Empty State ====== */
 .empty {
     text-align: center;
@@ -84,6 +53,9 @@ tbody tr:hover {
     font-style: italic;
 }
 
+
+
+/*  saara resposive code alga fiel mein daalo  */
 /* ====== Responsive Design ====== */
 @media (max-width: 768px) {
     .container {

@@ -11,8 +11,6 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 import os
-from email.policy import default
-
 
 # to parse the connection string and auto separate hosts,pasword,dbname etc
 import dj_database_url
@@ -42,7 +40,7 @@ load_dotenv(BASE_DIR / "config" / ".env")
 # SECRET_KEY = os.environ.get('SECRET_KEY')
 
 SECRET_KEY = config('SECRET_KEY')
-
+ADMIN_PATH = os.getenv("ADMIN_PATH", "admin/")
 # SECURITY WARNING: don't run with debug turned on in production!
 
 # Django rejects all hosts not in ALLOWED_HOSTS                       (by CHATGPT)
@@ -61,7 +59,47 @@ DEBUG = config('DEBUG', cast=bool,default=True)
 
 #but apan direct likho
 ALLOWED_HOSTS=os.getenv("ALLOWED_HOSTS", "").split(",")
+
+CSRF_TRUSTED_ORIGINS = os.getenv("CSRF_TRUSTED_ORIGINS", "")
+
+# Convert to list if not empty
+if CSRF_TRUSTED_ORIGINS:
+    CSRF_TRUSTED_ORIGINS = CSRF_TRUSTED_ORIGINS.split(",")
+else:
+    CSRF_TRUSTED_ORIGINS = []
 # note: *** DON'T ADD LOCALHOST AS ALLOWED HOSTS ON RENDER  ***
+
+
+
+# --------------------
+# Session cookies
+# --------------------
+SESSION_COOKIE_HTTPONLY = True            # JS cannot access the cookie
+SESSION_COOKIE_SECURE = config('DEBUG', cast=bool,default=False)              # Only sent over HTTPS (enable in prod)
+SESSION_COOKIE_SAMESITE = 'Lax'           # Protect against CSRF; 'Strict' is stricter
+SESSION_COOKIE_AGE = int(os.getenv('SESSION_COOKIE_AGE', 1800))        # 30 minutes idle timeout
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+# --------------------
+# CSRF cookie
+# --------------------
+CSRF_COOKIE_SECURE =config('DEBUG', cast=bool,default=False)                 # Only sent over HTTPS
+CSRF_COOKIE_HTTPONLY = True              # Must be readable by JS for AJAX POSTs
+CSRF_COOKIE_SAMESITE = 'Lax'              # Prevent CSRF via cross-site requests
+
+# --------------------
+# HTTPS / proxy settings
+# --------------------
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')  # Behind Render or other proxies
+SECURE_SSL_REDIRECT = not DEBUG             # Force all requests to HTTPS
+
+# --------------------
+# Security headers
+# --------------------
+SECURE_BROWSER_XSS_FILTER = True       # Enable browser XSS filtering
+SECURE_CONTENT_TYPE_NOSNIFF = True     # Prevent MIME type sniffing
+X_FRAME_OPTIONS = 'DENY'               # Prevent clickjacking
+
 
 
 # Application definition
@@ -76,6 +114,7 @@ INSTALLED_APPS = [
 
     # these we added new (Local apps)
      'final.apps.FinalConfig',
+        'rest_framework'
 ]
 
 # 'whitenoise.middleware.WhiteNoiseMiddleware',

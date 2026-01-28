@@ -78,6 +78,7 @@
 
 - Make a virtual environment inside the cloned directory and install all dependencies
 
+- > Activate the virtual env
 
 - Go to the `settings.py` file inside `teststudy/` and check the hidden configuration 
   tags  
@@ -203,6 +204,12 @@ project_root/
 
 
 5. Put business logic in `models.py` file and HTML, session based(HTTPRequest) in ``views.py``.
+
+
+6. Student signup/login form can values in any Case but searching/Storing of values in databse 
+   is done in upper case for roll.no and Lower case for firstname and lastname 
+
+
 ---------------------------------------------------------------------------
 
 
@@ -242,9 +249,14 @@ Thats why companies uses `SLUG FIELDS` To better fit the urls. (BUT i don't used
 > ***SOLUTION*** :: slash lagane k liye `<path:category_key>` kardo
 
 
-4. > ***NOTE***:   `url == admin/`  will point to django admin. So if i wented to write teacher 
-   > dashboard add the keyword Teacher not admin
+4.  ***NOTE***:   `url == admin/`  will point to django admin. So if i wented to write teacher 
+    dashboard add the keyword Teacher not admin
 
+### team work: Make sure this!!
+ 
+- don't make additional migrations  as other team members database will differ as they don't 
+  have the migrations that you have made. 
+- 
 ---------------------------------------------------------------------------
 ## HOW to Test for all possible bugs:
 
@@ -309,6 +321,16 @@ Component
 |  `logs = request.user.student.issue_logs.all()` | `SELECT * FROM studentissuelog WHERE student_id = <current_student_id>;` | Fetch all issue logs for a student |
 | `student.issue_logs.filter(status_from_teacher="Approved").count()` | `SELECT COUNT(*) FROM studentissuelog WHERE student_id = <student_id> AND status_from_teacher = 'Approved';` | Count only approved items |
 |  `student.issue_logs.filter(component=component, status_from_teacher="Pending").exists()` | `SELECT 1 FROM studentissuelog WHERE student_id = <student_id> AND component_id = <component_id> AND status_from_teacher = 'Pending' LIMIT 1;` | Returns True if a pending request exists |
+
+
+| Query style            | What you get  | How to access   |
+| ---------------------- | ------------- | --------------- |
+| `.all()` / `.filter()` | Model objects | `obj.field`     |
+| `.values()`            | Dictionaries  | `dict["field"]` |
+| `.values_list()`       | Tuples        | `tuple[index]`  |
+
+
+
 ---------------------------------------------------------------------------
 
 
@@ -342,7 +364,60 @@ Component
 ---------------------------------------------------------------------------
 ## THINGS I LEARNT NEW BESIDES "DJANGO"
 
-1. 
+### 1. 🔐 Row Level Security (RLS) – Access Matrix
+
+| Who                   | SELECT | INSERT | UPDATE | DELETE |
+| --------------------- | ------ | ------ | ------ | ------ |
+| Django backend        | ✅     | ✅     | ✅     | ✅     |
+| Students (via Django) | ✅     | ❌     | ❌     | ❌     |
+| Supabase anon         | ✅     | ❌     | ❌     | ❌     |
+| Supabase REST         | ✅     | ❌     | ❌     | ❌     |
+
+
+### 🧠 RLS Basics (How security works in this project)
+
+Row Level Security (RLS) is a database-level protection layer provided by PostgreSQL (used by Supabase).
+It controls who can read or write rows, independent of application code.
+
+### How we use RLS in this project
+
+🔐 Django is the only trusted backend
+
+🚫 Direct database access from clients is blocked
+
+🧱 RLS acts as a safety net in case someone bypasses the backend
+
+### Important concepts
+1️⃣ Django backend bypasses RLS
+
+- Django connects using a privileged database role
+
+- Table owners and service roles ignore RLS
+
+- This is why Django continues to work even when RLS is enabled
+
+2️⃣ Students do NOT talk to Supabase directly
+
+- Students authenticate via Django(which is in service-role or the creater of databse mode so 
+  django can see all tables)
+
+- Supabase does not know Django users
+
+- From Supabase’s perspective, students are treated as anonymous(and there's no access for 
+  anonymous users as created in our RLS policy....)
+
+
+### What RLS protects against
+
+- ❌ Direct Supabase REST access
+
+- ❌ Anonymous API abuse
+
+- ❌ Frontend mistakes
+
+- ❌ Future misconfiguration
+
+
 ---------------------------------------------------------------------------
 
 
@@ -351,9 +426,10 @@ Component
 
 
 *********************************
-FUTURE TO DO'S
+FUTURE Improvements
 *********************************
 
+1. createrd by dalna haui kya 
 3. admin.site.urls ko env mein daalna
 
 6. add compnent ka button hta diya from inventory.html
@@ -365,3 +441,9 @@ FUTURE TO DO'S
 - [ ] TOdo : add er diagram if possible
 
 - [ ] introduction 
+
+
+### Tokenising(Prevent URL Exposure)
+- use `uuids` to store student id's and component id's etc.
+- Instead of giving `<path:>` give a` random token ` value for each category which expires after 
+  short time to avoid Guessing by users.

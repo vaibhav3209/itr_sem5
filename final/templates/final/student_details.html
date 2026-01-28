@@ -7,7 +7,10 @@
 
 {% block extra_css_files %}
 <link rel="stylesheet" href="{% static 'final/css/student_dashboard.css' %}">
-<link rel="stylesheet" href="{% static 'final/css/issued_items.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/sidebar.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/main_content.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/table.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/student_profile.css' %}">
 {% endblock %}
 
 
@@ -26,44 +29,89 @@
     </aside>
 
     <main class="main-content">
-      <header>
-        <h1>{{student.std_full_name}} AAL DETAILS </h1>
-          <p><strong>Phone:</strong> {{ student.std_phone_number|default:"—" }}</p>
-      </header>
 
-        <h3>Components hISTORY</h3>
+        <h1>Student Profile</h1>
+
+        <header class="profile-card">
+
+            <div class="info-row">
+                <span class="info-label">Full Name</span>
+                <span class="info-value">{{ student.std_full_name }}</span>
+            </div>
+
+            <div class="info-row">
+                <span class="info-label">Phone:</span>
+                <span class="info-value">{{ student.std_phone_number}}</span>
+            </div>
+
+            <div class="info-row">
+                <span class="info-label">Email:</span>
+                <span class="info-value">{{ student.std_college_email }}</span>
+            </div>
+
+            <div class="info-row">
+                <span class="info-label">RTU Roll Number:</span>
+                <span class="info-value">{{ student.std_roll_number }}</span>
+            </div>
+
+            <div class="info-row">
+                <span class="info-label">Email:</span>
+                <span class="info-value">{{ student.std_college_email }}</span>
+            </div>
+
+            <div class="info-row">
+                <span class="info-label">Branch:</span>
+                <span class="info-value">{{ student.std_branch }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Year:</span>
+                <span class="info-value">{{ student.std_year }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Joined at: </span>
+                <span class="info-value">{{ student.std_joined_at }}</span>
+            </div>
+
+            <div class="info-row">
+                <span class="info-label">Deactivated at: </span>
+                <span class="info-value">{{ student.std_deactivated_at }}</span>
+            </div>
+
+        </header>
+
+        <h1>Components hISTORY</h1>
         <section>
-                <div class="category-block">
+            <div class="category-block">
 
-        <table border="1" cellspacing="0" cellpadding="8" style="margin-top: 10px; width: 100%;">
- <thead>
-    <tr>
-      <th>Component</th>
-      <th>Category</th>
-      <th>Qty</th>
-      <th>Issue Date</th>
-      <th>Return Date</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for issue in issued_components %}
-    <tr>
-      <td>{{ issue.component.comp_name }}</td>
-      <td>{{ issue.component.comp_category.comp_cate_category_name }}</td>
-      <td>{{ issue.std_issue_quantity_issued }}</td>
-      <td>{{ issue.std_issue_issue_date|date:"d M Y" }}</td>
-      <td>
-        {{ issue.std_issue_return_date|default:"Not returned" }}
-      </td>
-    </tr>
-    {% empty %}
-    <tr>
-      <td colspan="5">No components issued</td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
-                </div>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Issue Date</th>
+                        <th>Component</th>
+                        <th>Category</th>
+                        <th>Qty issued</th>
+                        <th>Return Date</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for issue in issued_components %}
+                    <tr>
+                        <td>{{ issue.std_issue_issue_date|date:"d M Y" }}</td>
+                        <td>{{ issue.component.comp_name }}</td>
+                        <td>{{ issue.component.comp_category.comp_cate_category_name }}</td>
+                        <td>{{ issue.std_issue_quantity_issued }}</td>
+                        <td>
+                            {{ issue.std_issue_return_date|default:"Not returned" }}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5">No components issued</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </section>
     </main>
   </div>

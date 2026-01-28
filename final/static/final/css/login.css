@@ -1,3 +1,4 @@
+/*ALL tags are written in order in which they appear in login.html*/
 body {
   font-family: 'Segoe UI', sans-serif;
   background: #f2f6ff;
@@ -8,6 +9,33 @@ body {
   margin: 0;
 }
 
+/*LOGo image*/
+.logo-container{
+text-align: center;
+margin-bottom: 20px;
+ margin-right: 25px;
+}
+
+.logo-img{
+    width: 80px;
+    height: auto;
+    margin-left: 12px;
+}
+
+
+/*IOT lab POrtal*/
+.test-header{
+  background-color: rgb(28, 36, 43);
+  color: white;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  width: 80%;
+  max-width: 500px;
+
+}
+
+/*NOW nwxt below container */
 .auth-container {
   background: white;
   padding: 2rem;
@@ -19,32 +47,8 @@ body {
 
 }
 
-.auth-container h1 {
-  text-align: center;
-  margin-bottom: 1rem;
-  color: #0b3d91;
-
-}
-
-.tab-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  margin-bottom: 1rem;
-}
-
-.tab-buttons button {
-  padding: 0.6rem 1.2rem;
-  background: #09A3A3;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.form-section {
-  margin-top: 1rem;
-}
+/*form-section holds login form plus messages class*/
+/*iske pehle message container which is loaded in different file*/
 
 form {
   display: flex;
@@ -52,22 +56,20 @@ form {
   gap: 0.8rem;
 }
 
-form h2 {
-  text-align: center;
-  color: #333;
-}
-
+/*for input fields(including select) in forms of both login and signup */
 input[type="text"],
 input[type="email"],
 input[type="password"],
 input[type="tel"],
-input[type="file"] {
+input[type="file"],
+select{
   padding: 0.6rem;
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 1rem;
 }
 
+/*LOGIN/REGISTER button*/
 button[type="submit"] {
   background:  #09A3A3;
   color: white;
@@ -83,6 +85,7 @@ button[type="submit"]:hover {
   background: #0097a7;
 }
 
+/* FOR changing links  */
 .switch-link {
   font-size: 0.9rem;
   color: #0b3d91;
@@ -94,34 +97,22 @@ button[type="submit"]:hover {
   display: none;
 }
 
-.message-container {
-     padding: 12px 16px;
-    border-radius: 6px;
-    margin-bottom: 15px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    font-size: 14px;
+
+/*i don't know why this is here*/
+/*
+.tab-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
 }
 
-.success-message {
-    background-color: #d4edda;
-    color: #155724;
-    border: 1px solid #c3e6cb;
-}
-
-.error-message {
-    background-color: #f8d7da;
-    color: #721c24;
-    border: 1px solid #f5c6cb;
-    font-weight: bold;
-}
-
-.test-header{
-  background-color: rgb(28, 36, 43);
+.tab-buttons button {
+  padding: 0.6rem 1.2rem;
+  background: #09A3A3;
   color: white;
-  padding: 2rem;
-  border-radius: 10px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-  width: 80%;
-  max-width: 500px;
-
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
+*/

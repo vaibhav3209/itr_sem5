@@ -32,7 +32,7 @@ class ComponentCategory(models.Model):
         # jab ye print karte tab aise return hoga
         # cat = Category.objects.get(id=1)
         # print(cat)
-        return f"category: {self.comp_cate_category_name}"
+        return f"{self.comp_cate_category_name}"
 
 
 
@@ -40,18 +40,42 @@ class Component(models.Model):
     comp_name = models.CharField(max_length=100)                            #max 100 bytes
     comp_quantity_available = models.PositiveIntegerField(default=0)          # 4 bytes
     comp_category = models.ForeignKey(ComponentCategory,on_delete=models.PROTECT,
-                                      related_name="componentcategory_fkey")
+                                      related_name="componentcategory_fkey",db_index=True)
 
+    comp_popularity = models.PositiveIntegerField(default=0)
+    comp_status = models.BooleanField(default=True)
+
+# ***ALSO:: THIS WILL BE PRINTED IN ADMIN PANEL IF ISS MODEL KI KOI FOREGIN KEY HAI ***
     def __str__(self):
-        return f"{self.comp_name}-({self.comp_category.comp_cate_category_name})"
+        return f"{self.comp_category.comp_cate_category_name}"
+
+
+class Branches(models.Model):
+    branches_branch_name =models.CharField(max_length=30)
+    branches_branch_code =models.CharField(max_length=3)
+    branches_rollno_code = models.CharField(max_length=3,default="CX")
+    def __str__(self):
+        return f"{self.branches_branch_code}"
 
 
 
 class Student(models.Model):
+    YEAR_CHOICES = [
+        (1, "1st"),
+        (2, "2nd"),
+        (3, "3rd"),
+        (4, "4th"),
+        (5, "5th"),
+    ]
+
     std_id = models.BigAutoField(primary_key=True)
 
     std_first_name = models.CharField(max_length=30,validators=[name_validator])
     std_last_name = models.CharField(max_length=30,validators=[name_validator])
+
+    std_branch=models.ForeignKey(Branches,on_delete=models.PROTECT,related_name="branch_name",
+                                 db_index=True,default=5)    # 5 pe IOT hai
+    std_year=models.PositiveSmallIntegerField(choices=YEAR_CHOICES,db_index=True,default=2)
 
     std_roll_number = models.CharField(max_length=10, unique=True,validators=[roll_validator])
     std_college_email = models.EmailField(unique=True,validators=[college_email_validator])
@@ -59,8 +83,8 @@ class Student(models.Model):
 
     std_password = models.CharField(max_length=128)
 
-    std_year_of_passing = models.PositiveSmallIntegerField()
-    std_is_active = models.BooleanField(default=True)
+    std_year_of_passing = models.PositiveSmallIntegerField(db_index=True)
+    std_is_active = models.BooleanField(default=True,db_index=True)
 
     std_joined_at = models.DateField(auto_now_add=True)
     std_deactivated_at = models.DateField(null=True, blank=True)
@@ -82,7 +106,7 @@ class Student(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.std_full_name} ({self.std_roll_number}) joined at {self.std_joined_at} and is active: {self.std_is_active}"
+        return f"{self.std_full_name} ({self.std_roll_number}) "
 
 
     class Meta:
@@ -110,13 +134,17 @@ class Student(models.Model):
                 check=~Q(std_first_name=models.F('std_last_name')),
                 name="first_last_name_not_same"
             ),
+
         ]
+
 
 class StudentIssueLog(models.Model):
     student = models.ForeignKey(
         Student,
         on_delete=models.CASCADE,
-        related_name="std_issue_logs"
+        related_name="std_issue_logs",
+        db_index=True                           #index wha pe lagana jo baar baar write na hoti
+        # ho field and not a primary key
     )
     component = models.ForeignKey(
         Component,

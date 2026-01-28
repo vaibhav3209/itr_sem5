@@ -1,0 +1,39 @@
+/*currently taken for student profile in the admin panel */
+.profile-card {
+  background: #fff;
+  padding: 20px 24px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  margin-bottom: 25px;
+
+    display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px 24px;
+}
+
+.student-name {
+  margin: 0 0 18px;
+  font-size: 1.6rem;
+  color: #2c3e50;
+}
+
+.info-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.info-label {
+  min-width: 80px;
+  font-weight: 600;
+  color: #555;
+}
+
+.info-value {
+  background: #f8f9ff;
+  border: 1px solid #dcdcf5;
+  padding: 10px 14px;
+  border-radius: 6px;
+  min-width: 200px;
+  font-size: 0.95rem;
+}

@@ -4,7 +4,9 @@
 
 {% block extra_css_files %}
 <link rel="stylesheet" href="{% static 'final/css/student_dashboard.css' %}">
-<link rel="stylesheet" href="{% static 'final/css/issued_items.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/sidebar.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/main_content.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/table.css' %}">
 {% endblock %}
 
 {% block page_title %}Components Items{% endblock %}
@@ -15,66 +17,69 @@
 {% endblock %}
 
 {% block page_content %}
-<div class="dashboard-container">
+    <div class="dashboard-container">
 
-    <aside class="sidebar">
-      <h2>IoT Lab</h2>
-      <ul>
-          <li><a href="{% url 'final:student_dashboard' %}">Back to dashboard</a></li>
-        <li><a href="{% url 'final:issued_items' %}">Issued Items</a></li>
-        <li><a href="{% url 'final:request_components' %}">Request Components</a></li>
-        <li><a href="{% url 'final:student_logout' %}">Logout</a></li>
-      </ul>
-    </aside>
+      <aside class="sidebar">
+          <h2>IoT Lab</h2>
+          <ul>
+              <li><a href="{% url 'final:student_dashboard' %}">Back to dashboard</a></li>
+            <li><a href="{% url 'final:issued_items' %}">Issued Items</a></li>
+            <li><a href="{% url 'final:request_components' %}">Request Components</a></li>
+                <li>
+                    <form method="post" action="{% url 'final:student_logout' %}"
+                          style="display:inline;">
+                            {% csrf_token %}
+                        <button type="submit" class="as-link">Logout</button>
+                    </form>
+                </li>
+          </ul>
+        </aside>
 
-  <main class="main-content">
-    <section>
+      <main class="main-content">
+        <section>
 
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-        <input type="text" id="searchInput" placeholder="Search component..."
-               onkeyup="filterComponents()"
-               style="width:300px; padding:8px;">
-      </div>
+<!--search bar-->
+          <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search component..." onkeyup="filterComponents()">
+          </div>
 
+        <div class="category-block">
+          {% if components %}
+          <table>
+            <thead>
+              <tr>
+                <th>{{ category_name }}</th>
+                <th>Available</th>
+                <th>Action</th>
+              </tr>
+            </thead>
 
-      {% if components %}
-      <table border="1" cellspacing="0" cellpadding="8" style="width:100%;">
-        <thead>
-          <tr>
-            <th>{{ category_name }}</th>
-            <th>Available</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {% for item in components %}
-          <tr class="component-item" data-name="{{ item.comp_name }}">
-            <td>{{ item.comp_name }}</td>
-            <td>{{ item.comp_quantity_available }}</td>
-            <td>
-      <div style="flex: 0.5;" id="control-{{ item.id }}">
-        {% if item.comp_quantity_available > 0 %}
-           <button
-                   onclick="startQuantityControl({{ item.id }}, {{ item.comp_quantity_available }}, '{{ item.comp_name|escapejs }}')">Add</button>
-        {% else %}
-          <button disabled>Out of Stock</button>
-        {% endif %}
-      </div>
-            </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-
-      {% else %}
-        <p class="empty">No components available.</p>
-      {% endif %}
-
-    </section>
-  </main>
+            <tbody>
+              {% for item in components %}
+              <tr  data-name="{{ item.comp_name }}">
+                <td>{{ item.comp_name }}</td>
+                <td>{{ item.comp_quantity_available }}</td>
+                <td>
+          <div id="control-{{ item.id }}">
+            {% if item.comp_quantity_available > 0 %}
+               <button onclick="startQuantityControl({{ item.id }}, {{ item.comp_quantity_available }}, '{{ item.comp_name|escapejs }}')">Add</button>
+            {% else %}
+              <button disabled>Out of Stock</button>
+            {% endif %}
+          </div>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
 </div>
+          {% else %}
+            <p class="empty">No components available.</p>
+          {% endif %}
 
+        </section>
+      </main>
+    </div>
 {% endblock %}
 
 

@@ -1,5 +1,4 @@
 from datetime import datetime,date
-
 from django.core.exceptions import ValidationError
 from django.db import transaction, IntegrityError
 from django.http import HttpResponseBadRequest, HttpResponse
@@ -12,7 +11,11 @@ from .models import Student, StudentIssueLog, ComponentCategory
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password, check_password
 from collections import defaultdict
-from .models import Component
+from .models import Component, Branches
+from django.core.paginator import Paginator
+from django.http import QueryDict
+from rest_framework import generics
+from .serializers import StudentIssueLogSerializer
 
 
 #=======================================================================
@@ -61,6 +64,8 @@ def user_login(request):
         password = request.POST.get("password")
         phone_number=request.POST.get("phone_number")
         year_of_passing=request.POST.get("year_of_passing")
+        branch = roll_number[5:7]
+        std_year = request.POST.get("std_year")
 
         # basic validation
         if Student.objects.filter(std_roll_number=roll_number).exists():
@@ -71,6 +76,8 @@ def user_login(request):
             messages.error(request, "Email already registered",extra_tags='error')
             return render(request, "final/login.html")
 
+        std_branch = get_object_or_404(Branches,branches_rollno_code=branch)
+
         try:
             Student.objects.create(
                 std_first_name=first_name,
@@ -79,7 +86,9 @@ def user_login(request):
                 std_college_email=email,
                 std_password=make_password(password),
                 std_phone_number=phone_number,
-                std_year_of_passing=year_of_passing
+                std_year_of_passing=year_of_passing,
+                std_branch=std_branch,
+                std_year = std_year
             )
 
         except ValidationError as e:
@@ -96,7 +105,7 @@ def user_login(request):
         messages.success(request, "Registration successful. Please login.",extra_tags='success')
         return redirect("final:login")
 
-    #initial login page
+    #load initial login page
     return render(request, 'final/login.html',{'passing_years':range(date.today().year, date.today().year + 5)})
 
 
@@ -145,10 +154,13 @@ def admin_dashboard(request):
 
 # 6.  logout :: yha pe decorators nahi lagane as kabhi broken session unlogged user can also access
 # this  button
+@require_POST
 def student_logout(request):
     request.session.flush()
     return redirect('final:login')
 
+
+@require_POST
 def admin_logout(request):
     logout(request)                     #django based logout hai
     return redirect("final:login")
@@ -166,18 +178,25 @@ def issued_items(request):
     grouped_currently_issued = defaultdict(list)
     grouped_previously_issued = defaultdict(list)
 
-    for log in StudentIssueLog.objects.filter(student_id=student_id).select_related('component').only(
+    for log in StudentIssueLog.objects.filter(student_id=student_id,
+                                              std_issue_issue_date__isnull=False).select_related(
+            'component').values(
         'std_issue_quantity_issued',
+        'std_issue_form_date',
         'std_issue_issue_date',
         'std_issue_return_date',
         'component__comp_category__comp_cate_category_name',
         'component__comp_name'
     ):
+        print(log)
         #return date nhi hai to issued hi hai abhi
-        if not log.std_issue_return_date:
-            grouped_currently_issued[log.component.comp_category.comp_cate_category_name].append(log)
+        if not log['std_issue_return_date']:
+            grouped_currently_issued[log[
+                'component__comp_category__comp_cate_category_name']].append(
+                log)
         else:
-            grouped_previously_issued[log.component.comp_category.comp_cate_category_name].append(log)
+            grouped_previously_issued[log[
+                'component__comp_category__comp_cate_category_name']].append(log)
 
     return render(request, "final/issued_items.html", {
         "grouped_current": dict(grouped_currently_issued),
@@ -218,7 +237,7 @@ def submit_request(request):
 
     component_ids = request.POST.getlist('component_ids[]')
     quantities = request.POST.getlist('quantities[]')
-    print(component_ids,quantities)
+    # print(component_ids,quantities)
 
     if not component_ids or not quantities:
         messages.error(request, "No components selected",extra_tags='error_requestcomp')
@@ -386,22 +405,106 @@ def inventory_items(request, slug):
         ComponentCategory,
         comp_cate_category_name=slug
     )
-
+    categories = ComponentCategory.objects.all()
     components = Component.objects.select_related('comp_category').filter(
         comp_category=category
     )
 
+# for editing components ::
+    if request.method == 'POST':
+        component_id = request.POST.get("component_id")
+        action = request.POST.get("action")
+        component = get_object_or_404(Component, id=component_id)
+
+        if action == "save":
+            component.comp_name = request.POST.get("comp_name")
+            component.comp_quantity_available =  request.POST.get("comp_quantity")
+            component.save()
+
+        elif action=="delete":
+            # Soft delete 0 == deleted  1== working
+            component.comp_status = 0
+            component.save(update_fields=['comp_status'])
+
+            # ye sab messages login form par dikh rhe hai inhe sahi karo
+            messages.success(request, f"{component.comp_name} marked as deleted.")
+
+
     return render(request, 'final/inventory_items.html', {
         'components': components,
+        'categories':categories,
         'category_name': category.comp_cate_category_name,
     })
 
 @admin_login_required
+def remove_filter(request, key, value=None):
+    q = request.GET.copy()
+    if value:
+        values = q.getlist(key)
+        values.remove(value)
+        q.setlist(key, values)
+    else:
+        q.pop(key, None)
+    q.pop("page", None)
+    return q.urlencode()
+
+
+@admin_login_required
 def all_students(request):
-    students = Student.objects.all().order_by("std_roll_number")
+    # NOTE: 1. ye get request se aara
+    #       2. getlist use karre as multiple aare
+
+
+    selected_branches = request.GET.getlist("branch")
+    selected_years = request.GET.getlist("year")
+    selected_active = request.GET.getlist("active")
+
+    name_query = request.GET.get("name", "").strip().lower()
+    name_mode = request.GET.get("name_mode", "startswith")
+
+    # ***NOTE *** : Direct hit nahi karta db ko ye LAZYQUERY BANARHA HAI
+    students = Student.objects.all()
+
+    # REQUIRED filters
+    students = students.filter(
+        std_branch__branches_branch_code__in=selected_branches,
+        std_year__in=selected_years
+    )
+
+    # Active / inactive
+    if set(selected_active) == {"1"}:
+        students = students.filter(std_deactivated_at__isnull=True)
+    elif set(selected_active) == {"0"}:
+        students = students.filter(std_deactivated_at__isnull=False)
+
+    # Optional name filter
+    if name_query:
+        if name_mode == "startswith":
+            students = students.filter(std_full_name__istartswith=name_query)
+        else:
+            students = students.filter(std_full_name__icontains=name_query)
+
+    # 🔥 PAGINATION (DB hit happens here, with LIMIT/OFFSET)
+    paginator = Paginator(students,2)  # 35 students per page
+    page_number = request.GET.get("page",1)
+    page_obj = paginator.get_page(page_number)
+
+    # ✅ BUILD FILTER-SAFE QUERY STRING (NO PAGE)
+    querydict = request.GET.copy()
+    querydict.pop("page", None)
+
 
     return render(request, "final/all_students.html", {
-        "students": students
+        "page_obj": page_obj,
+        "branches_list":Branches.objects.all(),
+    # send these back to template to retain filters
+    "selected_branches": selected_branches,
+    "selected_years": selected_years,
+    "selected_active": selected_active,
+    "name_query": name_query,
+    "name_mode": name_mode,
+        "querystring": querydict.urlencode(),
+    'remove_filter':remove_filter
     })
 
 @admin_login_required
@@ -424,64 +527,77 @@ def student_details(request,id):
     })
 
 
+# @require_POST
+# @admin_login_required
+# def delete_component(request):
+#     component_id = request.POST.get('component_id')
+#     # print(component_id)
+#     component = get_object_or_404(Component, comp_id=component_id)
+#
+#
+#
+#     return render(request,'final/inventory.html')
+#     # =================same page pe rakhna isko sahi karo
+
+
+
 @require_POST
 @admin_login_required
-def delete_component(request):
-    component_id = request.POST.get('component_id')
-    # print(component_id)
-    component = get_object_or_404(Component, comp_id=component_id)
+def add_component(request):
+    #default mein empty string diya nahi to strip() dikkat akrta if None
+        new_component = request.POST.get("component_name","").strip()
+        new_category = request.POST.get("component_category")
 
-    # Get the Deleted status object
-    deleted_status = get_object_or_404(StatusChoices, status_ch_status_label='Deleted')
+        try:
+            new_quantity = int(request.POST.get("component_qty"))
+        except (TypeError, ValueError):
+            messages.error(request, "Invalid quantity")
+            return redirect("final:inventory")
 
-    # Soft delete
-    component.comp_status = deleted_status
-    component.save(update_fields=['comp_status'])
+#we can add this in databse constraints also but ye abhi exact match wala hi dekhega also
+    # ignoring lower or uppercase
+        # 🔍 DUPLICATE CHECK
+        if Component.objects.filter(
+            comp_name__iexact=new_component,
+            comp_category=new_category
+        ).exists():
+            messages.warning(
+                request,
+                f"Component '{new_component}' already exists ."
+            )
+            return redirect("final:inventory")
+
+        try:
+            category = ComponentCategory.objects.get(comp_cate_category_name=new_category)
+        except ComponentCategory.DoesNotExist:
+            messages.error(request, "Category not found")
+            return redirect("final:inventory")
 
 
-#ye sab messages login form par dikh rhe hai inhe sahi karo
-    messages.success(request, f"{component.comp_name} marked as deleted.")
+        try:
+            Component.objects.create(
+                comp_name=new_component,
+                comp_qunatity_available=new_quantity,
+                comp_category=category
+            )
+            messages.success(
+                request,
+                f"Component '{new_component}' added in category {category}."
+            )
+        except Exception:
+            messages.error(request, f"Failed to add component {new_component}")
 
-    return render(request,'final/inventory.html')
-    # =================same page pe rakhna isko sahi karo
+        return  redirect('final:inventory')
 
 
 
 
-#
-# def add_component(request):
-#     if request.method == "POST":
-#             new_component = request.POST.get("component_name").strip()
-#             quantity = int(request.POST.get("component_qty"))
-#             category = request.POST.get("component_category")
-#             date_of_purchase = request.POST.get("dateofpurchase")
-#             # print(new_component,quantity,category,date_of_purchase)
-#
-#             obj, created = Component.objects.get_or_create(
-#             name=new_component,
-#
-#             defaults={
-#             "category":category,
-#             "quantity": quantity,
-#             "date_of_purchase": date_of_purchase,
-#             "componentstatus": "working"
-#             }
-#             )
-#
-#             if not created:
-#                 # If component already exists, add to existing quantity
-#                 obj.quantity = obj.quantity + quantity
-#
-#                 obj.save()
-#
-#             if created:
-#                 messages.success(request, f"Component '{new_component}' added in category {category}.")
-#             else:
-#                 messages.success(request, f"Component '{new_component}' updated, new total = {obj.quantity}.")
-#
-#
-#             return redirect("dash:admindash")  # change to your list page/
-#
-#
-#     return redirect('teacher_dash/inv_items.html')
 
+
+# ================================================
+# API FUNCTIONS
+# ================================================
+
+class StudentIssueLogAPI(generics.ListAPIView):
+    queryset = StudentIssueLog.objects.all()
+    serializer_class = StudentIssueLogSerializer

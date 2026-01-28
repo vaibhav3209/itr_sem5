@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from .views import StudentIssueLogAPI
 
 app_name = "final"
 urlpatterns = [
@@ -17,10 +18,11 @@ urlpatterns = [
     path('teacher/dashboard/', views.admin_dashboard, name="admin_dashboard"),
     path('teacher/approved/', views.approved, name="approved"),
     path('teacher/inventory/', views.inventory, name='inventory'),
+    path('teacher/inventory/add-component', views.add_component, name='add_component'),
     path('teacher/inventory-items/<path:slug>/', views.inventory_items, name='inventory_items'),
     path('teacher/update-status/', views.update_status, name='update_status'),
     path('teacher/all-students/', views.all_students, name='all_students'),
     path('teacher/all-students/<str:id>', views.student_details, name='student_details'),
 
-    path('teacher/delete_component/', views.delete_component, name ='delete_component')
+    path("api/studentissuelogs/",StudentIssueLogAPI.as_view(),name="student-issue-logs")
 ]

@@ -4,7 +4,10 @@
 
 {% block extra_css_files %}
 <link rel="stylesheet" href="{% static 'final/css/student_dashboard.css' %}">
-<link rel="stylesheet" href="{% static 'final/css/request_component.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/sidebar.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/messages.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/cards.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/main_content.css' %}">
 {% endblock %}
 
 {% block page_title %}Components{% endblock %}
@@ -14,102 +17,108 @@
 {% block page_content %}
 <div class="dashboard-container">
     <aside class="sidebar">
-      <h2>IoT Lab</h2>
-      <ul>
-          <li><a href="{% url 'final:student_dashboard' %}">Back to dashboard</a></li>
-        <li><a href="{% url 'final:issued_items' %}">Issued Items</a></li>
-        <li><a href="{% url 'final:request_components' %}">Request Components</a></li>
-        <li><a href="{% url 'final:student_logout' %}">Logout</a></li>
-      </ul>
+          <h2>IoT Lab</h2>
+              <ul>
+                    <li><a href="{% url 'final:student_dashboard' %}">Back to dashboard</a></li>
+                    <li><a href="{% url 'final:issued_items' %}">Issued Items</a></li>
+                    <li><a href="{% url 'final:request_components' %}">Request Components</a></li>
+                    <li>
+                        <form  method="post" action="{% url 'final:student_logout' %}">
+                                {% csrf_token %}
+                            <button type="submit" class="as-link">Logout</button>
+                        </form>
+                    </li>
+          </ul>
     </aside>
 
     <main class="main-content">
-<div class="header-container">
-    <h3>Components</h3>
-</div>
-<button id="toggleSidebarBtn" class="request-btn-top-right" style="position: fixed; top: 20px; right: 20px; z-index: 1001;">
-    Request Components
-</button>
+        <div class="header-container">
+            <h3>Components</h3>
+        </div>
+
+        <button id="toggleSidebarBtn" class="request-btn-top-right">
+            Request Components
+        </button>
 
         <div class="message-container">
-{% for message in messages %}
-  {% if "error_requestcomp" in message.tags %}
-    <p class="error-message">{{ message }}</p>
-  {% endif %}
+            {% for message in messages %}
+                  {% if "error_requestcomp" in message.tags %}
+                        <p class="error-message">{{ message }}</p>
+                  {% endif %}
 
-      {% if "success_requestcomp" in message.tags %}
-    <p class="success-message">{{ message }}</p>
-  {% endif %}
-
-{% endfor %}
-</div>
-
-<div class="card-container">
-    <div class="card">
-        <a href="{% url 'final:category_items' 'Microcontrollers / Boards' %}"
-           style="text-decoration: none; color: inherit;">
-            <img src="{% static 'final/images/microcontroller.jpg' %}"
-                 alt="Microcontrollers">
-            <h3>Microcontrollers</h3>
-        </a>
-    </div>
-
-    <div class="card">
-        <a href="{% url 'final:category_items' 'Sensors' %}"
-           style="text-decoration: none; color: inherit;">
-            <img src="{% static 'final/images/sensors.jpg' %}" alt="Sensors">
-            <h3>Sensors</h3>
-        </a>
-    </div>
-
-    <div class="card">
-        <a href="{% url 'final:category_items' 'Actuators' %}"
-           style="text-decoration: none; color: inherit;">
-            <img src="{% static 'final/images/actuators.png' %}" alt="Actuators">
-            <h3>Actuators</h3>
-        </a>
-    </div>
-
-    <div class="card">
-        <a href="{% url 'final:category_items' 'Electric Components' %}"
-           style="text-decoration: none; color: inherit;">
-            <img src="{% static 'final/images/el.jpg' %}" alt="Electric Components">
-            <h3>Electric Components</h3>
-        </a>
-    </div>
-
-    <div class="card">
-        <a href="{% url 'final:category_items' 'Displays' %}"
-           style="text-decoration: none; color: inherit;">
-            <img src="{% static 'final/images/display.webp' %}" alt="Displays">
-            <h3>Displays</h3>
-        </a>
-    </div>
-
-    <div class="card">
-        <a href="{% url 'final:category_items' 'Miscellaneous' %}"
-           style="text-decoration: none; color: inherit;">
-            <img src="{% static 'final/images/misc.jpg' %}" alt="Miscellaneous">
-            <h3>Miscellaneous</h3>
-        </a>
-    </div>
-</div>
-
-<div id="requestSidebar" class="right-sidebar">
-    <div class="sidebar-header">
-        <h4>Selected Components</h4>
-        <button id="closeSidebar">&times;</button>
-    </div>
-    <form id="componentRequestForm" method="POST" action="{% url 'final:submit_request' %}">
-        {% csrf_token %}
-        <div id="form-hidden-fields"></div>
-        <div id="selected-components-list">
-            <p>No components selected yet.</p>
+                  {% if "success_requestcomp" in message.tags %}
+                        <p class="success-message">{{ message }}</p>
+                  {% endif %}
+            {% endfor %}
         </div>
-        <button type="submit" class="btn btn-primary mt-3">Confirm Request</button>
-     <button type="button" id="clearListBtn" class="btn btn-danger mt-2">Clear All</button>
-    </form>
+
+        <div class="card-container">
+            <div class="card">
+                <a href="{% url 'final:category_items' 'Microcontrollers / Boards' %}">
+                    <img src="{% static 'final/images/microcontroller.jpg' %}"
+                         alt="Microcontrollers">
+                    <h3>Microcontrollers</h3>
+                </a>
+            </div>
+
+            <div class="card">
+                <a href="{% url 'final:category_items' 'Sensors' %}">
+                    <img src="{% static 'final/images/sensors.jpg' %}" alt="Sensors">
+                    <h3>Sensors</h3>
+                </a>
+            </div>
+
+            <div class="card">
+                <a href="{% url 'final:category_items' 'Actuators' %}">
+                    <img src="{% static 'final/images/actuators.png' %}" alt="Actuators">
+                    <h3>Actuators</h3>
+                </a>
+            </div>
+
+            <div class="card">
+                <a href="{% url 'final:category_items' 'Electric Components' %}">
+                    <img src="{% static 'final/images/el.jpg' %}" alt="Electric Components">
+                    <h3>Electric Components</h3>
+                </a>
+            </div>
+
+            <div class="card">
+                <a href="{% url 'final:category_items' 'Displays' %}">
+                    <img src="{% static 'final/images/display.webp' %}" alt="Displays">
+                    <h3>Displays</h3>
+                </a>
+            </div>
+
+            <div class="card">
+                <a href="{% url 'final:category_items' 'Miscellaneous' %}">
+                    <img src="{% static 'final/images/misc.jpg' %}" alt="Miscellaneous">
+                    <h3>Miscellaneous</h3>
+                </a>
+            </div>
+        </div>
+
+        <div id="requestSidebar" class="right-sidebar">
+            <div class="sidebar-header">
+                <h4>Selected Components</h4>
+                <button id="closeSidebar">&times;</button>
+            </div>
+
+            <form id="componentRequestForm" method="POST" action="{% url 'final:submit_request' %}">
+                {% csrf_token %}
+                <div id="form-hidden-fields"></div>
+
+                <div id="selected-components-list">
+                    <p>No components selected yet.</p>
+                </div>
+
+                <button type="submit" class="btn btn-primary mt-3">Confirm Request</button>
+
+                <button type="button" id="clearListBtn" class="btn btn-danger mt-2">Clear All</button>
+
+            </form>
+        </div>
+
+    </main>
+
 </div>
-</main>
-    </div>
 {% endblock %}

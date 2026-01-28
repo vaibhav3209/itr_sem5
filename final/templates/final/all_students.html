@@ -7,62 +7,193 @@
 
 {% block extra_css_files %}
 <link rel="stylesheet" href="{% static 'final/css/student_dashboard.css' %}">
-<link rel="stylesheet" href="{% static 'final/css/issued_items.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/sidebar.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/main_content.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/table.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/filter.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/pagination.css' %}">
 {% endblock %}
 
+{% block extra_js_files %}<script src="{% static 'final/js/toggle_filters.js' %}"></script>{% endblock %}
 {% block page_content%}
   <div class="dashboard-container">
-    <aside class="sidebar">
-      <h2>Admin Panel</h2>
-      <ul>
-          <li><a href="{% url 'final:admin_dashboard' %}">BACK TO DASHBOARD</a></li>
-          <li><a href="{% url 'final:all_students' %}">All students</a></li>
-          <li><a href="{% url 'final:approved' %}">Approved Requests</a></li>
-          <li><a href="{% url 'final:inventory' %}">Inventory</a></li>
-        <li><a href="{% url 'final:admin_logout' %}">Logout</a></li>
-      </ul>
-    </aside>
+      <aside class="sidebar">
+          <h2>Admin Panel</h2>
+          <ul>
+              <li><a href="{% url 'final:admin_dashboard' %}">BACK TO DASHBOARD</a></li>
+              <li><a href="{% url 'final:all_students' %}">All students</a></li>
+              <li><a href="{% url 'final:approved' %}">Approved Requests</a></li>
+              <li><a href="{% url 'final:inventory' %}">Inventory</a></li>
+              <li>
+                  <form method="post" action="{% url 'final:admin_logout' %}">
+                      {% csrf_token %}
+                      <button type="submit" class="as-link">Logout</button>
+                  </form>
+              </li>
+
+          </ul>
+      </aside>
 
     <main class="main-content">
       <header>
-        <h1>Select ACTIVE OR OLD STUDENTS </h1>
-<!--
-ISKO EK FILTER WALA BANANA FOR ACTIVE AND NON ACTIVE STUDETNS
--->
+        <h1>List of all students</h1>
       </header>
 
+<!--get form hai not post -->
+        <form method="GET">
+      <div class="filter-container">
+
+  <button type="button" class="filter-toggle" onclick="toggleFilters()">
+    🔽 Filters
+  </button>
+
+  <div id="filtersBody" class="filters-body">
+
+    <!-- INNER FILTER ROW -->
+    <div class="filter-row">
+
+      <!-- Branch -->
+      <div class="filter-accordion">
+        <button type="button" class="filter-header" onclick="toggleSection(this)">
+          Branch
+        </button>
+        <div class="filter-content">
+          <div class="checkbox-grid grid-4">
+            {% for b in branches_list %}
+            <label class="checkbox-item">
+              <input type="checkbox" name="branch" value="{{ b.branches_branch_code }}"
+                     {% if b.branches_branch_code in selected_branches %}checked{% endif %}>
+              {{ b.branches_branch_code }}
+            </label>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+      <!-- Year -->
+      <div class="filter-accordion">
+        <button type="button" class="filter-header" onclick="toggleSection(this)">
+          Year
+        </button>
+        <div class="filter-content">
+          <div class="checkbox-grid grid-3">
+            {% for y in "12345" %}
+            <label class="checkbox-item">
+              <input type="checkbox" name="year" value="{{ y }}"
+                     {% if y in selected_years %}checked{% endif %}>
+              Year {{ y }}
+            </label>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+      <!-- Status -->
+      <div class="filter-accordion">
+        <button type="button" class="filter-header" onclick="toggleSection(this)">
+          Status
+        </button>
+        <div class="filter-content">
+          <label class="checkbox-item">
+            <input type="checkbox" name="active" value="1"
+                   {% if "1" in selected_active %}checked{% endif %}>
+            Active
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" name="active" value="0"
+                   {% if "0" in selected_active %}checked{% endif %}>
+            Inactive
+          </label>
+        </div>
+      </div>
+
+      <!-- Name -->
+      <div class="filter-accordion">
+        <button type="button" class="filter-header" onclick="toggleSection(this)">
+          Name
+        </button>
+        <div class="filter-content">
+          <select name="name_mode" class="select">
+            <option value="startswith" {% if name_mode == "startswith" %}selected{% endif %}>
+              Starts with
+            </option>
+            <option value="contains" {% if name_mode == "contains" %}selected{% endif %}>
+              Contains
+            </option>
+          </select>
+
+          <input type="text" name="name"
+                 value="{{ name_query|default:'' }}"
+                 placeholder="Enter student name"
+                 class="text-input">
+        </div>
+      </div>
+
+    </div>
+
+    <button type="submit" class="btn">Apply Filters</button>
+
+  </div>
+</div>
+</form>
         <section>
+<!-- ye if ko yha likho taki if no students then header row bhi nahi dikhe -->
+            {% if page_obj %}
+            <div class="category-block">
+                <h4>{{ category }}</h4>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Roll Number</th>
+                        <th>Name</th>
+                        <th>Year</th>
+                        <th>Branch</th>
+                    </tr>
+                    </thead>
 
-                <div class="category-block">
-                    <h4>{{ category }}</h4>
-        <table border="1" cellspacing="0" cellpadding="8" style="margin-top: 10px; width: 100%;">
-            <thead>
-                <tr>
-      <th>Roll Number</th>
-      <th>Name</th>
-                </tr>
-            </thead>
+                    <tbody>
+                    {% for student in page_obj %}
+                    <tr>
+                        <td><a href="{% url 'final:student_details' student.std_id %}">
+                                {{ student.std_roll_number }}
+                            </a>
+                        </td>
+                        <td>{{ student.std_full_name}}</td>
+                        <td>{{ student.std_year }}</td>
+                        <td>{{ std_branch__branches_branch_code }}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <!--    </details>-->
 
- {% if students %}
-            <tbody>
-                {% for student in students %}
-                <tr>
-      <td>
-        <a href="{% url 'final:student_details' student.std_id %}">
-          {{ student.std_roll_number }}
-        </a>
-      </td>
-      <td>{{ student.std_full_name}}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-<!--    </details>-->
+                        <!-- ✅ PAGINATION GOES HERE Isko test karna -->
+                <div class="pagination">
+
+                    {% if page_obj.has_previous %}
+                    <a href="?{{ querystring }}&page={{ page_obj.previous_page_number }}">
+                        ◀ Prev
+                    </a>
+                    {% endif %}
+
+                    <span>Page {{ page_obj.number }}  </span>
+
+                    {% if page_obj.has_next %}
+                    <a href="?{{ querystring }}&page={{ page_obj.next_page_number }}">
+                        Next ▶
+                    </a>
+                    {% endif %}
+
                 </div>
+
+
+            </div>
             {% else %}
             <p class="empty">No Students enrolled.</p>
-        {% endif %}
-        </section>
+            {% endif %}
+       </section>
+
     </main>
+
   </div>
 {% endblock %}

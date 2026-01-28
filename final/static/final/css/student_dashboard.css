@@ -15,57 +15,12 @@ body {
   min-height: 100vh;
 }
 
-/* Left Sidebar */
-.sidebar {
-  width: 220px;
-  background-color: #0b3d91;
-  color: white;
-  padding: 1.5rem;
-}
+/*iske baad mein doosri file mein hai*/
 
-.sidebar h2 {
-  font-size: 1.6rem;
-  margin-bottom: 2rem;
-  text-align: center;
-  color:white;
-}
 
-.sidebar ul {
-  list-style: none;
-}
-
-.sidebar ul li {
-  margin: 1rem 0;
-}
-
-.sidebar ul li a {
-  color: white;
-  text-decoration: none;
-  font-weight: 500;
-}
-
-.sidebar ul li a:hover {
-  text-decoration: underline;
-}
-
-/* Main Content */
-.main-content {
-  flex: 1;
-  padding: 2rem;
-}
-
-header h1 {
-  font-size: 2rem;
-  color: #0b3d91;
-}
-
-header p {
-  margin-top: 0.5rem;
-  color: #555;
-}
 
 /*added at last from admin_Dashboard.css*/
-
+/*
 .approve-btn {
   background-color: #28a745;
   color: white;
@@ -83,10 +38,4 @@ header p {
   border-radius: 4px;
 }
 
-.section-title {
-    font-size: 1.4rem;
-    margin: 30px 0 15px;
-    border-left: 6px solid #6c63ff;
-    padding-left: 12px;
-    color: #2c3e50;
-}
+*/

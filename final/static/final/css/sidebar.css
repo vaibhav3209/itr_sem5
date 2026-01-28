@@ -1,0 +1,52 @@
+/* Left Sidebar css for every page on the website */
+
+.sidebar {
+  width: 220px;
+  background-color: #0b3d91;
+  color: white;
+  padding: 1.5rem;
+}
+
+.sidebar h2 {
+  font-size: 1.6rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  color:white;
+}
+
+.sidebar ul {
+  list-style: none;
+}
+
+.sidebar ul li {
+  margin: 1rem 0;
+}
+
+.sidebar ul li a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.sidebar ul li a:hover {
+  text-decoration: underline;
+}
+
+/*for logout button added via crsf_token */
+.sidebar ul li .as-link {
+  all: unset;   /*saari button css hatadega and behave like text*/
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.sidebar ul li .as-link:hover {
+  text-decoration: underline;
+}
+
+
+/*  if it don;t work add karlo for logout option at the last of diebar
+.form {
+display:inline;
+}
+*/

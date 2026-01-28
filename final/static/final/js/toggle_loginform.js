@@ -1,3 +1,4 @@
+// one js file only for toggling LOGIN/SIGN UP form
   function toggleForm(formId) {
     // Hide both forms
     document.getElementById('student').classList.add('hidden');

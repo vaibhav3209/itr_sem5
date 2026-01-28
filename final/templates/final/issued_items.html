@@ -4,33 +4,41 @@
 
 {% block extra_css_files %}
 <link rel="stylesheet" href="{% static 'final/css/student_dashboard.css' %}">
-<link rel="stylesheet" href="{% static 'final/css/issued_items.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/sidebar.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/main_content.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/table.css' %}">
 {% endblock %}
 
 {% block page_title %}Student Isssued Items{% endblock %}
 
 {% block page_content %}
 <div class="dashboard-container">
+
     <aside class="sidebar">
       <h2>IoT Lab</h2>
       <ul>
-          <li><a href="{% url 'final:student_dashboard' %}">Back to dashboard</a></li>
+
+        <li><a href="{% url 'final:student_dashboard' %}">Back to dashboard</a></li>
         <li><a href="{% url 'final:issued_items' %}">Issued Items</a></li>
         <li><a href="{% url 'final:request_components' %}">Request Components</a></li>
-        <li><a href="{% url 'final:student_logout' %}">Logout</a></li>
+        <li>
+            <form method="post" action="{% url 'final:student_logout' %}">
+                    {% csrf_token %}
+                <button type="submit" class="as-link">Logout</button>
+            </form>
+        </li>
+
       </ul>
     </aside>
 
     <main class="main-content">
-<div class="container">
     <section>
-        <h3 class="section-title">📌 Currently Issued Components</h3>
+        <h3>📌 Currently Issued Components</h3>
         {% if grouped_current %}
             {% for category, items in grouped_current.items %}
                 <div class="category-block">
                     <h4>{{ category }}</h4>
-                      <table border="1" cellspacing="0" cellpadding="8"
-                                            style="margin-top: 10px; width: 100%;">>
+                      <table >
                         <thead>
                             <tr>
                                 <th>Component</th>
@@ -43,7 +51,7 @@
                         <tbody>
                         {% for i in items %}
                             <tr>
-                                <td>{{ i.component.comp_name }}</td>
+                                <td>{{ i.component__comp_name }}</td>
                                 <td>{{ i.std_issue_quantity_issued }}</td>
                                 <td>{{ i.std_issue_form_date }}</td>
                                 <td>{{ i.std_issue_issue_date }}</td>
@@ -61,28 +69,25 @@
 
     <!-- Previously Issued Items -->
     <section>
-        <h3 class="section-title">📦 Previously Issued (Returned) Components</h3>
+        <h3 >📦 Previously Issued (Returned) Components</h3>
         {% if grouped_previous %}
             {% for category, items in grouped_previous.items %}
                 <div class="category-block">
                     <h4>{{ category }}</h4>
-                     <table border="1" cellspacing="0" cellpadding="8" style="margin-top: 10px; width: 100%;">>
+                     <table>
                         <thead>
                             <tr>
                                 <th>Component</th>
-                                <th>Quantity</th>
-                                <th>Form Date</th>
+                                <th>Quantity Issued</th>
                                 <th>Issue Date</th>
                                 <th>Return Date</th>
-
                             </tr>
                         </thead>
                         <tbody>
                         {% for i in items %}
                             <tr>
-                                <td>{{ i.component.comp_name }}</td>
+                                <td>{{ i.component__comp_name }}</td>
                                 <td>{{ i.std_issue_quantity_issued }}</td>
-                                <td>{{ i.std_issue_form_date }}</td>
                                 <td>{{ i.std_issue_issue_date }}</td>
                                 <td>{{ i.std_issue_return_date }}</td>
                             </tr>
@@ -95,7 +100,7 @@
             <p class="empty">No previous issues.</p>
         {% endif %}
     </section>
-</div>
     </main>
+
 </div>
 {% endblock %}

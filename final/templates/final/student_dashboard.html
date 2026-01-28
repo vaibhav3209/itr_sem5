@@ -2,7 +2,11 @@
 
 {% load static %}
 
-{% block extra_css_files %}<link rel="stylesheet" href="{% static 'final/css/student_dashboard.css' %}">{% endblock %}
+{% block extra_css_files %}
+<link rel="stylesheet" href="{% static 'final/css/student_dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/sidebar.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/main_content.css' %}">
+{% endblock %}
 
 {% block page_title %}Student dashboard{% endblock %}
 
@@ -15,7 +19,12 @@
             <li><a href="{% url 'final:student_dashboard' %}">Back to dashboard</a></li>
             <li><a href="{% url 'final:issued_items' %}">Issued Items</a></li>
             <li><a href="{% url 'final:request_components' %}">Request Components</a></li>
-            <li><a href="{% url 'final:student_logout' %}">Logout</a></li>
+            <li>
+                <form method="post" action="{% url 'final:student_logout' %}" style="display:inline;">
+                        {% csrf_token %}
+                    <button type="submit" class="as-link">Logout</button>
+                </form>
+            </li>
         </ul>
     </aside>
 
@@ -25,5 +34,6 @@
             <p>Manage your issued components and projects.</p>
         </header>
     </main>
+
 </div>
 {% endblock %}

@@ -4,81 +4,140 @@
 
 {% block extra_css_files %}
 <link rel="stylesheet" href="{% static 'final/css/student_dashboard.css' %}">
-<link rel="stylesheet" href="{% static 'final/css/issued_items.css' %}">
-<link rel="stylesheet" href="{% static 'final/css/request_component.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/sidebar.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/main_content.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/table.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/cards.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/add_component_button.css' %}"
 {% endblock %}
-
-
 
 {% block page_title %}Components{% endblock %}
 
-{% block extra_js_files %}<script src="{% static 'final/js/inv_items.js' %}"></script>{% endblock %}
+{% block extra_js_files %}<script src="{% static 'final/js/add_component_button.js' %}"></script>{% endblock %}
 
 {% block page_content %}
 <div class="dashboard-container">
-<aside class="sidebar">
-      <h2>Admin Panel</h2>
-      <ul>
-          <li><a href="{% url 'final:admin_dashboard' %}">BACK TO DASHBOARD</a></li>
-                    <li><a href="{% url 'final:all_students' %}">All students</a></li>
-                    <li><a href="{% url 'final:approved' %}">Approved Requests</a></li>
-        <li><a href="{% url 'final:inventory' %}">Inventory</a></li>
-        <li><a href="{% url 'final:admin_logout' %}">Logout</a></li>
-      </ul>
+
+    <aside class="sidebar">
+        <h2>Admin Panel</h2>
+        <ul>
+            <li><a href="{% url 'final:admin_dashboard' %}">BACK TO DASHBOARD</a></li>
+            <li><a href="{% url 'final:all_students' %}">All students</a></li>
+            <li><a href="{% url 'final:approved' %}">Approved Requests</a></li>
+            <li><a href="{% url 'final:inventory' %}">Inventory</a></li>
+            <li>
+                <form method="post" action="{% url 'final:admin_logout' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="as-link">Logout</button>
+                </form>
+            </li>
+
+        </ul>
     </aside>
 
     <main class="main-content">
-<div class="card-container">
-    <div class="card">
-        <a href="{% url 'final:inventory_items' 'Microcontrollers / Boards' %}"
-           style="text-decoration: none; color: inherit;">
-            <img src="{% static 'final/images/microcontroller.jpg' %}"
-                 alt="Microcontrollers">
-            <h3>Microcontrollers</h3>
-        </a>
-    </div>
 
-    <div class="card">
-        <a href="{% url 'final:inventory_items' 'Sensors' %}"
-           style="text-decoration: none; color: inherit;">
-            <img src="{% static 'final/images/sensors.jpg' %}" alt="Sensors">
-            <h3>Sensors</h3>
-        </a>
-    </div>
-
-    <div class="card">
-        <a href="{% url 'final:inventory_items' 'Actuators' %}"
-           style="text-decoration: none; color: inherit;">
-            <img src="{% static 'final/images/actuators.png' %}" alt="Actuators">
-            <h3>Actuators</h3>
-        </a>
-    </div>
-
-    <div class="card">
-        <a href="{% url 'final:inventory_items' 'Electric Components' %}"
-           style="text-decoration: none; color: inherit;">
-            <img src="{% static 'final/images/el.jpg' %}" alt="Electric Components">
-            <h3>Electric Components</h3>
-        </a>
-    </div>
-
-    <div class="card">
-        <a href="{% url 'final:inventory_items' 'Displays' %}"
-           style="text-decoration: none; color: inherit;">
-            <img src="{% static 'final/images/display.webp' %}" alt="Displays">
-            <h3>Displays</h3>
-        </a>
-    </div>
-
-    <div class="card">
-        <a href="{% url 'final:inventory_items' 'Miscellaneous' %}"
-           style="text-decoration: none; color: inherit;">
-            <img src="{% static 'final/images/misc.jpg' %}" alt="Miscellaneous">
-            <h3>Miscellaneous</h3>
-        </a>
-    </div>
+<!-- Add button -->
+<div class="component-add">
+    <button id="openAddRow" class="component-add__btn">
+        + Add Component
+    </button>
 </div>
 
-</main>
+<!-- Hidden popup form -->
+<form id="addComponentForm"
+      class="component-modal"
+      method="POST"
+      action="{% url 'final:add_component' %}">
+    {% csrf_token %}
+
+    <div class="component-modal__box">
+        <h3 class="component-modal__title">Add New Component</h3>
+
+        <input type="text"
+               name="component_name"
+               placeholder="Component Name"
+               required
+               class="component-modal__input">
+
+        <input type="number"
+               name="component_qty"
+               placeholder="Quantity"
+               min="0"
+               required
+               class="component-modal__input">
+
+        <select name="component_category"
+                required
+                class="component-modal__select">
+            <option value="">-- Select Category --</option>
+            <option value="Microcontroller / Boards">Microcontroller / Boards</option>
+            <option value="Sensors">Sensor</option>
+            <option value="Actuators">Actuator</option>
+            <option value="Electronic Components">Electronic Components</option>
+            <option value="Displays">Display</option>
+            <option value="Miscellaneous">Misc</option>
+        </select>
+
+        <div class="component-modal__actions">
+            <button type="submit" class="component-modal__save">
+                Save
+            </button>
+
+            <button type="button" id="cancelForm" class="component-modal__cancel">
+                Cancel
+            </button>
+        </div>
     </div>
+</form>
+
+
+        <div class="card-container">
+            <div class="card">
+                <a href="{% url 'final:inventory_items' 'Microcontrollers / Boards' %}">
+                    <img src="{% static 'final/images/microcontroller.jpg' %}"
+                         alt="Microcontrollers">
+                    <h3>Microcontrollers</h3>
+                </a>
+            </div>
+
+            <div class="card">
+                <a href="{% url 'final:inventory_items' 'Sensors' %}">
+                    <img src="{% static 'final/images/sensors.jpg' %}" alt="Sensors">
+                    <h3>Sensors</h3>
+                </a>
+            </div>
+
+            <div class="card">
+                <a href="{% url 'final:inventory_items' 'Actuators' %}">
+                    <img src="{% static 'final/images/actuators.png' %}" alt="Actuators">
+                    <h3>Actuators</h3>
+                </a>
+            </div>
+
+            <div class="card">
+                <a href="{% url 'final:inventory_items' 'Electric Components' %}">
+                    <img src="{% static 'final/images/el.jpg' %}" alt="Electric Components">
+                    <h3>Electric Components</h3>
+                </a>
+            </div>
+
+            <div class="card">
+                <a href="{% url 'final:inventory_items' 'Displays' %}">
+                    <img src="{% static 'final/images/display.webp' %}" alt="Displays">
+                    <h3>Displays</h3>
+                </a>
+            </div>
+
+            <div class="card">
+                <a href="{% url 'final:inventory_items' 'Miscellaneous' %}">
+                    <img src="{% static 'final/images/misc.jpg' %}" alt="Miscellaneous">
+                    <h3>Miscellaneous</h3>
+                </a>
+            </div>
+        </div>
+
+    </main>
+
+</div>
 {% endblock %}

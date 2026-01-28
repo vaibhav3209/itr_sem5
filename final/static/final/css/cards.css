@@ -1,0 +1,48 @@
+/* cards are in the request component page and inventory page  */
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 0 20px;
+
+}
+
+.card {
+    text-decoration: none;
+    color: inherit;
+    width: 220px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+    background-color: #fff;
+}
+
+.card:hover {
+    transform: scale(1.03);
+}
+
+.card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.card h3 {
+    margin: 15px 0;
+    font-size: 20px;
+    color: #333;
+}
+
+
+/* isko alag se likhna sabki ek saath */
+@media (max-width: 768px) {
+    .card-container {
+        flex-direction: column;
+        align-items: center;
+    }
+}

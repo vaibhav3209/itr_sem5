@@ -1,0 +1,117 @@
+/* this is used for webpage content except sidebar and headers*/
+
+/* Main Content (keep it same for every file)*/
+.main-content {
+  flex: 1;
+  padding: 2rem;
+}
+
+/* used in request_components.html */
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 20px;
+}
+
+
+/* below 2 used in files
+1. student_dashboard.css
+*/
+header h1 {
+  font-size: 2rem;
+  color: #0b3d91;
+}
+
+header p {
+  margin-top: 0.5rem;
+  color: #555;
+}
+
+
+/*BELOW 3 are used in ISSUED_ITEMS.html*/
+/* jo ''Currently issued components'' text aat hai uska style hai */
+.main-content section {
+    font-size: 1.4rem;
+    margin: 30px 0 15px;
+    padding-left: 12px;
+    color: #2c3e50;
+}
+
+/* ====== Category Blocks ====== */
+.category-block {
+    margin-bottom: 40px;
+}
+
+.category-block h4 {
+    font-size: 1.2rem;
+    color: #6c63ff;
+    margin-bottom: 12px;
+}
+
+
+
+/* used in Request_components.html */
+.header-container h3 {
+    margin: 0;
+    font-size: 30px;
+    font-weight: 600;
+    color: #333;
+}
+
+/* for 'Request sidebar button' in request_componentn.html */
+.request-btn-top-right {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1100;
+    /* z-index: 1001;*/
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+/*Green sidebar button on right */
+ .right-sidebar {
+    position: fixed;
+    top: 0;
+    right: -350px;
+    width: 350px;
+    height: 100%;
+    background: white;
+    box-shadow: -3px 0 6px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    overflow-y: auto;
+    z-index: 1000;
+    transition: right 0.3s ease-in-out;
+}
+
+.right-sidebar.open {
+    right: 0;
+}
+
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+/* SEARCH BAR used in category_items.html*/
+.search-bar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+/* if you write search-bar input["text"] it will get override by form input oens */
+/* isliye alag lelo */
+.search-input{
+    width:300px;
+    padding:8px;
+}

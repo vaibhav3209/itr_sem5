@@ -1,0 +1,113 @@
+/* ===============================
+   COMPONENT ADD BUTTON
+   =============================== */
+
+.component-add {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.component-add__btn {
+    padding: 8px 12px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.component-add__btn:hover {
+    background-color: #43a047;
+}
+
+/* ===============================
+   MODAL OVERLAY
+   =============================== */
+
+.component-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+    z-index: 1000;
+}
+
+/* ===============================
+   MODAL BOX
+   =============================== */
+
+.component-modal__box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #f9f9f9;
+    padding: 20px;
+    width: 100%;
+    max-width: 400px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.component-modal__title {
+    margin: 0 0 10px;
+    text-align: center;
+    color: #333;
+}
+
+/* ===============================
+   INPUTS
+   =============================== */
+
+.component-modal__input,
+.component-modal__select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    width: 100%;
+    font-size: 14px;
+}
+
+/* ===============================
+   ACTION BUTTONS
+   =============================== */
+
+.component-modal__actions {
+    display: flex;
+    gap: 10px;
+}
+
+.component-modal__save {
+    flex: 1;
+    padding: 10px;
+    background: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.component-modal__cancel {
+    flex: 1;
+    padding: 10px;
+    background: #f44336;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.component-modal__save:hover {
+    background: #43a047;
+}
+
+.component-modal__cancel:hover {
+    background: #e53935;
+}
