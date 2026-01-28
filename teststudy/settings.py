@@ -111,10 +111,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    'rest_framework',
     # these we added new (Local apps)
      'final.apps.FinalConfig',
-        'rest_framework'
+
 ]
 
 # 'whitenoise.middleware.WhiteNoiseMiddleware',
